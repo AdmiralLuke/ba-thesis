@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: cranelift
+scope: source.cranelift
+contexts:
+  main:
+    - include: keywords
+    - include: strings
+    - include: comments
+    - include: literals
+    - include: variables
+  comments:
+    - match: ;.*$
+      scope: comment.line
+  keywords:
+    - match: \b(sret|link|fp|csr|vmctx)\b
+      scope: keyword.other.special.cranelift
+    - match: \b(uext|sext)\b
+      scope: keyword.other.ext.cranelift
+    - match: \b(fast|cold|system_v|fastcall|baldrdash)\b
+      scope: keyword.other.callconv.cranelift
+    - match: \b(target|test|filecheck|function)\b
+      scope: keyword.other.toplevel.cranelift
+    - match: '\b(?<!\.)([iubBf]\d{1,3})\b'
+      scope: keyword.other.types.cranelift
+  literals:
+    - match: \b(NaN|Inf)\b
+      scope: constant.language.cranelift
+    - include: 'scope:[-+]?\d+(\.\d+)?'
+  strings:
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double.cranelift
+        - match: '"'
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.cranelift
+  variables:
+    - match: \b(block|v|ebb|ss|gv|heap|table|jt|fn|sig|u)\d+\b
+      scope: variable.language.cranelift
