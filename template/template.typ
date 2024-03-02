@@ -237,34 +237,39 @@
   // STYLIZING TITLE PAGE AND ABSTRACT BEGINS HERE:
   // Can't import pdf yet (svg works).
   align(center)[
-    #image(alt: "Blue OVGU logo", width: 66%, "ovgu.svg")
+    #image(alt: "Blue OVGU logo", width: 90%, "Signet_FIN_3.svg")
+    #text(Large, font: "Libertinus Serif")[Otto-von-Guericke-University Magdeburg] \ \
+    #text(Large, font: "Libertinus Serif")[*Faculty of Computer Science*] \ \
+    Department of Databases and Software Engineering
   ]
   
-  v(4.75em)
+  v(2.75em)
   
   align(
     center,
   )[
-    #text(Large, font: "Libertinus Serif")[*#thesis-type Thesis*]
-    #v(2.5em)
-    #text(huge, font: "Libertinus Sans")[
+    #text(huge, font: "Libertinus Serif")[
       #set par(justify: false)
-      *#title*
+      #title
+    ]
+    #v(2.5em)
+    #text(LARGE, font: "Libertinus Sans")[
+      *#thesis-type thesis*
     ]
     #v(1.25em)
     
-    #set text(Large)
+    Author: 
+    #set text(LARGE)
     #show raw: set text(large * 0.95)
     #align(
       center,
     )[
       #author.name\
-      #v(0.75em, weak: true)#link("mailto:" + author.mail)[#raw(author.mail)]
+      #v(0.75em, weak: true)
     ]
     
-    #v(0.5em)
-    #text(Large)[#date.display("[month repr:long] [day], [year]")]
-    #v(5.35em)
+
+    #v(3.35em)
     
     // first and second reviewer are required, supervisor is optional.
     #if reviewers.len() >= 2 {
@@ -272,18 +277,20 @@
       let second-reviewer = reviewers.at(1)
       let supervisor = reviewers.at(2, default: none)
       
-      [
-        First Reviewer:\
+      [ 
+        #align(center)[
+        #text(12pt)[Examiner:] \
         #first-reviewer\ \
         #v(-1.5em)
         
-        Second Reviewer:\
+        #text(12pt)[2nd Examiner and Supervisor:] \
         #second-reviewer\ \
         #v(-1.5em)
         
         #if supervisor != none [
           Supervisor:\
           #supervisor
+        ]
         ]
       ]
     }
