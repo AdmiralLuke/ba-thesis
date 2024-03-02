@@ -1,2 +1,5 @@
-# ba-thesis
-Bachelor Thesis 
+# ToDos
+
+| . | Task |
+| --- | --- |
+| x |  |

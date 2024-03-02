@@ -1,0 +1,35 @@
+name: Build thesis with Typst
+
+on: push
+
+jobs:
+  build:
+    name: Install Libertinus fonts & compile document
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Libertinus and code fonts
+        run: |
+          wget https://github.com/alerque/libertinus/releases/download/v7.040/Libertinus-7.040.zip
+          wget -O Inconsolata.zip https://fonts.google.com/download?family=Inconsolata
+          unzip -d inconsolata/ Inconsolata.zip
+          unzip -d libertinus/ Libertinus-7.040.zip
+          mv libertinus /usr/share/fonts
+          mv inconsolata /usr/share/fonts
+          fc-cache -fv
+      - name: Install Typst
+        run: |
+          wget https://github.com/typst/typst/releases/download/v0.10.0/typst-x86_64-unknown-linux-musl.tar.xz
+          mkdir typst
+          tar xf typst-x86_64-unknown-linux-musl.tar.xz --directory=typst
+      - name: Compile document
+        run: |
+          cd typst/typst-x86_64-unknown-linux-musl
+          ./typst c ../../main.typ ../../thesis.pdf --font-path="../../template/"
+      - name: Push back to repository
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{ github.event.head_commit.message }}
+          file_pattern: '*.pdf'
