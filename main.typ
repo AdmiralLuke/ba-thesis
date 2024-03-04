@@ -22,8 +22,9 @@
 #pagebreak()
 
 // This wrapper function adds backrefs.
+// ToDo: remove full: true
 #parcio-bib(
-  bibliography("bibliography/report.yml", style: "bibliography/apalike.csl"),
+  bibliography("bibliography/report.yml", style: "bibliography/apalike.csl", full: true),
 )
 
 #pagebreak()

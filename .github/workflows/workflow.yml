@@ -28,9 +28,11 @@ jobs:
           mkdir typst
           tar xf typst-x86_64-unknown-linux-musl.tar.xz --directory=typst
       - name: Install hayagriva & build bib file
+            
         run: |
-          cargo install hayagriva --features cli
-          hayagriva sources.bib > bibliography/report.yml
+            rustup toolchain install stable --profile minimal --no-self-update
+            cargo install hayagriva --features cli
+            hayagriva sources.bib > bibliography/report.yml
 
       - name: Compile document
         run: |
@@ -40,4 +42,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: ${{ github.event.head_commit.message }}
-          file_pattern: '*.pdf'
+          file_pattern: '*.pdf bibliography/*.yml'
