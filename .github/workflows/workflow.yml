@@ -11,6 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
+        with: 
+            toolchain: stable
       - name: Install Libertinus and code fonts
         run: |
           wget https://github.com/alerque/libertinus/releases/download/v7.040/Libertinus-7.040.zip
