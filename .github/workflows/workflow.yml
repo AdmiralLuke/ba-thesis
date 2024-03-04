@@ -27,12 +27,12 @@ jobs:
           wget https://github.com/typst/typst/releases/download/v0.10.0/typst-x86_64-unknown-linux-musl.tar.xz
           mkdir typst
           tar xf typst-x86_64-unknown-linux-musl.tar.xz --directory=typst
-      - name: Install hayagriva & build bib file
+      # - name: Install hayagriva & build bib file
             
-        run: |
-            rustup toolchain install stable --profile minimal --no-self-update
-            cargo install hayagriva --features cli
-            hayagriva sources.bib > bibliography/report.yml
+      #  run: |
+      #      rustup toolchain install stable --profile minimal --no-self-update
+      #      cargo install hayagriva --features cli
+      #      hayagriva sources.bib > bibliography/report.yml
 
       - name: Compile document
         run: |
@@ -42,4 +42,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: ${{ github.event.head_commit.message }}
-          file_pattern: '*.pdf bibliography/*.yml'
+          file_pattern: '*.pdf'

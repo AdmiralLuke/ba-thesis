@@ -17,15 +17,15 @@
 #counter(page).update(1)
 
 // ----- ACTUAL CONTENT OF THESIS -----
-
+#include "chapters/01_introduction/intro.typ"
 #pagebreak()
 #pagebreak()
 
 // This wrapper function adds backrefs.
 // ToDo: remove full: true
-#parcio-bib(
-  bibliography("bibliography/report.yml", style: "bibliography/apalike.csl", full: true),
-)
+
+#bibliography("bibliography/sources.bib", style: "bibliography/apalike.csl", full: true),
+
 
 #pagebreak()
 #pagebreak()
