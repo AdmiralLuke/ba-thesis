@@ -18,13 +18,14 @@
 
 // ----- ACTUAL CONTENT OF THESIS -----
 #include "chapters/01_introduction/intro.typ"
+#include "chapters/02_background/background.typ"
 #pagebreak()
 #pagebreak()
 
 // This wrapper function adds backrefs.
 // ToDo: remove full: true
 
-#bibliography("bibliography/sources.bib", style: "bibliography/apalike.csl", full: true),
+#bibliography("bibliography/sources.bib", style: "ieee", full: true),
 
 
 #pagebreak()
