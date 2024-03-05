@@ -294,6 +294,12 @@
         ]
       ]
     }
+
+    #v(2.35em)
+    #text(12pt)[
+      Magdeburg, #date.display("[day].[month].[year]")
+    ]
+
   ]
   
   show raw: set text(12pt * 0.95)
