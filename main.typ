@@ -6,7 +6,7 @@
   (name: "Lukas Eichel", mail: "lukas.eichel@ovgu.de"),
   include "chapters/abstract.typ",
   thesis-type: "Bachelor",
-  reviewers: ("Prof. Dr. rer. nat. habil. Gunter Saake", "Dr. David Broneske"),
+  reviewers: ("Prof. Dr. rer. nat. habil. Gunter Saake", "Dr.-Ing. David Broneske"),
   date: datetime(year: 2024, month: 07, day: 31),
 )
 
