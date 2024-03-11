@@ -3,7 +3,7 @@
 
 #figure(
   kind: table,
-  caption: [Features of an audio with correlating emotion @MURRAY2008107],
+  caption: [Features of an audio with correlating emotion @GBV-233416889 @MURRAY2008107.],
 )[
     #set text(hyphenate: false)
     #set par(justify: false)

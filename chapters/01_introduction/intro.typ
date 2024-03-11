@@ -5,7 +5,7 @@
 
 == Motivation
   
-#todo(inline: true)[motivation] #include "figures/infFlow.typ"
+#todo(inline: true)[motivation] 
 
 == Structure
 
