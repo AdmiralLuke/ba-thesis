@@ -12,21 +12,42 @@ Many work in psychology add further aspects to the latter. In order to provide a
 #include "figures/emotion_arch.typ"
 
 
-As shown in the figure, the motory and senory processes are considered as high-level information. This is defined as the semantic of the situation like the emotion state of the person, or an instruction to the computer to simulate a expression. The left side of the picture shows the latter.
-However the right side explains that low-level expressive information, like a facial expression or a pitch change in the voice is needed to get the semantic of the emotional state. In addition there can be non-expressive data as a valid input. It describes the passive influence on a persons state like the weather or the setting of the environment. Most datasets won't cover this type of information. \
+As shown in the figure, the motory and senory processes are considered as high-level information. This is defined as the semantic of the situation like the emotion state of the person, or an instruction to the computer to simulate a expression. The left side of the figure shows the latter.
+However the right side explains that low-level expressive information, like a facial expression or a pitch change in the voice is needed to get the semantic of the emotional state. In addition there can be non-expressive data as a valid input. It describes the passive influence on a persons state like the weather or the setting of the environment. Most datasets won't cover this type of information. 
+
 The mid-level patterns the given input and combines different low-level signals to get a better reasioning for the high-level output.
 For example a slightly faster speech rate and a tense articulation can be clustered together to get classified as an angered expression.
 
 
-=== Emotion Classification
-There are different apporaches to classify the semantic high-level features. The most popular classification is the basic-emotion framework by Paul Ekman @AppEmo
+=== Emotion Classification<chap211>
+There are different apporaches to classify the semantic high-level features. The most popular classification is the basic-emotion framework by Paul Ekman @AppEmo describing six different emotions: anger, disgust, fear, surprise, sadness and hapiness. This arose from different facial expression, which Ekman categorized to the corresponding emotion.
+
+Over the time different frameworks were built on this foundation to introduce for each basic emotion multiple detailled emotions. A common model is the Plutchik
+wheel of emotion, which is commonly used to classify emotion in text. It offers eight types of basic emotion: joy, trust, fear, surprise and their opposites sadness, disgust, anger and anticipation @Kumar2022.
+
+#figure(
+  image("figures/pl_wheel.png", width: 250pt),
+  caption: [Plutchik Wheel of Emotion @articleW.]
+)
+
+For each emotion there are multiple level of intensity. For example the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotion.
 
 === Emotion in Text
+
+#lorem(100)
+
 === Emotion in Speech
+
+#lorem(100)
 
 #include "figures/speech_class.typ"
 
+#lorem(100)
+
 === Emotion in Facial Expression
+
+#lorem(100)
+
 #todo(inline: true)[talk about the facs system]
 
 == Attention in Deep Learning
