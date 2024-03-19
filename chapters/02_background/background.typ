@@ -138,13 +138,21 @@ To measure the similarity the cosine similarity is often used @karani2018introdu
 
 While the one-hot vector embeds it syntactically only, there won't be any similarity or dissimilarity between the words. Therefore a semantic consideration will be useful. 
 
-*The Bag-of-Words Model*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer. 
+*The Bag-of-Words Model*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
+
+#include "figures/cbow.typ"
 
 #todo(inline: true)[
-  CBOW one-word architecture goes here
-]<cbow_b>
+  explain k 
+]
 
-The architecture takes one one-hot vector $A(w_i)$ as an input word.  
+The architecture shown in @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
+
+
+#todo(inline: true)[
+  CBOW full architecture goes here
+]
+
 
 
 
