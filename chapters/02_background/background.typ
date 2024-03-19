@@ -64,12 +64,95 @@ This is also the flaw from emotion detection in text. For example the sentence "
 
 #todo(inline: true)[talk about the facs system]
 
-== Attention in Deep Learning
+== Classification Approaches 
 
-=== Attention in Text 
+Over time many approaches to detect and classify emotion has been developed. There are severeral supervised architectures and unsupervised techniques which represent the current state of the art for emotion detection in text, audio and video. 
 
-=== Attention in Audio 
+=== Classification in Text
 
-=== Attention in Video and Images
+The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It uses syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text.
+
+To generate such an embedding function $A$, a one-hot vector @karani2018introduction is needed. It represents every word in a space of words as an different vector. For example the sentence:
+
+#align(center)[
+  _The tree is green._
+]
+
+will be first tokenized into a set of words $V$.
+
+#align(center)[
+  $V =  {$_the_, _tree_, _is_, _green_$}$  
+]
+
+The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensional vector is needed.   
+
+#align(center)[
+  $A: V -> RR^(|V|)$
+]
+
+#figure(
+  kind: table,
+  caption: [Possible one-hot vector mapping for the sentence "The tree is green."],
+)[
+    #set text(hyphenate: false)
+    #set par(justify: false)
+    #grid( columns: (auto, auto),
+      tablex(
+      header-rows: 2,
+      header-columns: 2,
+      columns: 2,
+      align: center + horizon,
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [*$w_i in V$*], [*$A(w_i)$*],
+      [the], [$vec(1, 0, 0, 0)$],
+      [tree], [$vec(0, 1, 0, 0)$],
+      []
+    ),
+    tablex(
+      header-rows: 2,
+      header-columns: 2,
+      columns: 2,
+      align: center + horizon,
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [*$w_i in V$*], [*$A(w_i)$*],
+      [is], [$vec(0, 0, 1, 0)$],
+      [green], [$vec(0, 0, 0, 1)$],
+      []
+    )
+    )
+]
+
+To measure the similarity the cosine similarity is often used @karani2018introduction @Li2018. Similar words or synonyms should have a smaller angle between each other, than unsimilar words. 
+
+#align(center)[
+  $#text[sim]\(w_1, w_2) = cos(theta) = frac(w_1 dot w_2, ||w_1|| ||w_2||)$
+]
+
+While the one-hot vector embeds it syntactically only, there won't be any similarity or dissimilarity between the words. Therefore a semantic consideration will be useful. 
+
+*The Bag-of-Words Model*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer. 
+
+#todo(inline: true)[
+  CBOW one-word architecture goes here
+]<cbow_b>
+
+The architecture takes one one-hot vector $A(w_i)$ as an input word.  
+
+
+
+
+==== Supervised Approaches 
+
+
+
+=== 
 
 == Datasets
