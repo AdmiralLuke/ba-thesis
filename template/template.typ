@@ -96,7 +96,7 @@
     }
   }
   
-  show heading: i-figured.reset-counters
+  
   show figure: i-figured.show-figure.with(numbering: "1.1")
   show figure: f => {
     counter(figure.where(kind: "sub")).update(0)
@@ -138,6 +138,8 @@
       h
     }
   }
+
+  show heading: i-figured.reset-counters
   
   show heading.where(level: 2): h => {
     if h.numbering != none {

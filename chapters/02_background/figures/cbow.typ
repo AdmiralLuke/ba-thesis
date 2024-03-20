@@ -70,4 +70,4 @@
   })
   
   ],
-  caption: [Simple CBOW architecture which takes one word $A(w)$ as input.])<cbow>
+  caption: [Simple CBOW architecture which takes one word $x = A(w)$ with length $V$ as input @karani2018introduction.])<cbow>
