@@ -70,4 +70,4 @@
   })
   
   ],
-  caption: [Simple CBOW architecture which takes one word $x = A(w)$ with length $V$ as input @karani2018introduction.])<cbow>
+  caption: [Simple CBOW architecture which takes one word $x = A(w)$ as input. The word has the length $k$ but is padded to length $V$ to match the one-hot vector dimension  @karani2018introduction.])<cbow>

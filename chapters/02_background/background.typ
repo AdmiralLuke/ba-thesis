@@ -70,6 +70,8 @@ Over time many approaches to detect and classify emotion has been developed. The
 
 === Classification in Text
 
+#section[Word Embedding]
+
 The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It uses syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text.
 
 To generate such an embedding function $A$, a one-hot vector @karani2018introduction is needed. It represents every word in a space of words as an different vector. For example the sentence:
@@ -142,17 +144,17 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 
 #include "figures/cbow.typ"
 
-#todo(inline: true)[
-  explain k 
-]
+
 
 The architecture shown in @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
 
 #include "figures/cbow_c.typ"
 
+With unspuervised learning the model in @cbow_c is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics.
 
+*The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. It tries to calculate the surrounding words with a given target word. 
 
-
+#include "figures/skip_gram.typ"
 
 
 

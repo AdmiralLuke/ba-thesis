@@ -86,4 +86,4 @@
   })
   
   ],
-  caption: [CBOW architecture which takes word $w_i$ with $n$ words before and after as input. All words have size V @karani2018introduction.])<cbow_c>
+  caption: [CBOW architecture which takes word $w_i$ with $n$ words before and after as input. All words have size V (after padding) @karani2018introduction.])<cbow_c>
