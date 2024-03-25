@@ -7,7 +7,7 @@
 #import fletcher.shapes: diamond
 #import "@preview/cetz:0.2.2"
 
-#figure([
+#figure(scale(65%, reflow: true)[
   #cetz.canvas({
   import cetz.draw: *
     content((-9.8, 7.))[Input layer]
@@ -87,5 +87,6 @@
     content((-1.5, 0))[$W_(N times V)$]
   })
   ],
-  caption: [Skip-Gram Model. All words have size V (after padding) @mikolov2013efficient,
-.])<skipgram>
+  gap: .9em,
+  caption: [Skip-Gram Model. All words have size V (after padding) @mikolov2013efficient.],
+  /*placement: bottom,*/)<skipgram>

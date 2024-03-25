@@ -7,12 +7,12 @@
 #import fletcher.shapes: diamond
 #import "@preview/cetz:0.2.2"
 
-#figure([
+
   #cetz.canvas({
   import cetz.draw: *
-    content((-9.8, 5.5))[Input layer]
-    content((-4.8, 5.5))[Hidden layer]
-    content((0.2, 5.5))[Output layer]
+    content((-9.8, 7))[Input layer]
+    content((-4.8, 7))[Hidden layer]
+    content((0.2, 7))[Output layer]
     rect((-10, 0), (-9.5, 5))
     rect((-5, 1), (-4.5, 4))
     rect((0, 0), (0.5, 5))
@@ -68,6 +68,3 @@
     line((-3, 3), (-2, 3.5), mark: (end: ">"))
     content((-2.5, 2))[$W'_(N times V)$]
   })
-  
-  ],
-  caption: [Simple CBOW architecture which takes one word $x = A(w)$ as input. The word has the length $k$ but is padded to length $V$ to match the one-hot vector dimension  @karani2018introduction.])<cbow>

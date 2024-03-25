@@ -142,26 +142,52 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 
 *The #smallcaps[Bag-of-Words Model]*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
 
-#include "figures/cbow.typ"
+\
+
+#move(dy: -3em)[
+#figure(
+  grid(columns: (25%, 10%, 25%),
+    column-gutter: 4em,
+    scale(60%)[
+      #include "figures/cbow.typ"
+    ],
+
+    line(start: (0pt, 30pt), end: (0pt, 195pt))
+    ,
+    move(dx: 0pt, dy: -10pt)[
+    #scale(60%)[
+      #include "figures/cbow_c.typ"
+    ]]
+  ),
+  gap: -2em,
+  caption: [Left: Simple CBOW-architecture for a single word; Right: CBOW-architecture for multiple words. Words have length $k$ and are padded to size $V$ to match the dimension @karani2018introduction.]
+)<cbow>
+]
+The architecture shown on the right side of @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
 
 
-
-The architecture shown in @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
-
-#include "figures/cbow_c.typ"
-
-With unspuervised learning the model in @cbow_c is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics.
-
-*The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. It tries to calculate the surrounding words with a given target word. 
-
-#include "figures/skip_gram.typ"
+With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics.
 
 
+#grid(
+  columns: (50%, 43%),
+  column-gutter: 3em,
+  include "figures/skip_gram.typ",
+  [
+    *The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. 
+    As the architecture shows in @skipgram it tries to calculate the surrounding words with a given target word. Therefore a training like the CBOW with contextual words is needed before it can work like a semantical decoder.
+Both architectures are commonly used in different pre-trained word embedding networks, like Word2Vec from Google @mikolov2013efficient @7364114.
+  ],)
 
+#pagebreak()
+
+*#smallcaps[Fast WordPiece Tokenization]* is another word embedding approach which is used in a language understanding transformer model from Google which is called #smallcaps[Bert] @devlin2019bert. 
 #section[Supervised Approaches] 
 
+#section[Unsupervised Approaches]
 
+=== Classification in Audio 
 
-=== 
+=== Classification in Images and Videos
 
 == Datasets
