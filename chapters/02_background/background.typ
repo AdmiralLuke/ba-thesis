@@ -143,8 +143,8 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 *The #smallcaps[Bag-of-Words Model]*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
 
 \
-
-#move(dy: -3em)[
+#v(-3em)
+#move(dy: -0em,)[
 #figure(
   grid(columns: (25%, 10%, 25%),
     column-gutter: 4em,
@@ -163,6 +163,7 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
   caption: [Left: Simple CBOW-architecture for a single word; Right: CBOW-architecture for multiple words. Words have length $k$ and are padded to size $V$ to match the dimension @karani2018introduction.]
 )<cbow>
 ]
+
 The architecture shown on the right side of @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
 
 
