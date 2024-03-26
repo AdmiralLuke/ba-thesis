@@ -70,7 +70,7 @@ Over time many approaches to detect and classify emotion has been developed. The
 
 === Classification in Text
 
-#section[Word Embedding]
+#section[Word Embedding and Tokenization]
 
 The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It uses syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text.
 
@@ -182,8 +182,20 @@ Both architectures are commonly used in different pre-trained word embedding net
 
 #pagebreak()
 
-*#smallcaps[Fast WordPiece Tokenization]* is another word embedding approach which is used in a language understanding transformer model from Google which is called #smallcaps[Bert] @devlin2019bert. 
+*#smallcaps[Fast WordPiece Tokenization]* is an approach to tokenize sentences and words in an efficient way by splitting words into smaller subwords. It is used in a language understanding transformer model from Google which is called #smallcaps[Bert] @devlin2019bert.
+
+The basic problem from other tokenization methods like the normal WordPiece Tokenization starts in the vocabulary tokenization in tries. Trie memory is a paradigma which is able to store strings efficiently where each edge of the data structure stores phonemes. Traversing a path consisting of multiple edges results in a word. As a result the structure does not have to store reduntant parts of words @tries.
+
+The tokenization has to search for the longest token at a position. Therefore it starts from the shortest substring and iterates over the input text, while trie matching to match the longest prefix which matches a vocabulary token @song-etal-2021-fast. If the trie matching fails at the next character, the algorithm has to involve backtracking because the longest vocabulary token may be several characters back.
+This results into a time complexity of $O(n m)$ where $m$ is the maximum vocabulary token length and $n$ the input length.
+
+Fast WordPiece Tokenization introduces so called failure links and pops. Failure pops are a list of longest-matching prefix tokens of a node in the trie, which can be removed in order until a failure link node is reached. The failure node is able to represent the missing suffix. This whole algorithm called #smallcaps[LinMaxMatch] has a time complexity of only $O(n)$.
+
 #section[Supervised Approaches] 
+
+With a given word embedding and tokenization supervised learning approaches are able to recognize emotion in text. Therefore an annotated dataset is needed, which has a relieable mapping from sentence or word to the corresponding emotion.
+
+*#smallcaps[EmpaTweet]* uses a dataset out of tweets from the social-media platform Twitter. 
 
 #section[Unsupervised Approaches]
 

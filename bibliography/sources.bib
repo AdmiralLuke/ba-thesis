@@ -134,3 +134,43 @@ isbn="978-3-319-53817-4"
       archivePrefix={arXiv},
       primaryClass={cs.CL}
 }
+
+@article{tries,
+author = {Fredkin, Edward},
+title = {Trie memory},
+year = {1960},
+issue_date = {September 1960},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {3},
+number = {9},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/367390.367400},
+doi = {10.1145/367390.367400},
+journal = {Commun. ACM},
+month = {sep},
+pages = {490–499},
+numpages = {10}
+}
+
+@inproceedings{song-etal-2021-fast,
+    title = "Fast {W}ord{P}iece Tokenization",
+    author = "Song, Xinying  and
+      Salcianu, Alex  and
+      Song, Yang  and
+      Dopson, Dave  and
+      Zhou, Denny",
+    editor = "Moens, Marie-Francine  and
+      Huang, Xuanjing  and
+      Specia, Lucia  and
+      Yih, Scott Wen-tau",
+    booktitle = "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2021",
+    address = "Online and Punta Cana, Dominican Republic",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.emnlp-main.160",
+    doi = "10.18653/v1/2021.emnlp-main.160",
+    pages = "2089--2103",
+    abstract = "Tokenization is a fundamental preprocessing step for almost all NLP tasks. In this paper, we propose efficient algorithms for the WordPiece tokenization used in BERT, from single-word tokenization to general text (e.g., sentence) tokenization. When tokenizing a single word, WordPiece uses a longest-match-first strategy, known as maximum matching. The best known algorithms so far are O(n{\^{}}2) (where n is the input length) or O(nm) (where m is the maximum vocabulary token length). We propose a novel algorithm whose tokenization complexity is strictly O(n). Our method is inspired by the Aho-Corasick algorithm. We introduce additional linkages on top of the trie built from the vocabulary, allowing smart transitions when the trie matching cannot continue. For general text, we further propose an algorithm that combines pre-tokenization (splitting the text into words) and our linear-time WordPiece method into a single pass. Experimental results show that our method is 8.2x faster than HuggingFace Tokenizers and 5.1x faster than TensorFlow Text on average for general text tokenization.",
+}
