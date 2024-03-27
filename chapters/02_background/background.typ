@@ -52,17 +52,19 @@ This is also the flaw from emotion detection in text. For example the sentence "
 
 === Emotion in Speech
 
-#lorem(100)
+
 
 #include "figures/speech_class.typ"
 
-#lorem(100)
+
 
 === Emotion in Facial Expression
 
-#lorem(100)
+
 
 #todo(inline: true)[talk about the facs system]
+
+#pagebreak()
 
 == Classification Approaches 
 
@@ -195,7 +197,12 @@ Fast WordPiece Tokenization introduces so called failure links and pops. Failure
 
 With a given word embedding and tokenization supervised learning approaches are able to recognize emotion in text. Therefore an annotated dataset is needed, which has a relieable mapping from sentence or word to the corresponding emotion.
 
-*#smallcaps[EmpaTweet]* uses a dataset out of tweets from the social-media platform Twitter. 
+#include "figures/sup_basic.typ"
+
+Most models are using the architecture paradigma shown in @sup_basic. They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
+A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
+
+*#smallcaps[EmpaTweet]* @roberts2012empatweet uses a dataset out of tweets from the social-media platform Twitter #footnote[Currently known as X] and classifies it to the six emotions from Ekman. In addition they add the emotion label #smallcaps[Love].
 
 #section[Unsupervised Approaches]
 
