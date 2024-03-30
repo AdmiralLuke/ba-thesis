@@ -50,9 +50,15 @@ For a relieable result in training, the second assumption is important.
 
 This is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here"  
 
+#todo(inline: true)[
+  briefly explain irony which can lead to different meanings for the same sentence
+]
+
 === Emotion in Speech
 
-
+#todo(inline: true)[
+  show different chanings in audio diagrams
+]
 
 #include "figures/speech_class.typ"
 
@@ -202,7 +208,21 @@ With a given word embedding and tokenization supervised learning approaches are 
 Most models are using the architecture paradigma shown in @sup_basic. They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
 A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
 
-*#smallcaps[EmpaTweet]* @roberts2012empatweet uses a dataset out of tweets from the social-media platform Twitter #footnote[Currently known as X] and classifies it to the six emotions from Ekman. In addition they add the emotion label #smallcaps[Love].
+*#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convulation consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
+An appropriate kernel function for text evaluation can be an CBOW model in between of the calculation layers.
+It is able to reduce multiple words to a single one-hot vectors
+
+#todo(inline: true)[ToDo]
+
+*#smallcaps[Transormers]*
+
+#todo(inline: true)["Write about an Idea"]
+
+*#smallcaps[Suport Vector Machines] \(SVM)*
+
+#todo(inline: true)["Write about an Idea"]
+
+There are also some approaches with Naive-Bayes Networks like ...#todo[find some nb]. These aren't covered in this thesis and relay to future work.
 
 #section[Unsupervised Approaches]
 
