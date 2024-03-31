@@ -2,7 +2,7 @@
 #import "@preview/fletcher:0.4.2" as fletcher: node, edge
 #import fletcher.shapes: diamond
 
-= Background
+= Background#todo()[use more synonyms for "word"]
 _This chapter will give an introduction and overview on different approaches to classify types of emotions with respect to their advantages and disadvantages. Furthermore it will explain the approaches to recognize emotion in the mediums text, video and audio. Based on this common implementation techniques and architectures for Neural Networks are presented._
 
 == Emotion
@@ -20,7 +20,7 @@ For example a slightly faster speech rate and a tense articulation can be cluste
 
 
 === Emotion Classification<chap211>
-There are different apporaches to classify the semantic high-level features. The most popular classification is the basic-emotion framework by Paul Ekman @AppEmo describing six different emotions: anger, disgust, fear, surprise, sadness and hapiness. This arose from different facial expression, which Ekman categorized to the corresponding emotion.
+There are different apporaches to classify the semantic high-level features. The most popular classification is the basic-emotion framework by Paul Ekman @AppEmo describing six different emotions: anger, disgust, fear, surprise, sadness and happiness. This arose from different facial expression, which Ekman categorized to the corresponding emotion.
 
 Over the time different frameworks were built on this foundation to introduce for each basic emotion multiple detailled emotions. A common model is the Plutchik
 wheel of emotion, which is commonly used to classify emotion in text. It offers eight types of basic emotion: joy, trust, fear, surprise and their opposites sadness, disgust, anger and anticipation @Kumar2022.
@@ -148,7 +148,7 @@ To measure the similarity the cosine similarity is often used @karani2018introdu
 
 While the one-hot vector embeds it syntactically only, there won't be any similarity or dissimilarity between the words. Therefore a semantic consideration will be useful. 
 
-*The #smallcaps[Bag-of-Words Model]*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
+*The #smallcaps[Continous Bag-of-Words Model]*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
 
 \
 #v(-3em)
@@ -172,10 +172,10 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 )<cbow>
 ]
 
-The architecture shown on the right side of @cbow takes one one-hot vector $A(w_i)$ as an input word. To get the context of the inputted word, the words before and after are needed.  Therefore an addition to the architecture is necessary.
+The architecture shown on the right side of @cbow takes one one-hot vector $A(w_i)$ as an input expression. To get the context of the inputted term, phrases before and after are needed. Therefore an addition to the architecture is necessary.
 
 
-With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics.
+With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics. In both architectures, the hidden layer acts like an arithmetic operator which combines the context to the outputted one-hot vector.
 
 
 #grid(
@@ -184,7 +184,7 @@ With unspuervised learning the model on the right of @cbow is able to generate a
   include "figures/skip_gram.typ",
   [
     *The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. 
-    As the architecture shows in @skipgram it tries to calculate the surrounding words with a given target word. Therefore a training like the CBOW with contextual words is needed before it can work like a semantical decoder.
+    As the architecture shows in @skipgram it tries to calculate the surrounding words with a given target term. Therefore a training like the CBOW with contextual phrases is needed before it can work like a semantical decoder.
 Both architectures are commonly used in different pre-trained word embedding networks, like Word2Vec from Google @mikolov2013efficient @7364114.
   ],)
 
@@ -214,13 +214,14 @@ It is able to reduce multiple words to a single one-hot vectors
 
 #todo(inline: true)[ToDo]
 
+*#smallcaps[Suport Vector Machines] \(SVM)*
+
+#todo(inline: true)["Write about an Idea"]
+
 *#smallcaps[Transormers]*
 
 #todo(inline: true)["Write about an Idea"]
 
-*#smallcaps[Suport Vector Machines] \(SVM)*
-
-#todo(inline: true)["Write about an Idea"]
 
 There are also some approaches with Naive-Bayes Networks like ...#todo[find some nb]. These aren't covered in this thesis and relay to future work.
 
