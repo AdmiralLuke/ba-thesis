@@ -16,7 +16,7 @@ jobs:
       - name: Install Libertinus and code fonts
         run: |
           wget https://github.com/alerque/libertinus/releases/download/v7.040/Libertinus-7.040.zip
-          wget -O Inconsolata.zip https://fonts.google.com/download?family=Inconsolata
+          wget -O Inconsolata.zip https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip
           unzip -d inconsolata/ Inconsolata.zip
           unzip -d libertinus/ Libertinus-7.040.zip
           mv libertinus /usr/share/fonts
