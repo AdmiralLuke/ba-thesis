@@ -119,7 +119,7 @@ The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensi
       hlinex(),
       [*$w_i in V$*], [*$A(w_i)$*],
       [the], [$vec(1, 0, 0, 0)$],
-      [tree], [$vec(0, 1, 0, 0)$],
+      [is], [$vec(0, 0, 1, 0)$],
       []
     ),
     tablex(
@@ -133,7 +133,7 @@ The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensi
       fill: (.., y) => if calc.even(y) { luma(242) },
       hlinex(),
       [*$w_i in V$*], [*$A(w_i)$*],
-      [is], [$vec(0, 0, 1, 0)$],
+      [tree], [$vec(0, 1, 0, 0)$],
       [green], [$vec(0, 0, 0, 1)$],
       []
     )
