@@ -209,19 +209,17 @@ Most models are using the architecture paradigma shown in @sup_basic. They mostl
 A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
 
 *#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convulation consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
-An appropriate kernel function for text evaluation can be an CBOW model in between of the calculation layers.
-It is able to reduce multiple words to a single one-hot vectors
+Herefore multiple words or sentences of the space $V$ are combined to region matrices. On each region $L$ convolutional filters are applied to lern local $n$-gram features. Recurrency is helpful 
 
 #todo(inline: true)[ToDo]
 
-*#smallcaps[Suport Vector Machines] \(SVM)*
-
-#todo(inline: true)["Write about an Idea"]
 
 *#smallcaps[Transormers]*
 
 #todo(inline: true)["Write about an Idea"]
 
+
+#todo(inline: true)["SVM, ... Neben den neuronalen Netzen..."]
 
 There are also some approaches with Naive-Bayes Networks like ...#todo[find some nb]. These aren't covered in this thesis and relay to future work.
 

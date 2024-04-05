@@ -2,7 +2,7 @@
 #import "template/template.typ": *
 
 #show: project.with(
-  "TBD",
+  "Comparative Analysis of Multimodal Emotion Detection Approaches",
   (name: "Lukas Eichel", mail: "lukas.eichel@ovgu.de"),
   include "chapters/abstract.typ",
   thesis-type: "Bachelor",
