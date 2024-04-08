@@ -230,3 +230,9 @@ There are also some approaches with Naive-Bayes Networks like ...#todo[find some
 === Classification in Images and Videos
 
 == Datasets
+
+For the multimodal analysis and the supervised approaches in learning a dataset consisting of at minimum video with audio is needed. From this state the text transcription can be retrieved during preprocessing. During this thesis, two different datasets are used which fulfill the requierments.
+
+*CREMA-D* 
+
+*MELD*
