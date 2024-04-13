@@ -205,7 +205,7 @@ With a given word embedding and tokenization supervised learning approaches are 
 
 #include "figures/sup_basic.typ"
 
-Most models are using the architecture paradigma shown in @sup_basic. They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
+Most models are using the architecture paradigma shown in @sup_basic . They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
 A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
 
 *#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convulation consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
@@ -232,7 +232,22 @@ There are also some approaches with Naive-Bayes Networks like ...#todo[find some
 == Datasets
 
 For the multimodal analysis and the supervised approaches in learning a dataset consisting of at minimum video with audio is needed. From this state the text transcription can be retrieved during preprocessing. During this thesis, two different datasets are used which fulfill the requierments.
+The following datasets are based on the Ekman emotion model with some changes.
 
-*CREMA-D* 
+*CREMA-D* (Crowd-sourced Emotional Multimodal Actors Dataset) @cao2014crema consists of 7.442 clips from 91 different actors with their facial and vocal expression. It covers every of Ekmans emotions: _Anger (ANG), Disgust (DIS),Fear (FEA), Happy (HAP), Neutral (NEU), Sad (SAD)_
 
-*MELD*
+with the exception of _surprise (SUP)_ , because it may can relate to any other emotion with a rapid onset. Additionaly there are a few annotation to the intensity of the sentiment, but it is only a small percentage regarding the amount of data. Therefore it wont't be used for futher evaluation in this thesis.
+
+They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. This snippets are between 50 to 80 frames long while it is recorded in 30 frames per second.
+
+#pagebreak()
+
+#include "figures/cremad.typ"
+
+As shown in @cremad the distribution of labels uniformly distributed with the exception of neutral. This won't leed to any problem, because the actual sentiments shown in the visuell data are very strongly acted so there are clear features available.
+
+*MELD* (Multimodal EmotionLines Dataset) @poria2018meld is a annotated collection of short sequences from the series "Friends". In difference to the CREMA dataset or most other multimodal datasets for sentiment analysis like IEMOCAP @busso2008iemocap the given data has many multi-party conversation where there are more then one participant active and present in the most parts. This leeds to a more complex and challenging feature extraction but approximates more closely the reality.
+
+#include "figures/meld.typ"
+
+@meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 
