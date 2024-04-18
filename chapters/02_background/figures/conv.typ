@@ -98,9 +98,9 @@
 
   line((10.8, 1.3), (11.6, 1.3), mark: (end: ">"))
 
-  content((12.2, 1.3), [[NEU]])
+  content((12.3, 1.3), [[NEU]])
 
-  content((12.2, -1), [*Output*])
+  content((12.3, -1), [*Output*])
 
 
 })

@@ -216,7 +216,7 @@ Herefore multiple words or sentences of the space $V$ are combined to region mat
   caption: [Simple Comvolution based Neural Network to predict an emotion from a given subset of sentences]
 )<conv>
 
-@fig:conv shows such network with the convolutional part. In common architectures 
+@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function in between of each block. This subsequency leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in an higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. 
 
 
 #todo(inline: true)[ToDo]
