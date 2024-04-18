@@ -12,7 +12,7 @@ Many work in psychology add further aspects to the latter. In order to provide a
 #include "figures/emotion_arch.typ"
 
 
-As shown in the figure, the motory and senory processes are considered as high-level information. This is defined as the semantic of the situation like the emotion state of the person, or an instruction to the computer to simulate a expression. The left side of the figure shows the latter.
+As shown in @fig:em_arch , the motory and senory processes are considered as high-level information. This is defined as the semantic of the situation like the emotion state of the person, or an instruction to the computer to simulate a expression. The left side of the figure shows the latter.
 However the right side explains that low-level expressive information, like a facial expression or a pitch change in the voice is needed to get the semantic of the emotional state. In addition there can be non-expressive data as a valid input. It describes the passive influence on a persons state like the weather or the setting of the environment. Most datasets won't cover this type of information. 
 
 The mid-level patterns the given input and combines different low-level signals to get a better reasioning for an high-level output.
@@ -28,9 +28,9 @@ wheel of emotion, which is commonly used to classify emotion in text. It offers 
 #figure(
   image("figures/pl_wheel.png", width: 250pt),
   caption: [Plutchik Wheel of Emotion @articleW.]
-)
+)<wheel_emo>
 
-For each emotion there are multiple level of intensity. For example the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotion. #todo(inline: true)[Why can it be better to have more emotion variety?]
+Visible in @fig:wheel_emo each emotion has multiple level of intensity. For example the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotion. #todo(inline: true)[Why can it be better to have more emotion variety?]
 
 Although there will be a loss of detail, the content of this thesis will focus on the basic emotion from Paul Ekman. The wheel of emotion from Plutchik is suitable for emotion detection in text but most datasets in facial emotion recognition are focused on Ekmans emotion theory #todo()[Why I wont use the Wheel of Emotion]. 
 
@@ -172,7 +172,7 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 )<cbow>
 ]
 
-The architecture shown on the right side of @cbow takes one one-hot vector $A(w_i)$ as an input expression. To get the context of the inputted term, phrases before and after are needed. Therefore an addition to the architecture is necessary.
+The architecture shown on the right side of @fig:cbow takes one one-hot vector $A(w_i)$ as an input expression. To get the context of the inputted term, phrases before and after are needed. Therefore an addition to the architecture is necessary.
 
 
 With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics. In both architectures, the hidden layer acts like an arithmetic operator which combines the context to the outputted one-hot vector.
@@ -184,7 +184,7 @@ With unspuervised learning the model on the right of @cbow is able to generate a
   include "figures/skip_gram.typ",
   [
     *The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. 
-    As the architecture shows in @skipgram it tries to calculate the surrounding words with a given target term. Therefore a training like the CBOW with contextual phrases is needed before it can work like a semantical decoder.
+    As the architecture shows in @fig:skipgram it tries to calculate the surrounding words with a given target term. Therefore a training like the CBOW with contextual phrases is needed before it can work like a semantical decoder.
 Both architectures are commonly used in different pre-trained word embedding networks, like Word2Vec from Google @mikolov2013efficient @7364114.
   ],)
 
@@ -205,11 +205,19 @@ With a given word embedding and tokenization supervised learning approaches are 
 
 #include "figures/sup_basic.typ"
 
-Most models are using the architecture paradigma shown in @sup_basic . They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
+Most models are using the architecture paradigma shown in @fig:sup_basic . They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
 A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
 
 *#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convulation consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
-Herefore multiple words or sentences of the space $V$ are combined to region matrices. On each region $L$ convolutional filters are applied to lern local $n$-gram features. Recurrency is helpful 
+Herefore multiple words or sentences of the space $V$ are combined to region matrices. On each region $L$ convolutional filters are applied to lern local $n$-gram features. 
+
+#figure(
+  include "figures/conv.typ",
+  caption: [Simple Comvolution based Neural Network to predict an emotion from a given subset of sentences]
+)<conv>
+
+@fig:conv shows such network with the convolutional part. In common architectures 
+
 
 #todo(inline: true)[ToDo]
 
@@ -229,6 +237,8 @@ There are also some approaches with Naive-Bayes Networks like ...#todo[find some
 
 === Classification in Images and Videos
 
+#pagebreak()
+
 == Datasets
 
 For the multimodal analysis and the supervised approaches in learning a dataset consisting of at minimum video with audio is needed. From this state the text transcription can be retrieved during preprocessing. During this thesis, two different datasets are used which fulfill the requierments.
@@ -240,7 +250,6 @@ with the exception of _surprise (SUP)_ , because it may can relate to any other 
 
 They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. This snippets are between 50 to 80 frames long while it is recorded in 30 frames per second.
 
-#pagebreak()
 
 #include "figures/cremad.typ"
 
