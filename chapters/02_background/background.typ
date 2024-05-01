@@ -2,21 +2,23 @@
 #import "@preview/fletcher:0.4.2" as fletcher: node, edge
 #import fletcher.shapes: diamond
 
-= Background#todo()[use more synonyms for "word"]
-_This chapter will give an introduction and overview on different approaches to classify types of emotions with respect to their advantages and disadvantages. Furthermore it will explain the approaches to recognize emotion in the mediums text, video and audio. Based on this common implementation techniques and architectures for Neural Networks are presented._
+= Background
+This chapter will give an introduction and overview on different approaches to classify types of emotions with respect to their advantages and disadvantages. Furthermore it will explain the approaches to recognize emotion in the mediums text, video and audio. Based on this common implementation techniques for supervised and unsupervised approaches are presented with a focus on convolution and transformer models. 
 
 == Emotion
-There is no unambigious definition for the term 'emotion'. There are many different emotion, with different level of intensity. While asking what an emotion is and where it comes from, William James discussed two different theories about the origin of them. Either there are seperate ares in the cerebrum or else they correspond to motory and sensory processes @521f3a6c-4f3b-3b5e-9103-90f85a1045d0.
-Many work in psychology add further aspects to the latter. In order to provide a framework, the following chapters will focus just on the outputted emotion and how to recognize it. 
+There is no unambigious definition for the term 'emotion'. There are many different emotions, with different level of intensity. Considering the question of what an emotion is and where it comes from, William James discussed two different theories about the origin of them. Either there are seperate areas in the cerebrum or else they correspond to motory and sensory processes #todo[explain more the difference] @521f3a6c-4f3b-3b5e-9103-90f85a1045d0. 
+Many work in psychology add further aspects to the latter. In order to provide a framework, the following chapters will focus just on the given emotion and how to recognize it. 
 
 #include "figures/emotion_arch.typ"
 
+@fig:em_arch presents that information like motory, sensory processes, their combination and the differentiation from semantic and syntatic context are categorized in high-level and low level information to process an emotion.
 
-As shown in @fig:em_arch , the motory and senory processes are considered as high-level information. This is defined as the semantic of the situation like the emotion state of the person, or an instruction to the computer to simulate a expression. The left side of the figure shows the latter.
-However the right side explains that low-level expressive information, like a facial expression or a pitch change in the voice is needed to get the semantic of the emotional state. In addition there can be non-expressive data as a valid input. It describes the passive influence on a persons state like the weather or the setting of the environment. Most datasets won't cover this type of information. 
+High-level information are defined by the semantic of a situation which can be drawn from audiovisual processes for example the command "Show hatred". To show hate a certain emotional state has to be reached and must be reasoned by the situation. As a conclusion low-level information, for instance face expressions, gestures or other syntactic articulations can be observed from the person or system wich executes the given instruction. These patterns are analyized or learned and synthesized by the process before. 
 
-The mid-level patterns the given input and combines different low-level signals to get a better reasioning for an high-level output.
-For example a slightly faster speech rate and a tense articulation can be clustered together to get classified as an angered expression.
+On the other direction, these low-level expressive information can be combined to get the semantic of the emotional state. In addition there can be non-expressive data as a valid input. It describes the passive influence on a persons state like the weather or the setting of the environment. Most datasets won't cover this type of information. 
+
+The mid-level builds patterns for the given input and combines different low-level signals to synthesize better reasioning for a high-level output.
+For example a slightly faster speech rate and a tense articulation can be clustered together to get classified as an pleased look.
 
 
 === Emotion Classification<chap211>
@@ -30,13 +32,13 @@ wheel of emotion, which is commonly used to classify emotion in text. It offers 
   caption: [Plutchik Wheel of Emotion @articleW.]
 )<wheel_emo>
 
-Visible in @fig:wheel_emo each emotion has multiple level of intensity. For example the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotion. #todo(inline: true)[Why can it be better to have more emotion variety?]
+Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. #todo(inline: true)[Why can it be better to have more emotion variety?]
 
 Although there will be a loss of detail, the content of this thesis will focus on the basic emotion from Paul Ekman. The wheel of emotion from Plutchik is suitable for emotion detection in text but most datasets in facial emotion recognition are focused on Ekmans emotion theory #todo()[Why I wont use the Wheel of Emotion]. 
 
 === Emotion in Text
 
-The most common approach to classify emotion from natural language text, is to cluster the content from these sentences. In order to make it possible, two assumptions are needed. 
+The most common approach to classify emotion from natural language text is to classify the semantic content from these sentences. In order to make it possible, two syntactical assumptions are needed. 
 
 1. There is a function that is able to map words and sentences to their corresponding emotion.
 
@@ -216,20 +218,35 @@ Herefore multiple words or sentences of the space $V$ are combined to region mat
   caption: [Simple Comvolution based Neural Network to predict an emotion from a given subset of sentences]
 )<conv>
 
-@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function in between of each block. This subsequency leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in an higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. 
+@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in an higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c.
+
+Another optimizations to fundamental neural network architectures are gating mechanisms from reccurent networks and the uni-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from sentences and words before to differ between fill-words like "this", "with" and emotionally loaded words.
+Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication step, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionaly to the GRU cell, LSTM has two more control gates which gives more possibilitys to constraint and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
+
+*#smallcaps[Transormers]* are an deep-learning architecture which is based on multi-head attention. #linebreak(justify: true)  
+
+#grid(
+  column-gutter: 30pt,
+  columns: (45%, auto),
+  [
+    #figure(
+      image("figures/transformer.svg"),
+      caption: [Common transformer model architecture with multi-head attention @vaswani2023attention.]
+    )<transformer>
+  ],
+  [
+    The basic idea of attention relies on a huge bottleneck in common neural network architectures because Fixed input vector sizes may result in a large overhead. In the example of natural language processing could this be an result from very large sentences. Attention mechanisms try to solve this issue by focusing the input on to specific parts e.g. training the input weights on important words or subsets from the given sentence. 
+
+    The resulting transformers are currently setting a milestone in natural language processing and providing the fundaments for ChatGPT from OpenAI @openai2024gpt4 or other text understanding models, because of their scalability due to the attention mechanisms and their relieable results. @fig:transformer shows such a transformer architecture. An input sentence will be feed into the model where it first gets positional encoded thus the position and the frequency for every word in the sentence is stored.
+  ]
+  
+)
+Now the input vectors passes through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normed together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of normal linear layers. Likewise the input and the output are matched together with a residual connection.  
 
 
-#todo(inline: true)[ToDo]
 
 
-*#smallcaps[Transormers]*
-
-#todo(inline: true)["Write about an Idea"]
-
-
-#todo(inline: true)["SVM, ... Neben den neuronalen Netzen..."]
-
-There are also some approaches with Naive-Bayes Networks like ...#todo[find some nb]. These aren't covered in this thesis and relay to future work.
+In addition to the approaches with neural network architectures like transfors, other supervised methods like support vector machines, decision trees or naive bayes are used. These aren't covered in this thesis and relay to future work.
 
 #section[Unsupervised Approaches]
 
