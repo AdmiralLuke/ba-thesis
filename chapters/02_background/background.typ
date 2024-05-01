@@ -76,15 +76,17 @@ This is also the flaw from emotion detection in text. For example the sentence "
 
 == Classification Approaches 
 
-Over time many approaches to detect and classify emotion has been developed. There are severeral supervised architectures and unsupervised techniques which represent the current state of the art for emotion detection in text, audio and video. 
+Over time many approaches to detect and classify emotion have been developed. There are severeral supervised architectures and unsupervised techniques which represent the current state of the art for emotion detection in text, audio and video. 
 
 === Classification in Text
+
+To classify emotions in text, several preprocessing is necessary due to the lack of numerical values. In the following some ideas for preprocessing are presented. Furhtermore, a look at the various classification methods will be taken. Here a special focus on the supervised methods is applied due to better comparability of already existing and pretrained deep learning models.
 
 #section[Word Embedding and Tokenization]
 
 The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It uses syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text.
 
-To generate such an embedding function $A$, a one-hot vector @karani2018introduction is needed. It represents every word in a space of words as an different vector. For example the sentence:
+A naive approach to generate such an embedding function $A$, a one-hot vector @karani2018introduction is needed. It represents every word in a space of words as an different vector. For example the sentence:
 
 #align(center)[
   _The tree is green._
@@ -108,36 +110,23 @@ The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensi
 )[
     #set text(hyphenate: false)
     #set par(justify: false)
-    #grid( columns: (auto, auto),
+    #grid( columns: (auto),
       tablex(
-      header-rows: 2,
+      header-rows: 4,
       header-columns: 2,
-      columns: 2,
+      columns: 8,
       align: center + horizon,
       inset: (y: 0.7em, x: 0.75em),
       auto-lines: false,
       stroke: 0.75pt,
       fill: (.., y) => if calc.even(y) { luma(242) },
       hlinex(),
-      [*$w_i in V$*], [*$A(w_i)$*],
+      [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*],
       [the], [$vec(1, 0, 0, 0)$],
-      [is], [$vec(0, 0, 1, 0)$],
-      []
-    ),
-    tablex(
-      header-rows: 2,
-      header-columns: 2,
-      columns: 2,
-      align: center + horizon,
-      inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      [*$w_i in V$*], [*$A(w_i)$*],
       [tree], [$vec(0, 1, 0, 0)$],
+      [is], [$vec(0, 0, 1, 0)$],
       [green], [$vec(0, 0, 0, 1)$],
-      []
+      hlinex()
     )
     )
 ]
@@ -148,9 +137,9 @@ To measure the similarity the cosine similarity is often used @karani2018introdu
   $#text[sim]\(w_1, w_2) = cos(theta) = frac(w_1 dot w_2, ||w_1|| ||w_2||)$
 ]
 
-While the one-hot vector embeds it syntactically only, there won't be any similarity or dissimilarity between the words. Therefore a semantic consideration will be useful. 
+While the one-hot vector embeds it word by word only without any context, there won't be any similarity or dissimilarity between the words. This is also the reason why simple one-hot enocding is less used in practise. A semantic consideration will be more useful. 
 
-*The #smallcaps[Continous Bag-of-Words Model]*, shortly CBOW is capable to take context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly constitutes of three layers: the input layer, a hidden layer and the output layer @9673321. 
+*The #smallcaps[Continous Bag-of-Words Model]*, shortly CBOW is capable to take the context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly consists of three layers: the input layer, a hidden layer and the output layer @9673321. 
 
 \
 #v(-3em)
@@ -177,7 +166,7 @@ While the one-hot vector embeds it syntactically only, there won't be any simila
 The architecture shown on the right side of @fig:cbow takes one one-hot vector $A(w_i)$ as an input expression. To get the context of the inputted term, phrases before and after are needed. Therefore an addition to the architecture is necessary.
 
 
-With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle then without any connection in semantics. In both architectures, the hidden layer acts like an arithmetic operator which combines the context to the outputted one-hot vector.
+With unspuervised learning the model on the right of @cbow is able to generate a new vector which represents the context of a word. Now, under consideration of the cosine similarity, words with a similar context have a quite smaller angle compared to without any connection in semantics. In both architectures, the hidden layer acts like an arithmetic operator which combines the context to the outputted one-hot vector.
 
 
 #grid(
@@ -186,11 +175,11 @@ With unspuervised learning the model on the right of @cbow is able to generate a
   include "figures/skip_gram.typ",
   [
     *The #smallcaps[Skip-Gram Model]* calculates an embedding in reverse from the idea of the CBOW-Model. 
-    As the architecture shows in @fig:skipgram it tries to calculate the surrounding words with a given target term. Therefore a training like the CBOW with contextual phrases is needed before it can work like a semantical decoder.
+    As the architecture shows in @fig:skipgram it tries to calculate the surrounding words with a given target term @rong2016word2vec. Therefore a training like the CBOW with contextual phrases is needed before it can work like a semantical decoder.
 Both architectures are commonly used in different pre-trained word embedding networks, like Word2Vec from Google @mikolov2013efficient @7364114.
   ],)
 
-#pagebreak()
+
 
 *#smallcaps[Fast WordPiece Tokenization]* is an approach to tokenize sentences and words in an efficient way by splitting words into smaller subwords. It is used in a language understanding transformer model from Google which is called #smallcaps[Bert] @devlin2019bert.
 
@@ -201,7 +190,7 @@ This results into a time complexity of $O(n m)$ where $m$ is the maximum vocabul
 
 Fast WordPiece Tokenization introduces so called failure links and pops. Failure pops are a list of longest-matching prefix tokens of a node in the trie, which can be removed in order until a failure link node is reached. The failure node is able to represent the missing suffix. This whole algorithm called #smallcaps[LinMaxMatch] has a time complexity of only $O(n)$.
 
-#section[Supervised Approaches] 
+#section[Supervised Classification Approaches] 
 
 With a given word embedding and tokenization supervised learning approaches are able to recognize emotion in text. Therefore an annotated dataset is needed, which has a relieable mapping from sentence or word to the corresponding emotion.
 
@@ -210,17 +199,17 @@ With a given word embedding and tokenization supervised learning approaches are 
 Most models are using the architecture paradigma shown in @fig:sup_basic . They mostly differ in the step of combining the feature vectors ant the type of classification because it offers the biggest room to maneuver.
 A preprocessing and feature extraction is always necessary. Sometimes a WordNet @fellbaum2005encyclopedia is integrated to get a better overview about synonyms or to paraphrase words.
 
-*#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convulation consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
+*#smallcaps[Convolutional and Recurrent Neural Networks] \(CNN/RNN)* are an effective approach on sentiment analysis of text @liu2020text. Convolution consists of a kernel-funciton which downscales the input but keeps the important features. This technique is called #smallcaps[Pooling] and brings several benefits like less memory usage, less overfitting in training and a faster computation time.
 Herefore multiple words or sentences of the space $V$ are combined to region matrices. On each region $L$ convolutional filters are applied to lern local $n$-gram features. 
 
 #figure(
   include "figures/conv.typ",
-  caption: [Simple Comvolution based Neural Network to predict an emotion from a given subset of sentences]
+  caption: [Simple Convolution based Neural Network to predict an emotion from a given subset of sentences]
 )<conv>
 
-@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in an higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c.
+@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in a higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c.
 
-Another optimizations to fundamental neural network architectures are gating mechanisms from reccurent networks and the uni-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from sentences and words before to differ between fill-words like "this", "with" and emotionally loaded words.
+Another optimizations to fundamental neural network architectures are gating mechanisms from reccurent networks and the bi-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from sentences and words before to differ between fill-words like "this", "with" and emotionally loaded words.
 Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication step, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionaly to the GRU cell, LSTM has two more control gates which gives more possibilitys to constraint and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
 
 *#smallcaps[Transormers]* are an deep-learning architecture which is based on multi-head attention. #linebreak(justify: true)  
@@ -241,14 +230,23 @@ Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recu
   ]
   
 )
-Now the input vectors passes through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normed together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of normal linear layers. Likewise the input and the output are matched together with a residual connection.  
-
-
+Now the input vectors are passing through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normed together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of basic uni-directional layers. Likewise the input and the output are matched together with a residual connection. The same proceding is repeatet but with an autoregressive addition of already calculated output. But in contrast to the regular multi-head attention a masking in this process is introduced which sets the weight for unknown or respectively future tokens to negative values thus the model can learn realistic predictions only with already known tokens.
+The output of the transformer architecture are probabilities for the next state. The already mentioned autoregressive implementation gives the possibilities to predict long sequence of tokens.
 
 
 In addition to the approaches with neural network architectures like transfors, other supervised methods like support vector machines, decision trees or naive bayes are used. These aren't covered in this thesis and relay to future work.
 
-#section[Unsupervised Approaches]
+In summary supervised methods follow the basic principle to learn features along a given target. Therefore enough training data is needed with the additional annotated labels. 
+
+#pagebreak()
+
+#section[Unsupervised Classification Approaches]
+
+Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarieties or differences in the training set.
+
+A common unsupervised approach in natural language processing for extracting keywords or similarieties from text is called 
+
+
 
 === Classification in Audio 
 
@@ -261,18 +259,18 @@ In addition to the approaches with neural network architectures like transfors, 
 For the multimodal analysis and the supervised approaches in learning a dataset consisting of at minimum video with audio is needed. From this state the text transcription can be retrieved during preprocessing. During this thesis, two different datasets are used which fulfill the requierments.
 The following datasets are based on the Ekman emotion model with some changes.
 
-*CREMA-D* (Crowd-sourced Emotional Multimodal Actors Dataset) @cao2014crema consists of 7.442 clips from 91 different actors with their facial and vocal expression. It covers every of Ekmans emotions: _Anger (ANG), Disgust (DIS),Fear (FEA), Happy (HAP), Neutral (NEU), Sad (SAD)_
+*CREMA-D* (Crowd-sourced Emotional Multimodal Actors Dataset) @cao2014crema consists of 7.442 clips from 91 different actors with their facial and vocal expression. It covers every of Ekmans emotions: _Anger (ANG), Disgust (DIS), Fear (FEA), Happy (HAP), Neutral (NEU), Sad (SAD)_
 
 with the exception of _surprise (SUP)_ , because it may can relate to any other emotion with a rapid onset. Additionaly there are a few annotation to the intensity of the sentiment, but it is only a small percentage regarding the amount of data. Therefore it wont't be used for futher evaluation in this thesis.
 
-They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. This snippets are between 50 to 80 frames long while it is recorded in 30 frames per second.
+They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. These snippets are between 50 to 80 frames long while it is recorded in 30 frames per second.
 
 
 #include "figures/cremad.typ"
 
-As shown in @cremad the distribution of labels uniformly distributed with the exception of neutral. This won't leed to any problem, because the actual sentiments shown in the visuell data are very strongly acted so there are clear features available.
+As shown in @cremad the distribution of labels is uniformly distributed with the exception of neutral. This won't leed to any problem, because the actual sentiments shown in the visuell data are very strongly acted so there are clear features available.
 
-*MELD* (Multimodal EmotionLines Dataset) @poria2018meld is a annotated collection of short sequences from the series "Friends". In difference to the CREMA dataset or most other multimodal datasets for sentiment analysis like IEMOCAP @busso2008iemocap the given data has many multi-party conversation where there are more then one participant active and present in the most parts. This leeds to a more complex and challenging feature extraction but approximates more closely the reality.
+*MELD* (Multimodal EmotionLines Dataset) @poria2018meld is an annotated collection of short sequences from the series "Friends". In difference to the CREMA dataset or most other multimodal datasets for sentiment analysis like IEMOCAP @busso2008iemocap the given data has many multi-party conversation where there are more then one participant active and present in the most parts. This leads to a more complex and challenging feature extraction but approximates more closely the reality.
 
 #include "figures/meld.typ"
 
