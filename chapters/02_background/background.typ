@@ -3,11 +3,11 @@
 #import fletcher.shapes: diamond
 
 = Background
-This chapter will give an introduction and overview on different approaches to classify types of emotions with respect to their advantages and disadvantages. Furthermore it will explain the approaches to recognize emotion in the mediums text, video and audio. Based on this common implementation techniques for supervised and unsupervised approaches are presented with a focus on convolution and transformer models. 
+This chapter will give an introduction and overview on different approaches to classify types of emotions with respect to their advantages and disadvantages. Furthermore it will explain the approaches and assumptions to recognize emotion in text, video and audio. Based on this common implementation techniques for supervised and unsupervised approaches are presented with a focus on convolution and transformer models since they are the leading architectures in deep learning. At the end, datasets are introduced which are the foundation for the later implementation and evaluation of the models.
 
 == Emotion
-There is no unambigious definition for the term 'emotion'. There are many different emotions, with different level of intensity. Considering the question of what an emotion is and where it comes from, William James discussed two different theories about the origin of them. Either there are seperate areas in the cerebrum or else they correspond to motory and sensory processes #todo[explain more the difference] @521f3a6c-4f3b-3b5e-9103-90f85a1045d0. 
-Many work in psychology add further aspects to the latter. In order to provide a framework, the following chapters will focus just on the given emotion and how to recognize it. 
+There is no unambigious definition for the term 'emotion'. There are many different emotions, with different level of intensity. Considering the question of what an emotion is and where it comes from, William James discussed two different theories about the origin of them. Either there are seperate areas in the cerebrum or else they correspond to motory and sensory processes @521f3a6c-4f3b-3b5e-9103-90f85a1045d0. If they relie on the seperate areas, the research would be much easier. They could observate these regions while testing different actions and influences on the probants. The results should be quite similar between most people. However it is most likely the case, that emotion correspond to these motory and sensory processes. They will be different from human to human in intensity and execution, so researchers have to study the small similarieties and also the possible patterns and variations from the shown processes. In this case these factors and all brain activitys must be captured to set a prove for it. 
+Many work in psychology add further aspects to the theory. In order to provide a framework, the following chapters will focus just on the given emotion and how to recognize it in written text, speech and facial expressions. These are the most common expressive features captured by emotion theorists. 
 
 #include "figures/emotion_arch.typ"
 
@@ -32,9 +32,9 @@ wheel of emotion, which is commonly used to classify emotion in text. It offers 
   caption: [Plutchik Wheel of Emotion @articleW.]
 )<wheel_emo>
 
-Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. #todo(inline: true)[Why can it be better to have more emotion variety?]
+Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. A variety of sentiments and their intensitys lead to a proper illustration of the real value.
 
-Although there will be a loss of detail, the content of this thesis will focus on the basic emotion from Paul Ekman. The wheel of emotion from Plutchik is suitable for emotion detection in text but most datasets in facial emotion recognition are focused on Ekmans emotion theory #todo()[Why I wont use the Wheel of Emotion]. 
+Although there will be a loss of detail, the content of this thesis will focus on the basic emotion from Paul Ekman. The wheel of emotion from Plutchik is suitable for emotion detection in text but most datasets in facial emotion recognition are focused on Ekmans emotion theory. As shown later in this thesis, many multimodal datasets relie on the work from Ekman. It is harder to distinguish all emotion from Plutchik in audio processing and face recognition. 
 
 === Emotion in Text
 
@@ -50,11 +50,7 @@ For a relieable result in training, the second assumption is important.
 
 2. Words and sentences do not change their meaning over time.
 
-This is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here"  
-
-#todo(inline: true)[
-  briefly explain irony which can lead to different meanings for the same sentence
-]
+This is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here".  Expressions like irony, emphasis in the voice or gestures can change the proper meaning of the sentence. It may can be interpreted as happiness or as disgust. To take this into consideration further observations of other expressive and non-expressive signals are needed.
 
 === Emotion in Speech
 
@@ -240,6 +236,18 @@ In summary supervised methods follow the basic principle to learn features along
 
 #pagebreak()
 
+At the end even the differentiation between convolution, reccurent or transformer networks won't make any noticible changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also shown for language models, convolution nets and transformer.
+
+
+@fig:bitter shows the improvement of the loss when a models has many parameters, much computation time in training and testing and a large dataset. Therefore this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. 
+
+#figure(
+  caption: [Language modeling performance improves smoothly as the model size, datasetset
+size, and amount of compute used for training is increased. For optimal performance all three factors must be scaled
+up in tandem @kaplan2020scaling.],
+  image("figures/loss_compare.svg")
+)<bitter>
+
 #section[Unsupervised Classification Approaches]
 
 Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarieties or differences in the training set. 
@@ -258,9 +266,8 @@ $S$ contains singular values which can easily converted to eigenvalues. These ar
 
 There are many more unsupervised approaches for emotion detection and information retrieval in text @agrawal2012unsupervised @gollapalli2020ester but they won't be part of the following comparisons and benchmarks.
 
-At the end even the differentiation between convolution, reccurent or transformer networks won't make any noticible changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also prooven for language models.
 
-
+#pagebreak()
 
 
 
