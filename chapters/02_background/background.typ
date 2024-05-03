@@ -84,9 +84,9 @@ To classify emotions in text, several preprocessing is necessary due to the lack
 
 #section[Word Embedding and Tokenization]
 
-The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It uses syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text.
+The most important part of all classification approaches is called word embedding. It represents words as real-valued vectors @Wang_Wang_Chen_Wang_Kuo_2019. It shoud use syntactic but also the semantic meaning of the words to get a useful vector. This technique is commonly used in natural language processing like information retrieval in text. 
 
-A naive approach to generate such an embedding function $A$, a one-hot vector @karani2018introduction is needed. It represents every word in a space of words as an different vector. For example the sentence:
+A naive approach to generate such an embedding function would be a one-hot vector encoding @karani2018introduction. It represents every word in a space as an different vector. For example the sentence:
 
 #align(center)[
   _The tree is green._
@@ -138,7 +138,7 @@ To measure the similarity the cosine similarity is often used @karani2018introdu
 ]
 
 While the one-hot vector embeds it word by word only without any context, there won't be any similarity or dissimilarity between the words. This is also the reason why simple one-hot enocding is less used in practise. A semantic consideration will be more useful. 
-
+#pagebreak()
 *The #smallcaps[Continous Bag-of-Words Model]*, shortly CBOW is capable to take the context of a word as an input to calculate an embedded vector with emphasis on syntax and semantic. It consists of a neural network which mainly consists of three layers: the input layer, a hidden layer and the output layer @9673321. 
 
 \
@@ -242,9 +242,25 @@ In summary supervised methods follow the basic principle to learn features along
 
 #section[Unsupervised Classification Approaches]
 
-Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarieties or differences in the training set.
+Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarieties or differences in the training set. 
 
-A common unsupervised approach in natural language processing for extracting keywords or similarieties from text is called 
+A common unsupervised approach in natural language processing for extracting keywords or similarieties from text is called #smallcaps("Latent Semantic Analysis").
+
+*#smallcaps("Latent Semantic Analysis") (LSA)* @lsa is an information retrieval method in text based on singular value decomposition. 
+The algorithm first transforms every word from a sentence into a matrix $M$.
+This matrix can be dismantled into a diagonal matrix $S$ and two orthogonal matrices $U, V$ through
+
+#align(center)[
+  $M =  U dot S dot V^T $
+]
+
+$S$ contains singular values which can easily converted to eigenvalues. These are used to proceed a query on the vector space to find subsets of $M$ which fullfills the query by applying the cosine similarity. This whole method is quite expensiv in computation time becuase of the necessary decomposition and dimension reductions @1102314.
+
+There are many more unsupervised approaches for emotion detection and information retrieval in text @agrawal2012unsupervised @gollapalli2020ester but they won't be part of the following comparisons and benchmarks.
+
+At the end even the differentiation between convolution, reccurent or transformer networks won't make any noticible changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also prooven for language models.
+
+
 
 
 

@@ -24,7 +24,8 @@
       [*Intensity*], [normal], [higher], [lower], [higher], [lower],
       [*Voice Quality*], [irregular voicing], [breathy chest tone], [resonant], [breathy blaring], [grubled chest tone], 
       [*Pitch Changes*], [normal], [abrupt on stressed syllables], [downward inflections], [smooth upward inflections], [wide downward terminal inflections],
-      [*Articulation*], [precise], [tense], [slurring], [normal], [normal]
+      [*Articulation*], [precise], [tense], [slurring], [normal], [normal],
+      hlinex()
     )
 ]
 
