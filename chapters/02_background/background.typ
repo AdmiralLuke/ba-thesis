@@ -7,11 +7,15 @@ This chapter will give an introduction and overview on different approaches to c
 
 == Emotion
 There is no unambigious definition for the term 'emotion'. There are many different emotions, with different level of intensity. Considering the question of what an emotion is and where it comes from, William James discussed two different theories about the origin of them. Either there are seperate areas in the cerebrum or else they correspond to motory and sensory processes @521f3a6c-4f3b-3b5e-9103-90f85a1045d0. If they relie on the seperate areas, the research would be much easier. They could observate these regions while testing different actions and influences on the probants. The results should be quite similar between most people. However it is most likely the case, that emotion correspond to these motory and sensory processes. They will be different from human to human in intensity and execution, so researchers have to study the small similarieties and also the possible patterns and variations from the shown processes. In this case these factors and all brain activitys must be captured to set a prove for it. 
-Many work in psychology add further aspects to the theory. In order to provide a framework, the following chapters will focus just on the given emotion and how to recognize it in written text, speech and facial expressions. These are the most common expressive features captured by emotion theorists. 
+Many work in psychology add further aspects to the theory. In order to provide a framework, the following chapters will focus just on the given emotion and how to recognize it in written text, speech and facial expressions. These are the most common expressive features captured by emotion theorists, but there are many more like gestures or going into a medical direction the blood preassure and other factors might have an approach for determining the leading emotion.
+
+In the other direction there are first approaches to simulate sentiments with computer or robots like animatronics. Learned patterns can be applied from a simple command to emotion features which are currently still very overacted.
+
+@fig:em_arch presents that information like motory, sensory processes, their combination and the differentiation from semantic and syntatic context are categorized in high-level and low level information to process an emotion.
 
 #include "figures/emotion_arch.typ"
 
-@fig:em_arch presents that information like motory, sensory processes, their combination and the differentiation from semantic and syntatic context are categorized in high-level and low level information to process an emotion.
+
 
 High-level information are defined by the semantic of a situation which can be drawn from audiovisual processes for example the command "Show hatred". To show hate a certain emotional state has to be reached and must be reasoned by the situation. As a conclusion low-level information, for instance face expressions, gestures or other syntactic articulations can be observed from the person or system wich executes the given instruction. These patterns are analyized or learned and synthesized by the process before. 
 
@@ -27,12 +31,13 @@ There are different apporaches to classify the semantic high-level features. The
 Over the time different frameworks were built on this foundation to introduce for each basic emotion multiple detailled emotions. A common model is the Plutchik
 wheel of emotion, which is commonly used to classify emotion in text. It offers eight types of basic emotion: joy, trust, fear, surprise and their opposites sadness, disgust, anger and anticipation @Kumar2022.
 
+
+Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. A variety of sentiments and their intensitys lead to a proper illustration of the real value.
+
 #figure(
   image("figures/pl_wheel.png", width: 250pt),
   caption: [Plutchik Wheel of Emotion @articleW.]
 )<wheel_emo>
-
-Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. A variety of sentiments and their intensitys lead to a proper illustration of the real value.
 
 Although there will be a loss of detail, the content of this thesis will focus on the basic emotion from Paul Ekman. The wheel of emotion from Plutchik is suitable for emotion detection in text but most datasets in facial emotion recognition are focused on Ekmans emotion theory. As shown later in this thesis, many multimodal datasets relie on the work from Ekman. It is harder to distinguish all emotion from Plutchik in audio processing and face recognition. 
 
@@ -54,8 +59,10 @@ This is also the flaw from emotion detection in text. For example the sentence "
 
 === Emotion in Speech
 
-#todo(inline: true)[
-  show different chanings in audio diagrams
+Emotion in audio is in contrast to the classification in text mainly focused on the syntax from the recording. The actual signal input is represented as a waveform and sinoid functions. A single wave is defined by
+
+#align(center)[
+   $f(t) = sin(omega t +  )$
 ]
 
 #include "figures/speech_class.typ"
@@ -74,7 +81,7 @@ This is also the flaw from emotion detection in text. For example the sentence "
 
 Over time many approaches to detect and classify emotion have been developed. There are severeral supervised architectures and unsupervised techniques which represent the current state of the art for emotion detection in text, audio and video. 
 
-=== Classification in Text
+=== Classification in Text<class_text>
 
 To classify emotions in text, several preprocessing is necessary due to the lack of numerical values. In the following some ideas for preprocessing are presented. Furhtermore, a look at the various classification methods will be taken. Here a special focus on the supervised methods is applied due to better comparability of already existing and pretrained deep learning models.
 
