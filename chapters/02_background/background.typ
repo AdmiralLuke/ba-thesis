@@ -47,23 +47,33 @@ The most common approach to classify emotion from natural language text is to cl
 
 1. There is a function that is able to map words and sentences to their corresponding emotion.
 
-This can be approached by training a deep neural network with a suitable dataset or a clustering algorithm that measures the similarity between words and sentences to match their corresponding emotion label. The function must be surjective, so a token won't be able to be labeled with more than one emotion at the time.
-
-
-
-For a relieable result in training, the second assumption is important.
-
 2. Words and sentences do not change their meaning over time.
 
-This is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here".  Expressions like irony, emphasis in the voice or gestures can change the proper meaning of the sentence. It may can be interpreted as happiness or as disgust. To take this into consideration further observations of other expressive and non-expressive signals are needed.
+The first assumption can be approached by training a deep neural network with a suitable dataset or a clustering algorithm that measures the similarity between words and sentences to match their corresponding emotion label. The function must be surjective, so a token won't be able to be labeled with more than one emotion at the time.
+The second assumptions is important for a relieable result in training but it is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here".  Expressions like irony, emphasis in the voice or gestures can change the proper meaning of the sentence. It may can be interpreted as happiness or as disgust. To take this into consideration further observations of other expressive and non-expressive signals are needed.
 
 === Emotion in Speech
 
 Emotion in audio is in contrast to the classification in text mainly focused on the syntax from the recording. The actual signal input is represented as a waveform and sinoid functions. A single wave is defined by
 
-#align(center)[
-   $f(t) = sin(omega t +  )$
-]
+
+$ f(t) = alpha sin(omega t) $
+
+A complete waveform as presented in @fig:fig-waveform consists of many different sinoid functions which are added and concatinated together.  
+
+#figure(
+  caption: [a) Waveform of the first eight seconds of a recording of the first five measures of Beethoven’s Fifth. (b) Enlargement of the section between 7.3 and 7.8 seconds @muller2015fundamentals.],
+  image("figures/waveform.svg")
+)<fig-waveform>
+
+*#smallcaps("Frequency")* ($omega$) measures the pitch from the audio and especially from the voice. As shown in @tbl:speech_features multiple features can be extracted from the frequency respectively the pitch. From a measured neutral foundation changes like an average pitch, the range or other changes can be observed. For example a person which speaks in a very much higher pitch, with a wide variablity in the range and changes the frequency aprupt on stressed syllables, then this person feels most likely anger.
+
+*#smallcaps("Amplitude") ($alpha$)* shows the intensity and the loudness of the given audio. Furthermore it is also an important feature and easy to extract from speech with the help of an existing neutral foundation.
+
+Extracting features like speech rate, articulation or voice quality more observation is needed. Speech rate can be measured with words per second, sentences per minute or other similar metrics. Normally when looking at waveforms the intermissions betweens sentences or words can get retrieved. A higher rate is equivalent to more observed gaps in the same time of a normal speech speed. Articulation and voice quaility is hard to track without a semantic knowledge. Therefore a combination of the already presented features is needed which can be done by pattern matching and comparison to the neutral foundation. 
+
+
+
 
 #include "figures/speech_class.typ"
 
@@ -265,9 +275,9 @@ A common unsupervised approach in natural language processing for extracting key
 The algorithm first transforms every word from a sentence into a matrix $M$.
 This matrix can be dismantled into a diagonal matrix $S$ and two orthogonal matrices $U, V$ through
 
-#align(center)[
-  $M =  U dot S dot V^T $
-]
+
+$ M =  U dot S dot V^T $
+
 
 $S$ contains singular values which can easily converted to eigenvalues. These are used to proceed a query on the vector space to find subsets of $M$ which fullfills the query by applying the cosine similarity. This whole method is quite expensiv in computation time becuase of the necessary decomposition and dimension reductions @1102314.
 
@@ -279,6 +289,8 @@ There are many more unsupervised approaches for emotion detection and informatio
 
 
 === Classification in Audio 
+
+
 
 === Classification in Images and Videos
 
@@ -298,10 +310,10 @@ They recorded twelve different sentence for each type of emotion like "Don't for
 
 #include "figures/cremad.typ"
 
-As shown in @cremad the distribution of labels is uniformly distributed with the exception of neutral. This won't leed to any problem, because the actual sentiments shown in the visuell data are very strongly acted so there are clear features available.
+As shown in @fig:cremad the distribution of labels is uniformly distributed with the exception of neutral. This won't leed to any problem, because the actual sentiments shown in the visuell data are very strongly acted so there are clear features available.
 
 *MELD* (Multimodal EmotionLines Dataset) @poria2018meld is an annotated collection of short sequences from the series "Friends". In difference to the CREMA dataset or most other multimodal datasets for sentiment analysis like IEMOCAP @busso2008iemocap the given data has many multi-party conversation where there are more then one participant active and present in the most parts. This leads to a more complex and challenging feature extraction but approximates more closely the reality.
 
 #include "figures/meld.typ"
 
-@meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 
+@fig:meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 

@@ -27,7 +27,7 @@
       [*Articulation*], [precise], [tense], [slurring], [normal], [normal],
       hlinex()
     )
-]
+]<speech_features>
 
 
 /*
