@@ -52,12 +52,12 @@ The most common approach to classify emotion from natural language text is to cl
 The first assumption can be approached by training a deep neural network with a suitable dataset or a clustering algorithm that measures the similarity between words and sentences to match their corresponding emotion label. The function must be surjective, so a token won't be able to be labeled with more than one emotion at the time.
 The second assumptions is important for a relieable result in training but it is also the flaw from emotion detection in text. For example the sentence "I'm glad to be here".  Expressions like irony, emphasis in the voice or gestures can change the proper meaning of the sentence. It may can be interpreted as happiness or as disgust. To take this into consideration further observations of other expressive and non-expressive signals are needed.
 
-=== Emotion in Speech
+=== Emotion in Speech<chap:emo_speech>
 
 Emotion in audio is in contrast to the classification in text mainly focused on the syntax from the recording. The actual signal input is represented as a waveform and sinoid functions. A single wave is defined by
 
 
-$ f(t) = alpha sin(omega t) $
+$ g(t) := A sin(2π(omega t - phi)) $
 
 A complete waveform as presented in @fig:fig-waveform consists of many different sinoid functions which are added and concatinated together.  
 
@@ -68,7 +68,9 @@ A complete waveform as presented in @fig:fig-waveform consists of many different
 
 *#smallcaps("Frequency")* ($omega$) measures the pitch from the audio and especially from the voice. As shown in @tbl:speech_features multiple features can be extracted from the frequency respectively the pitch. From a measured neutral foundation changes like an average pitch, the range or other changes can be observed. For example a person which speaks in a very much higher pitch, with a wide variablity in the range and changes the frequency aprupt on stressed syllables, then this person feels most likely anger.
 
-*#smallcaps("Amplitude") ($alpha$)* shows the intensity and the loudness of the given audio. Furthermore it is also an important feature and easy to extract from speech with the help of an existing neutral foundation.
+*#smallcaps("Amplitude") ($A$)* shows the intensity and the loudness of the given audio. Furthermore it is also an important feature and easy to extract from speech with the help of an existing neutral foundation.
+
+*#smallcaps("Phase") ($phi$)*  shifts $g(t)$ along the x-dimension. This parameter is not important in the feature measurement but has a significant role in audio decomposition which is described later.
 
 Extracting features like speech rate, articulation or voice quality more observation is needed. Speech rate can be measured with words per second, sentences per minute or other similar metrics. Normally when looking at waveforms the intermissions betweens sentences or words can get retrieved. A higher rate is equivalent to more observed gaps in the same time of a normal speech speed. Articulation and voice quaility is hard to track without a semantic knowledge. Therefore a combination of the already presented features is needed which can be done by pattern matching and comparison to the neutral foundation. 
 
@@ -290,6 +292,21 @@ There are many more unsupervised approaches for emotion detection and informatio
 
 === Classification in Audio 
 
+Similar to classification in text as shown in @class_text there are some approaches to suppervised and unsupervised methods out there. First of all an encoding for the audio is necessary to ensure the extraction of the necessary features. 
+
+
+#section[Fourier Transformation]
+
+To break up the audio signal into multiple atomic sinoid functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by setting $A = sqrt(2)$. 
+
+$ g(t) := A sin(2π(omega t - phi)) $
+
+For each frequency and phase the normalized function $cos_(omega, phi)(t): RR -> RR$ is given by: 
+$ cos_(omega, phi)(t) = sqrt(2) cos(2pi(omega t - phi)) $
+
+
+#section[Supervised Classification Approaches]
+Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach to classify emotion in audio, after retrieving the fourier representation for every signal. Meanwhile the first transormer based audio information retrieval approaches are presented @verma2021audio.
 
 
 === Classification in Images and Videos
@@ -317,3 +334,4 @@ As shown in @fig:cremad the distribution of labels is uniformly distributed with
 #include "figures/meld.typ"
 
 @fig:meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 
+
