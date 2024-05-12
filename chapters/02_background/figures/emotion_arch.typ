@@ -5,6 +5,7 @@
 #figure([
   #rect(inset: 0.7em)[
   #fletcher.diagram(
+    debug: 0,
     cell-size: 60mm,
     node((0,0), "High-Level"),
     edge((0,0), "d", "<|-|>"),

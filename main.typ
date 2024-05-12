@@ -7,7 +7,7 @@
   include "chapters/abstract.typ",
   thesis-type: "Bachelor",
   reviewers: ("Prof. Dr. rer. nat. habil. Gunter Saake", "Dr.-Ing. David Broneske"),
-  date: datetime(year: 2024, month: 07, day: 31),
+  date: datetime(year: 2024, month: 09, day: 13),
 )
 
 #set page(margin: 2.5cm, footer: none)
@@ -25,7 +25,7 @@
 // This wrapper function adds backrefs.
 // ToDo: remove full: true
 
-#bibliography("bibliography/sources.bib", style: "ieee", full: true),
+#bibliography("bibliography/sources.bib", style: "ieee")
 
 
 #pagebreak()

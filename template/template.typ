@@ -1,5 +1,5 @@
 #import "@preview/drafting:0.1.1": margin-note, set-page-properties
-#import "@preview/i-figured:0.2.1"
+#import "@preview/i-figured:0.2.4"
 #import "@preview/tablex:0.0.8": *
 
 #let ovgu-blue = rgb("#0068B4")
@@ -126,6 +126,8 @@
     if h.numbering != none {
       pagebreak(weak: true)
       v(2.3cm)
+
+      i-figured.reset-counters(h, return-orig-heading: false)
       if h.body == [Appendix] {
         counter(heading.where(level: 1)).update(1)
         [Appendix #counter(heading.where(level: 1)).display(h.numbering)]
@@ -139,7 +141,7 @@
     }
   }
 
-  show heading: i-figured.reset-counters
+  // show heading: i-figured.reset-counters
   
   show heading.where(level: 2): h => {
     if h.numbering != none {
