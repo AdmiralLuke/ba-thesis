@@ -35,7 +35,8 @@ wheel of emotion, which is commonly used to classify emotion in text. It offers 
 Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For example, the enhanced level for disgust is loathing, a more moderate level is boredom. In total there are 24 different emotions. A variety of sentiments and their intensitys lead to a proper illustration of the real value.
 
 #figure(
-  image("figures/pl_wheel.png", width: 250pt),
+  scale(80%, reflow: true)[
+  #image("figures/pl_wheel.png", width: 250pt)],
   caption: [Plutchik Wheel of Emotion @articleW.]
 )<wheel_emo>
 
@@ -59,7 +60,7 @@ Emotion in audio is in contrast to the classification in text mainly focused on 
 
 $ g(t) := A sin(2π(omega t - phi)) $
 
-A complete waveform as presented in @fig:fig-waveform and @fig:fig-waveformB consists of many different sinoid functions which are added and concatinated together.  
+A complete waveform as presented in @fig:fig-waveform and @fig:fig-waveformB consists of many different sinoid functions which are added and concatinated together @muller2015fundamentals.  
 
 #figure(
   image("figures/audio/audio_1.svg"),
@@ -320,7 +321,18 @@ Bringing this into the context with polar coordinates and the additional idea to
 $ hat(f)(omega) &= integral_(t in RR) f(t)exp(-2pi i omega t)d t
 \
 &= integral_(t in RR)f(t)cos(-2 pi omega t) d t + i integral_(t in RR)f(t)sin(-2 pi omega t) d t  
- $
+$
+
+These equations are however only suitable for non-discrete signal-processing and must be adaptet to adaptet to a discrete fourier transformation. A sampling period $T$ is introduced to sample the signal in mutiple time steps. An approximation for $hat(f)(omega)$ is obtained
+
+$ hat(f)(omega) approx sum_(n in ZZ) T(f(n T))exp(-2 pi i omega n) $
+
+with a time complexity of $O(N^2)$ where $N$ notates the length from the given signal @muller2015fundamentals. 
+#linebreak(justify: true)
+Thus $N$ can get quite large some approvements are implemented. 
+For example the fast fourier transformation with a complexity of $O(N log N)$, uses a divide and conquer algorithm to split the signal, calculates the fourier transformation and reassembles it @park2020fast.
+Also common is the short time fourier transformation which divides the audio into windows with a given size $n$ and a hop size to determine the step size of the sliding window @muller2015fundamentals @durak2003short. 
+
 
 #section[Supervised Classification Approaches]
 Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Meanwhile the first transormer based audio information retrieval approaches are presented @verma2021audio.
