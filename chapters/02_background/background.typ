@@ -59,12 +59,20 @@ Emotion in audio is in contrast to the classification in text mainly focused on 
 
 $ g(t) := A sin(2π(omega t - phi)) $
 
-A complete waveform as presented in @fig:fig-waveform consists of many different sinoid functions which are added and concatinated together.  
+A complete waveform as presented in @fig:fig-waveform and @fig:fig-waveformB consists of many different sinoid functions which are added and concatinated together.  
 
 #figure(
-  caption: [a) Waveform of the first eight seconds of a recording of the first five measures of Beethoven’s Fifth. (b) Enlargement of the section between 7.3 and 7.8 seconds @muller2015fundamentals.],
-  image("figures/waveform.svg")
+  image("figures/audio/audio_1.svg"),
+  caption: [Waveform of the first seconds of a audio recording]
 )<fig-waveform>
+
+#figure(
+  image("figures/audio/audio_2.svg"),
+  caption: [Enlargement of the first half second from @fig:fig-waveform]
+)<fig-waveformB>
+
+
+
 
 *#smallcaps("Frequency")* ($omega$) measures the pitch from the audio and especially from the voice. As shown in @tbl:speech_features multiple features can be extracted from the frequency respectively the pitch. From a measured neutral foundation changes like an average pitch, the range or other changes can be observed. For example a person which speaks in a very much higher pitch, with a wide variablity in the range and changes the frequency aprupt on stressed syllables, then this person feels most likely anger.
 
@@ -225,7 +233,7 @@ Herefore multiple words or sentences of the space $V$ are combined to region mat
 @fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in a higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c.
 
 Another optimizations to fundamental neural network architectures are gating mechanisms from reccurent networks and the bi-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from sentences and words before to differ between fill-words like "this", "with" and emotionally loaded words.
-Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication step, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionaly to the GRU cell, LSTM has two more control gates which gives more possibilitys to constraint and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
+Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication steps, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionaly to the GRU cell, an LSTM has two more control gates which gives more possibilieys to constrain and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
 
 *#smallcaps[Transormers]* are an deep-learning architecture which is based on multi-head attention. #linebreak(justify: true)  
 
@@ -233,23 +241,27 @@ Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recu
   column-gutter: 30pt,
   columns: (45%, auto),
   [
-    #figure(
-      image("figures/transformer.svg"),
+   #figure(
+      gap: 60pt,
+      scale(60%, reflow: true)[
+        
+      #include "figures/transformer.typ"],
       caption: [Common transformer model architecture with multi-head attention @vaswani2023attention.]
     )<transformer>
-  ],
-  [
-    The basic idea of attention relies on a huge bottleneck in common neural network architectures because Fixed input vector sizes may result in a large overhead. In the example of natural language processing could this be an result from very large sentences. Attention mechanisms try to solve this issue by focusing the input on to specific parts e.g. training the input weights on important words or subsets from the given sentence. 
 
-    The resulting transformers are currently setting a milestone in natural language processing and providing the fundaments for ChatGPT from OpenAI @openai2024gpt4 or other text understanding models, because of their scalability due to the attention mechanisms and their relieable results. @fig:transformer shows such a transformer architecture. An input sentence will be feed into the model where it first gets positional encoded thus the position and the frequency for every word in the sentence is stored.
+  ],
+  [ 
+    The basic idea of attention solves a huge bottleneck in common neural network architectures because fixed input vector sizes may result in a large overhead. In the example of natural language processing this could be a result from very large sentences. Attention mechanisms try to solve this issue by focusing the input on to specific parts e.g. training the input weights on important words or subsets from the given sentence. 
+
+    The resulting transformers are currently setting a milestone in natural language processing and providing the fundaments for ChatGPT from OpenAI @openai2024gpt4 or other text understanding models, because of their scalability due to the attention mechanisms and their relieable results. @fig:transformer shows such a transformer architecture. An input sentence will be fed into the model where it first gets positional encoded thus the position and the frequency for every word in the sentence is stored.
   ]
   
 )
-Now the input vectors are passing through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normed together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of basic uni-directional layers. Likewise the input and the output are matched together with a residual connection. The same proceding is repeatet but with an autoregressive addition of already calculated output. But in contrast to the regular multi-head attention a masking in this process is introduced which sets the weight for unknown or respectively future tokens to negative values thus the model can learn realistic predictions only with already known tokens.
-The output of the transformer architecture are probabilities for the next state. The already mentioned autoregressive implementation gives the possibilities to predict long sequence of tokens.
+Now the input vectors are passing through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normalized together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of basic uni-directional layers. Likewise the input and the output are matched together with a residual connection. The same proceding is repeated but with an autoregressive addition of already calculated output. But in contrast to the regular multi-head attention a masking in this process is introduced which sets the weight for unknown or respectively future tokens to negative values thus the model can learn realistic predictions only with already known tokens.
+The output of the transformer architecture are probabilities for the next state. The already mentioned autoregressive implementation gives the possibilities to predict a long sequence of tokens.
 
 
-In addition to the approaches with neural network architectures like transfors, other supervised methods like support vector machines, decision trees or naive bayes are used. These aren't covered in this thesis and relay to future work.
+In addition to the approaches with neural network architectures like transformers, other supervised methods like support vector machines, decision trees or naive bayes are used. These aren't covered in this thesis as it exceeds the scope of this work and are a possible part for future work.
 
 In summary supervised methods follow the basic principle to learn features along a given target. Therefore enough training data is needed with the additional annotated labels. 
 
@@ -258,18 +270,13 @@ In summary supervised methods follow the basic principle to learn features along
 At the end even the differentiation between convolution, reccurent or transformer networks won't make any noticible changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also shown for language models, convolution nets and transformer.
 
 
-@fig:bitter shows the improvement of the loss when a models has many parameters, much computation time in training and testing and a large dataset. Therefore this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. 
-
-#figure(
-  caption: [Language modeling performance improves smoothly as the model size, datasetset
+"Scaling Laws for Neural Network" @kaplan2020scaling shows the improvement of the loss, when a model has many parameters, much computation time in training and a large dataset. Therefore this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. Language modeling performance improves smoothly as the model size, datasetset
 size, and amount of compute used for training is increased. For optimal performance all three factors must be scaled
-up in tandem @kaplan2020scaling.],
-  image("figures/loss_compare.svg")
-)<bitter>
+up in tandem.
 
 #section[Unsupervised Classification Approaches]
 
-Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarieties or differences in the training set. 
+Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarities or differences in the training set. 
 
 A common unsupervised approach in natural language processing for extracting keywords or similarieties from text is called #smallcaps("Latent Semantic Analysis").
 
@@ -281,13 +288,10 @@ This matrix can be dismantled into a diagonal matrix $S$ and two orthogonal matr
 $ M =  U dot S dot V^T $
 
 
-$S$ contains singular values which can easily converted to eigenvalues. These are used to proceed a query on the vector space to find subsets of $M$ which fullfills the query by applying the cosine similarity. This whole method is quite expensiv in computation time becuase of the necessary decomposition and dimension reductions @1102314.
+$S$ contains singular values which can be easily converted to eigenvalues. These are used to process a query on the vector space to find subsets of $M$ which fullfills the query by applying the cosine similarity. This whole method is quite expensive in computation time because of the necessary decomposition and dimension reductions @1102314.
 
-There are many more unsupervised approaches for emotion detection and information retrieval in text @agrawal2012unsupervised @gollapalli2020ester but they won't be part of the following comparisons and benchmarks.
-
-
-#pagebreak()
-
+There are many more unsupervised approaches for emotion detection and information retrieval in text @agrawal2012unsupervised @gollapalli2020ester but they won't be part of the following comparisons and benchmarks s
+as they also exceed the scope of this thesis. Furthermore, no significant improves and diffferences are expectet in comparison to the presented unsupervised approaches and also the shown supervised classification methods due to the scaling laws for neural networks.
 
 
 === Classification in Audio 
@@ -295,18 +299,31 @@ There are many more unsupervised approaches for emotion detection and informatio
 Similar to classification in text as shown in @class_text there are some approaches to suppervised and unsupervised methods out there. First of all an encoding for the audio is necessary to ensure the extraction of the necessary features. 
 
 
+
 #section[Fourier Transformation]
 
-To break up the audio signal into multiple atomic sinoid functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by setting $A = sqrt(2)$. 
+To break up the audio signal into multiple atomic sinoid functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by assuming $A = sqrt(2)$. 
 
 $ g(t) := A sin(2π(omega t - phi)) $
 
 For each frequency and phase the normalized function $cos_(omega, phi)(t): RR -> RR$ is given by: 
 $ cos_(omega, phi)(t) = sqrt(2) cos(2pi(omega t - phi)) $
 
+Due to the idea of approximating the original audio function with sinoid waves, a first approach to the fourier transformation can be obtained by maximizing the similarity between both signals.
+
+$ d_omega &:= max_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)d t) 
+\
+phi_omega &:= "argmax"_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)d t) $
+
+Bringing this into the context with polar coordinates and the additional idea to store both values $d_w$ and $phi_omega$ into a single complex value. This results in the common fourier transformation form given by:
+
+$ hat(f)(omega) &= integral_(t in RR) f(t)exp(-2pi i omega t)d t
+\
+&= integral_(t in RR)f(t)cos(-2 pi omega t) d t + i integral_(t in RR)f(t)sin(-2 pi omega t) d t  
+ $
 
 #section[Supervised Classification Approaches]
-Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach to classify emotion in audio, after retrieving the fourier representation for every signal. Meanwhile the first transormer based audio information retrieval approaches are presented @verma2021audio.
+Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Meanwhile the first transormer based audio information retrieval approaches are presented @verma2021audio.
 
 
 === Classification in Images and Videos

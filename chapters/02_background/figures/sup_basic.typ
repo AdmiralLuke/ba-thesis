@@ -2,9 +2,6 @@
 #import "@preview/fletcher:0.4.2" as fletcher: node, edge
 #import fletcher.shapes: diamond
 
-#import "../../../template/template.typ": *
-#import "@preview/fletcher:0.4.2" as fletcher: node, edge
-#import fletcher.shapes: diamond
 
 #let xnode(pos, label, ..args) = {
     node(pos, align(center, label), width: 10em, height: 5em, ..args)
