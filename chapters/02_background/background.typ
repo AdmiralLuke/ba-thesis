@@ -323,7 +323,7 @@ $ hat(f)(omega) &= integral_(t in RR) f(t)exp(-2pi i omega t)d t
 &= integral_(t in RR)f(t)cos(-2 pi omega t) d t + i integral_(t in RR)f(t)sin(-2 pi omega t) d t  
 $
 
-These equations are however only suitable for non-discrete signal-processing and must be adaptet to adaptet to a discrete fourier transformation. A sampling period $T$ is introduced to sample the signal in mutiple time steps. An approximation for $hat(f)(omega)$ is obtained
+These equations are however only suitable for non-discrete signal-processing and must be adaptet to adaptet to a discrete fourier transformation. A sampling period $T$ is introduced to sample the signal in mutiple time steps. An approximation for $hat(f)(omega)$ is obtained #linebreak(justify: true)
 
 $ hat(f)(omega) approx sum_(n in ZZ) T(f(n T))exp(-2 pi i omega n) $
 
@@ -331,12 +331,38 @@ with a time complexity of $O(N^2)$ where $N$ notates the length from the given s
 #linebreak(justify: true)
 Thus $N$ can get quite large some approvements are implemented. 
 For example the fast fourier transformation with a complexity of $O(N log N)$, uses a divide and conquer algorithm to split the signal, calculates the fourier transformation and reassembles it @park2020fast.
-Also common is the short time fourier transformation which divides the audio into windows with a given size $n$ and a hop size to determine the step size of the sliding window @muller2015fundamentals @durak2003short. 
+Also common is the short time fourier transformation which divides the audio into windows with a given size $n$ and a hop size to determine the step size of the sliding window @muller2015fundamentals @durak2003short. #linebreak(justify: true) 
 
 
 #section[Supervised Classification Approaches]
-Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Meanwhile the first transormer based audio information retrieval approaches are presented @verma2021audio.
+Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Continuing from the already presented fourier transformation and analysis, these supervised classification methods refer to the feature extraction from spectograms @COSTA201728 @spectograms which is the visual representation of the given signal and a lightweight implementation for these networks.
 
+ Meanwhile the first transformer based audio classification are presented @verma2021audio. The idea is an amalgamation of the idea from convolution architectures and the common transformer model.
+
+#grid(
+  columns: (45%, auto),
+  [
+    #figure(
+    [
+    #include "figures/transformer_audio.typ"
+    #move(dy: -25pt, dx: -5pt)[
+      #image("figures/audio/audio_1.svg", width: 240pt)
+    ]],
+    gap: -15pt,
+    caption: [Audio transformer model ])<fig:trans_audio>
+  ],
+  [
+    Therefore it inputs the raw audio data without any preprocessing besides from padding to the right length. As shown in @fig:fig:trans_audio the model first divides the signal into multiple fix-length patches to feed them into a front-end layer. The patches describe very short sequences of the audio and show the resolution in which the work will subsequently be carried out. It consists of some dense layers which processes the raw audio to multiple feature vectors. These are suitable for learning in the common transformer architecture. These are chained together with average pooling layer, giving the convolution like downscaling and compressing effect. This step can be repeated multiple times until the required output shape is nearly matched. At the end a decoder layer in form of some dense layers are applied to predict the resulting label. Equivalent to the already introduced convolution networks, activation functions like ReLu or softmax can be interposed between all existing layers for more stability.
+  ]
+)
+
+
+Nonetheless the bitter lesson from the previous chapter also applies here. Therefore and because of the already large scope of this thesis, further considerations about other supervised approaches like SVM or decision trees, are not made. #linebreak(justify: true) 
+
+#section[Unsupervised Classification Approaches]
+
+Unfortunatly unsupervised audio information retrieval approaches are quite rare. There are a few methods which uses k-means to learn from local audio features @wulfing2012unsupervised. Thus they are not really suitable for emotion detection due to their low capability of detecting global features.
+But in spite of that there are some methods to collect local features which can assist the supervised deep learning method @unsupervisedmusic.
 
 === Classification in Images and Videos
 
