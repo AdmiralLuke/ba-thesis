@@ -364,7 +364,27 @@ But in spite of that there are some methods to collect local features which can 
 
 === Classification in Images and Videos
 
-Relating to the previous classification methods 
+Relating to the previous classification methods the foundation for emotion detection in images and videos is quite similar. However there is many research to optimize the supervised and usupervised strategies regarding the input size and computation time. Furthermore video as interesting advantages and disadvantages towards images which is necessary for the following methods and optimizations. The disadvantages comes with the additional dimension, time, which is introduced through videos as a time series while they can be dissected into single images. 
+
+#section[Supervised Classification Approaches]
+
+As always convolution models are the most common architectures for deep learning on images and videos @9012507. While images can be flattened to an one dimensional vector to process it with simple convolution filters, layers or even with recurrent and simple linear models, video processing and learning arrives with a bigger challenge. Fortanatly kernels for convolution are able to have n-dimensional shapes though getting expensive in computation and memory consumption. The same issue occurs naturally with video transformers @10041724. These follow anaolg to the already presented architectures in text and audio classification as they are transfering the researched benefits from transformer models. Nevertheless they scale quadratically in respect to the input length. Thus further optimizations on the input are helpful and even more necessary. 
+
+*#smallcaps("Slicing")* offers different options to reduce the input size from the video with a variety of selection methods. @fabianmaster 
+
+#set list(indent: 2em)
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [- *Time Exclusive Slicing:*], [as the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
+  [- *Spatial Exclusive Slicing:*], [#lorem(20)],
+  [- *Cubicles:*], [#lorem(29)],
+  [- *Shards:*], [#lorem(20)]
+) 
+
+Overall they reduce the input size of the input video to a fraction of the original size on the basis of the assumption that there are unnecessary parts in each frame like the corners and that videos with more frame per seconds includes more redundancy resp. too small changes.
+
+#pagebreak()
 
 #pagebreak()
 
