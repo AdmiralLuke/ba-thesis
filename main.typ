@@ -19,6 +19,8 @@
 // ----- ACTUAL CONTENT OF THESIS -----
 #include "chapters/01_introduction/intro.typ"
 #include "chapters/02_background/background.typ"
+#include "chapters/03_related_work/related_work.typ"
+
 #pagebreak()
 #pagebreak()
 

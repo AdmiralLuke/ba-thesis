@@ -92,9 +92,7 @@ Extracting features like speech rate, articulation or voice quality more observa
 
 === Emotion in Facial Expression
 
-
-
-#todo(inline: true)[talk about the facs system]
+Besides his theory about the six basic emotion, Paul Ekman introduced a system to map different face expressions to their relating sentiments by combining changes in different areas of the expression field. This facial action coding system (FACS) @friesen1978facial is based on these movements which are called action units. There are 28 main actions which can be mapped to the six main emotion. In the following of this thesis, they will be used as the main features. 
 
 #pagebreak()
 
@@ -231,7 +229,7 @@ Herefore multiple words or sentences of the space $V$ are combined to region mat
   caption: [Simple Convolution based Neural Network to predict an emotion from a given subset of sentences]
 )<conv>
 
-@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in a higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c.
+@fig:conv shows such network with the convolutional part. In common architectures multiple convolution and pooling layers are stacked together with an activation function like #smallcaps("ReLu") in between of each block which improves the output by setting constraints to the convolution outputs. The constraint which is effected by #smallcaps("ReLu") is the prohibition of negative values by the function $f(x) = max(0,x)$.  This subsequency of the convolution blocks leads to a hierarchical decomposition of the given embedded region matrix. As a result multiple features can be found from each block and each convolution kernel which might result in a higher accuracy. At the end an ordinary decoder in form of a simple linear layer with an activation function like #smallcaps("SoftMax") is utilized to calculate the resulting emotion from the pooled and flattened vector. Normalization like layer norm or batch norm between each layer can help to ensure better propagation and reduce numerical instability @NEURIPS2021_2578eb9c. #linebreak(justify: true)
 
 Another optimizations to fundamental neural network architectures are gating mechanisms from reccurent networks and the bi-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from sentences and words before to differ between fill-words like "this", "with" and emotionally loaded words.
 Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication steps, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionaly to the GRU cell, an LSTM has two more control gates which gives more possibilieys to constrain and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
@@ -335,7 +333,7 @@ Also common is the short time fourier transformation which divides the audio int
 
 
 #section[Supervised Classification Approaches]
-Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Continuing from the already presented fourier transformation and analysis, these supervised classification methods refer to the feature extraction from spectograms @COSTA201728 @spectograms which is the visual representation of the given signal and a lightweight implementation for these networks.
+Analog to @class_text the supervised classification approaches follow the same structure. Recurrent- and convolution-based networks are the most common approach @wang2022learning @kong2020panns to classify features from audio, after retrieving the fourier representation for every signal and can also be applied to emotion. Continuing from the already presented fourier transformation and analysis, these supervised classification methods refer to the feature extraction from spectograms @COSTA201728 @spectograms which is the visual representation of the given signal and a lightweight implementation for these networks. #linebreak(justify: true)
 
  Meanwhile the first transformer based audio classification are presented @verma2021audio. The idea is an amalgamation of the idea from convolution architectures and the common transformer model.
 
@@ -362,9 +360,11 @@ Nonetheless the bitter lesson from the previous chapter also applies here. There
 #section[Unsupervised Classification Approaches]
 
 Unfortunatly unsupervised audio information retrieval approaches are quite rare. There are a few methods which uses k-means to learn from local audio features @wulfing2012unsupervised. Thus they are not really suitable for emotion detection due to their low capability of detecting global features.
-But in spite of that there are some methods to collect local features which can assist the supervised deep learning method @unsupervisedmusic.
+But in spite of that there are some methods to collect local features which can assist the supervised deep learning method @unsupervisedmusic. #linebreak(justify: true)
 
 === Classification in Images and Videos
+
+Relating to the previous classification methods 
 
 #pagebreak()
 
