@@ -90,9 +90,11 @@ Extracting features like speech rate, articulation or voice quality more observa
 
 
 
-=== Emotion in Facial Expression
+=== Emotion in Facial Expression<chap:facial-exp>
 
 Besides his theory about the six basic emotion, Paul Ekman introduced a system to map different face expressions to their relating sentiments by combining changes in different areas of the expression field. This facial action coding system (FACS) @friesen1978facial is based on these movements which are called action units. There are 28 main actions which can be mapped to the six main emotion. In the following of this thesis, they will be used as the main features. 
+
+#pagebreak()
 
 #pagebreak()
 
@@ -271,7 +273,7 @@ At the end even the differentiation between convolution, reccurent or transforme
 
 "Scaling Laws for Neural Network" @kaplan2020scaling shows the improvement of the loss, when a model has many parameters, much computation time in training and a large dataset. Therefore this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. Language modeling performance improves smoothly as the model size, datasetset
 size, and amount of compute used for training is increased. For optimal performance all three factors must be scaled
-up in tandem.
+up in tandem. #linebreak(justify: true)
 
 #section[Unsupervised Classification Approaches]
 
@@ -302,6 +304,7 @@ Similar to classification in text as shown in @class_text there are some approac
 #section[Fourier Transformation]
 
 To break up the audio signal into multiple atomic sinoid functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by assuming $A = sqrt(2)$. 
+
 
 $ g(t) := A sin(2π(omega t - phi)) $
 
@@ -368,23 +371,28 @@ Relating to the previous classification methods the foundation for emotion detec
 
 #section[Supervised Classification Approaches]
 
-As always convolution models are the most common architectures for deep learning on images and videos @9012507. While images can be flattened to an one dimensional vector to process it with simple convolution filters, layers or even with recurrent and simple linear models, video processing and learning arrives with a bigger challenge. Fortanatly kernels for convolution are able to have n-dimensional shapes though getting expensive in computation and memory consumption. The same issue occurs naturally with video transformers @10041724. These follow anaolg to the already presented architectures in text and audio classification as they are transfering the researched benefits from transformer models. Nevertheless they scale quadratically in respect to the input length. Thus further optimizations on the input are helpful and even more necessary. 
+As always convolution models are the most common architectures for deep learning on images and videos @9012507. While images can be flattened to an one dimensional vector to process it with simple convolution filters, layers or even with recurrent and simple linear models, video processing and learning arrives with a bigger challenge. Fortanatly kernels for convolution are able to have n-dimensional shapes though getting expensive in computation and memory consumption. The same issue occurs naturally with video transformers @10041724. These follow anaolg to the already presented architectures in text and audio classification as they are transfering the researched benefits from transformer models. Nevertheless they scale quadratically in respect to the input length. Thus further optimizations on the input are helpful and even more necessary. #linebreak(justify: true)
 
-*#smallcaps("Slicing")* offers different options to reduce the input size from the video with a variety of selection methods. @fabianmaster 
+*#smallcaps("Slicing")* offers different options to reduce the input size from the video with a variety of selection methods @fabianmaster. 
 
 #set list(indent: 2em)
 #grid(
   columns: 2,
   gutter: 1em,
-  [- *Time Exclusive Slicing:*], [as the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
-  [- *Spatial Exclusive Slicing:*], [#lorem(20)],
-  [- *Cubicles:*], [#lorem(29)],
-  [- *Shards:*], [#lorem(20)]
+  [- *Time Exclusive Slicing:*], [As the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
+  [- *Spatial Exclusive Slicing:*], [This method divides each frame into a grid of spatial patches . Then it chooses one of the grids (mostly the center) and picks the same patch over the full time dimension.],
+  [- *Cubicles:*], [Cubilcles or tubelets @arnab2021vivit are extracted by choosing spatial patches in combination with its temporal neighbours. This is similar to spatial exclusive slicing but with more variety in the choosen grid positions.],
+  [- *Shards:*], [This method  @Akbari2021VATTTF is a combination of spatial exclusive slicing, cubicles and time exlusive slicing, where from random or fixed indexed frames the spatial patches are choosen.]
 ) 
 
-Overall they reduce the input size of the input video to a fraction of the original size on the basis of the assumption that there are unnecessary parts in each frame like the corners and that videos with more frame per seconds includes more redundancy resp. too small changes.
+
+Overall they reduce the input size of the input video to a fraction of the original size on the basis of the assumption that there are unnecessary parts in each frame like the corners and that videos with more frame per seconds includes more redundancy respectively too small changes between each time step. Furthermore the basic spatial exclusive slicing is not well suited due to the lack of removing the described redundancy. In general spatial patching can be challenging, if the person in the video is moving or the main actors are on different position in each data sample. #linebreak(justify: true)
+
+Further tries for input optimizations regarding to the idea of tracking movements are researched like utilizing temporal difference images @fabianmaster. It follows the assumption that deep learning architectures are learning the features only from the moving part of the face and that non moving parts are unnecessary. Intuitive according to Ekman and the presented action units from @chap:facial-exp this hypothesis has a good foundation. With time exclusive slicing they picked frames both randomly and with a fixed distance between the time steps and subtraced the frames from each other to create a temporal difference image for each video. Each of them shows the moving action units which were present in the data sample before. Thus it shows the action units which are normally learned by the first layers from an architecture. 
 
 #pagebreak()
+
+#section[Unsupervised Classification Approaches]
 
 #pagebreak()
 
@@ -394,10 +402,9 @@ For the multimodal analysis and the supervised approaches in learning a dataset 
 The following datasets are based on the Ekman emotion model with some changes.
 
 *CREMA-D* (Crowd-sourced Emotional Multimodal Actors Dataset) @cao2014crema consists of 7.442 clips from 91 different actors with their facial and vocal expression. It covers every of Ekmans emotions: _Anger (ANG), Disgust (DIS), Fear (FEA), Happy (HAP), Neutral (NEU), Sad (SAD)_
-
 with the exception of _surprise (SUP)_ , because it may can relate to any other emotion with a rapid onset. Additionaly there are a few annotation to the intensity of the sentiment, but it is only a small percentage regarding the amount of data. Therefore it wont't be used for futher evaluation in this thesis.
 
-They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. These snippets are between 50 to 80 frames long while it is recorded in 30 frames per second.
+They recorded twelve different sentence for each type of emotion like "Don't forget a jacket." or "I wonder what this is about." which are semantically neutral connotated. These snippets are between 50 to 80 frames long while it is recorded in 30 frames per second. 
 
 
 #include "figures/cremad.typ"
