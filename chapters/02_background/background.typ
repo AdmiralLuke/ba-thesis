@@ -390,6 +390,15 @@ Overall they reduce the input size of the input video to a fraction of the origi
 
 Further tries for input optimizations regarding to the idea of tracking movements are researched like utilizing temporal difference images @fabianmaster. It follows the assumption that deep learning architectures are learning the features only from the moving part of the face and that non moving parts are unnecessary. Intuitive according to Ekman and the presented action units from @chap:facial-exp this hypothesis has a good foundation. With time exclusive slicing they picked frames both randomly and with a fixed distance between the time steps and subtraced the frames from each other to create a temporal difference image for each video. Each of them shows the moving action units which were present in the data sample before. Thus it shows the action units which are normally learned by the first layers from an architecture. 
 
+#figure(
+  image("figures/fabianmaster.svg"),
+  caption: [
+    An overwiev of the preprocessing pipeline @fabianmaster.
+  ]
+)<fabsmasterpipeline>
+
+This is shown by @fig:fabsmasterpipeline where the resulting temporal image shows only the moving parts from the video. Thus it may save some computation time but mostly it is able to save memory.
+
 #pagebreak()
 
 #section[Unsupervised Classification Approaches]
