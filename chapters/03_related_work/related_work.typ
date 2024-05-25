@@ -4,6 +4,12 @@
 
 = Related Work
 
+- Wie soll das aussehen?
+- Kategorisieren (5 arbeiten in dem Gebiet, ...)
+- mehr :)
+- Idee vorstellen (paar Sätze, Ergebnisse) -> halbe Seite
+- Gemeinsamkeiten, Unterschiede
+
 https://dl.acm.org/doi/abs/10.1145/3136755.3143011
 
 https://www.mdpi.com/1424-8220/20/12/3510

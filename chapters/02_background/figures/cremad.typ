@@ -3,7 +3,7 @@
 #figure(
 
   grid(
-    columns: (50%, 50%),
+    columns: (45%, 50%),
     [
       #image("cremad/cremad.png")
     ],

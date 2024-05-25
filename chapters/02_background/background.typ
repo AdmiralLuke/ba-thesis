@@ -92,9 +92,34 @@ Extracting features like speech rate, articulation or voice quality more observa
 
 === Emotion in Facial Expression<chap:facial-exp>
 
-Besides his theory about the six basic emotion, Paul Ekman introduced a system to map different face expressions to their relating sentiments by combining changes in different areas of the expression field. This facial action coding system (FACS) @friesen1978facial is based on these movements which are called action units. There are 28 main actions which can be mapped to the six main emotion. In the following of this thesis, they will be used as the main features. 
+Besides his theory about the six basic emotion, Paul Ekman introduced a system to map different face expressions to their relating sentiments by combining changes in different areas of the expression field. This facial action coding system (FACS) is based on these movements which are called action units. There are 28 main actions which can be mapped to the six main emotion. In the following of this thesis, they will be used as the main features. #linebreak(justify: true)
 
-#pagebreak()
+#figure(
+  [
+    #grid(columns: 4, rows: 2, column-gutter: 55pt, row-gutter: 10pt,
+    [#image("figures/audio/framed_NEU.png")], [#image("figures/audio/framed_SAD.png")], [#image("figures/audio/framed_FEA.png")], [#image("figures/audio/framed_DIS.png")],
+    [Neutral], [Sad], [Fear], [Disgust]
+    )
+  ],
+  caption: [Examples with their annoations from the CREMA-dataset @cao2014crema which show emotions based on facial expression features.]
+)<fig:facials>
+
+Visible in @fig:fig:facials there are visible combinations of face features are able to represent different emotion. For example to observe disgust, commonly the typical wrinkling of the nose, the contraction of the eyebrows and a lifting of the upper lip can be watched. Additionaly to the movement of the eyebrows, sadness is marked through the downturned corners of the mouth. Thus a face and his expressions can be broken down into seperate regions. 
+
+#set list(indent: 2em)
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [- *Eyes (upper face):*], [The most action units to recognize emotion within facial expressions are defined by movement near the eyes. Eyebrows are seperated into an inner and outer part for a more detailed classifcation. Furthermore they can be raised or pulled together leadning into four different states. Besides from eyebrows, eyelids are another meaningful part in that area. They can be tensed, raised by opening the eyes wide and lowered by narrowing the eyes. In total this region plays an important role for every basic emotion by Ekman and a relevant part for the most sentiments from Plutchiks theory. #linebreak(justify: true)],
+  [- *Nose:*], [This face region only impacts one basic emotion, disgust, shown in @fig:fig:facials. This is due to the limited range of movement of this part of the head. Thus this section of the face won't differ from the upper part of the face and the lower part described above due to its low occurrence.],
+  [- *Mouth (lower face):*], [The cheeks and the chin are also correlated to this area for the following work in this thesis due to their tight connection to the lips and mouth by means of muscles. This leads to a total of 16 different action units due to the numerous possibilities, e.g. deforming the lips, opening and closing the mouth and the resulting movements in this area.]
+)
+
+In his research Ekman defined each action unit and their corresponding emotion in detail which can be looked up in his book about the basic FACS System @friesen1978facial.
+
+Furthermore in 2002 @hager2002facial he updated his idea of the facial expression system and integrated more action units adding up to more than 40 possible features in total. This includes tilting and rotating the head and more details on the upper face like winking or blinking with the eyes.
+
+In addition a closer look at the various intensitys of an action are presented and classified into 5 levels: trace (A), slight (B), marked or pronounced (C), severe or extreme (D) and maximum (E). Most common are slight or marked and pronounced, while the more intens intensities are visible in films or other acted illustrations. Maximum intensness is the most rare but can be find in theater or generally live action plays. The different letters are used as an indicator together with the numerated action unit for a better description and overwiev of all possible combinations. #linebreak(justify: true)
 
 #pagebreak()
 
@@ -397,11 +422,20 @@ Further tries for input optimizations regarding to the idea of tracking movement
   ]
 )<fabsmasterpipeline>
 
-This is shown by @fig:fabsmasterpipeline where the resulting temporal image shows only the moving parts from the video. Thus it may save some computation time but mostly it is able to save memory.
+This is shown by @fig:fabsmasterpipeline where the resulting temporal image shows only the moving parts from the video. Thus it may save some computation time but mostly it is able to save memory cost due to the reduction from 30-120 frames per input to only one temporal frame.
+
+A similar but yet different approach is called optical flow @8358488, where for each video the moving parts and how they changes are calculated and represented as multiple feature vectors. Here a video is represented mathematically by $I(x, y, t)$ where $t$ denotes the time dimension as the single frames. The coordinates $x$ and $y$ belong to points defined in advance at which the movement is then tracked. These can be for instance the corners of the mouth, parts of the eyebrows or the eyelids. More points can be used to get a more precise resolution but also a larger input sequence. An appropiate amount would be between 20 and 30 to capture all 26 basic action units and some more details. The resulting optical flow while tracking is denoted by
+
+$ frac(d t, d x) = I_x u + I_y v + I_t = 0 $
+
+where $(u, v)$ representing the direction where the pixel at $(x, y)$ is moving to. The resulting flow matrices can be used for a convolution deep learning architecture to determine the corresponding emotion. 
+All in all there are these approaches to reduce the memory and computation time problem. If these aspects can be neglected a simple 3D convolution network will cover the time dimension and can be adapted to the structure of a video @conv3dvideo.
 
 #pagebreak()
 
 #section[Unsupervised Classification Approaches]
+
+
 
 #pagebreak()
 
