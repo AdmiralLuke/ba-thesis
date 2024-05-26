@@ -435,7 +435,7 @@ All in all there are these approaches to reduce the memory and computation time 
 
 #section[Unsupervised Classification Approaches]
 
-
+The challenge for unsupervised classification is the feature extraction from the video which needs some kind of tracking like optical flow. Thus it has to determine which action unit is activated leading to a combination as presented in @chap:facial-exp. The already shown preprocessing possibilities from supervised approaches are visualizing a first look about possible feature extraction, which can also be helpful for unlabeled datasets. @5539966
 
 #pagebreak()
 
