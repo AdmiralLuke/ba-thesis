@@ -8,7 +8,7 @@
 - alles andere: Unterkapitel
 - konzeptuelles Vorgehen beschreiben (Flow Chart)
 
-== Preprocessing 
+== 
 
 == Prompt Engineering for LLM
 
