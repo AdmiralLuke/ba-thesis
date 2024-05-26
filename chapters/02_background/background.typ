@@ -36,7 +36,7 @@ Visible in @fig:wheel_emo each emotion has multiple levels of intensity. For exa
 
 #figure(
   scale(80%, reflow: true)[
-  #image("figures/pl_wheel.png", width: 250pt)],
+  #image("figures/pl_wheel.svg", width: 250pt)],
   caption: [Plutchik Wheel of Emotion @articleW.]
 )<wheel_emo>
 
@@ -435,7 +435,21 @@ All in all there are these approaches to reduce the memory and computation time 
 
 #section[Unsupervised Classification Approaches]
 
-The challenge for unsupervised classification is the feature extraction from the video which needs some kind of tracking like optical flow. Thus it has to determine which action unit is activated leading to a combination as presented in @chap:facial-exp. The already shown preprocessing possibilities from supervised approaches are visualizing a first look about possible feature extraction, which can also be helpful for unlabeled datasets. @5539966
+The challenge for unsupervised classification is the feature extraction from the video which needs some kind of tracking like optical flow. Thus it has to determine which action unit is activated leading to a combination as presented in @chap:facial-exp. The already shown preprocessing possibilities from supervised approaches are visualizing a first look about possible feature extraction, which can also be helpful for unlabeled datasets. 
+
+*#smallcaps("Appearance-based Approaches")* are following the idea that different facial regions are defined by unique colours and textures. In general it is approached by mapping a coordinate grid absolute to a fronatal picture of a head @activeimagelabeling or relative to fixed marks @4293201. Each face region is divided into non-overlapping patches and blocks. Each block is represented as a single feature vector and contains one facial landmark which can be afterwards clustered to an action unit. Thus it observers the moving parts by colour, texture and the position in the frontal face it is sensitive to changes of light and even smaller changes of the head position. Therefore it is a suitable method for testing and methodological improvements but is not quite suitable for real life application due to these sensitivities. #linebreak(justify: true)
+
+*#smallcaps("Geometry-based Approaches")* are not well researched due to extracting and obtaining facial point locations @7990582. However somewhat similar to the appearance-based approaches the idea for geometric feature extraction also looks for changes in the static face but more for deplacement of the same point location due to muscular changes. In combination with the approach from before it can result in improved performance independent from lighting and outer conditions.
+
+*#smallcaps("Motion-based Approaches")* are based on dense motion rather than the discrete motion from facial landmark points as presented in geometry-based approaches. Image substraction, as one subset, which was already shown during input minimation for supervised approaches can also be used in combination with a combination of basic clustering algorithms like k-means @1398371. Also the presented optical flow method is capeable to be used for unsupervised learning adapting it to quadtree decomposition for matching the important moving parts. #linebreak(justify: true)
+
+In general these feature extraction approaches uses k-means with an alignment to time series. Oftenly used is dynamic time warping, which a distancy metric and useful for time series with different lengths. Thus it has a drawback due to not satisfy the triangle inequality. Further optimizations lead to a method called dynamic time alignnment kernels @NIPS2001_a869ccbc  defined by #linebreak(justify: true)
+
+$ tau = max_Q sum^l_(c = 1) frac(1, n_x + n_y) (q_(1c) - q_(1c - 1) + q_(2c) - q_(2c - 1))kappa_(q_(1c) q_(2c)) $
+
+where $kappa_(q_(1c) q_(2c))$ represents the kernel similarity between single frames from two video inputs. A possible kernel could be $kappa_(q_(1c) q_(2c))(x_i, y_i) = exp(frac(1, 2 sigma^2) || x_i - y_i ||^2_2)$ with $sigma^2$ as the average distance to the 10% nearest neighbours  @5539966. Clustering the features is not limited to k-means but is the most common approach. Thus the research in time series clustering has developed over the last years bringing different metrics and algorithms to the front and can be adapted with little to no effort @WARRENLIAO20051857. 
+
+
 
 #pagebreak()
 
