@@ -104,16 +104,13 @@ Besides his theory about the six basic emotion, Paul Ekman introduced a system t
   caption: [Examples with their annoations from the CREMA-dataset @cao2014crema which show emotions based on facial expression features.]
 )<fig:facials>
 
-Visible in @fig:fig:facials there are visible combinations of face features are able to represent different emotion. For example to observe disgust, commonly the typical wrinkling of the nose, the contraction of the eyebrows and a lifting of the upper lip can be watched. Additionaly to the movement of the eyebrows, sadness is marked through the downturned corners of the mouth. Thus a face and his expressions can be broken down into seperate regions. 
+Visible in @fig:fig:facials there are visible combinations of face features are able to represent different emotion. For example to observe disgust, commonly the typical wrinkling of the nose, the contraction of the eyebrows and a lifting of the upper lip can be watched. Additionaly to the movement of the eyebrows, sadness is marked through the downturned corners of the mouth. Thus a face and his expressions can be broken down into seperate regions. #linebreak(justify: true)
 
-#set list(indent: 2em)
-#grid(
-  columns: 2,
-  gutter: 1em,
-  [- *Eyes (upper face):*], [The most action units to recognize emotion within facial expressions are defined by movement near the eyes. Eyebrows are seperated into an inner and outer part for a more detailed classifcation. Furthermore they can be raised or pulled together leadning into four different states. Besides from eyebrows, eyelids are another meaningful part in that area. They can be tensed, raised by opening the eyes wide and lowered by narrowing the eyes. In total this region plays an important role for every basic emotion by Ekman and a relevant part for the most sentiments from Plutchiks theory. #linebreak(justify: true)],
-  [- *Nose:*], [This face region only impacts one basic emotion, disgust, shown in @fig:fig:facials. This is due to the limited range of movement of this part of the head. Thus this section of the face won't differ from the upper part of the face and the lower part described above due to its low occurrence.],
-  [- *Mouth (lower face):*], [The cheeks and the chin are also correlated to this area for the following work in this thesis due to their tight connection to the lips and mouth by means of muscles. This leads to a total of 16 different action units due to the numerous possibilities, e.g. deforming the lips, opening and closing the mouth and the resulting movements in this area.]
-)
+*Eyes (upper face):* The most action units to recognize emotion within facial expressions are defined by movement near the eyes. Eyebrows are seperated into an inner and outer part for a more detailed classifcation. Furthermore they can be raised or pulled together leadning into four different states. Besides from eyebrows, eyelids are another meaningful part in that area. They can be tensed, raised by opening the eyes wide and lowered by narrowing the eyes. In total this region plays an important role for every basic emotion by Ekman and a relevant part for the most sentiments from Plutchiks theory. #linebreak(justify: true)
+
+ *Nose:* This face region only impacts one basic emotion, disgust, shown in @fig:fig:facials. This is due to the limited range of movement of this part of the head. Thus this section of the face won't differ from the upper part of the face and the lower part described above due to its low occurrence.
+
+*Mouth (lower face):* The cheeks and the chin are also correlated to this area for the following work in this thesis due to their tight connection to the lips and mouth by means of muscles. This leads to a total of 16 different action units due to the numerous possibilities, e.g. deforming the lips, opening and closing the mouth and the resulting movements in this area. #linebreak(justify: true)
 
 In his research Ekman defined each action unit and their corresponding emotion in detail which can be looked up in his book about the basic FACS System @friesen1978facial.
 
@@ -402,12 +399,12 @@ As always convolution models are the most common architectures for deep learning
 
 #set list(indent: 2em)
 #grid(
-  columns: 2,
+  columns: 1,
   gutter: 1em,
-  [- *Time Exclusive Slicing:*], [As the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
-  [- *Spatial Exclusive Slicing:*], [This method divides each frame into a grid of spatial patches . Then it chooses one of the grids (mostly the center) and picks the same patch over the full time dimension.],
-  [- *Cubicles:*], [Cubilcles or tubelets @arnab2021vivit are extracted by choosing spatial patches in combination with its temporal neighbours. This is similar to spatial exclusive slicing but with more variety in the choosen grid positions.],
-  [- *Shards:*], [This method  @Akbari2021VATTTF is a combination of spatial exclusive slicing, cubicles and time exlusive slicing, where from random or fixed indexed frames the spatial patches are choosen.]
+  [- *Time Exclusive Slicing:* As the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
+  [- *Spatial Exclusive Slicing:* This method divides each frame into a grid of spatial patches . Then it chooses one of the grids (mostly the center) and picks the same patch over the full time dimension.],
+  [- *Cubicles:* Cubilcles or tubelets @arnab2021vivit are extracted by choosing spatial patches in combination with its temporal neighbours. This is similar to spatial exclusive slicing but with more variety in the choosen grid positions.],
+  [- *Shards:* This method  @Akbari2021VATTTF is a combination of spatial exclusive slicing, cubicles and time exlusive slicing, where from random or fixed indexed frames the spatial patches are choosen.]
 ) 
 
 
