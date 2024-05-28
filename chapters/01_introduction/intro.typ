@@ -5,7 +5,7 @@
 
 == Motivation
   
-#todo(inline: true)[motivation] 
+#todo(inline: true)[find motivation] 
 
 == Structure
 

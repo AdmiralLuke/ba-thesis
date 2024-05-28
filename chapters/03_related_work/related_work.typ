@@ -50,6 +50,41 @@ Furthermore it shows that there won't be much improvement between text and audio
 
 *Seq2Seq2Sentiment: Multimodal Sequence to Sequence Models for Sentiment Analysis* researched by Pham et al. @seq2seq2sentiment presents architecture based on a special class from recurrent networks. The basic idea is to first train a sequence-to-sequence model for two modalities and afterwards a combinition of the already trained model and the third modal to the final result. Therefore they use the CMU-MOSI dataset and for feature extraction they build on different pre-trained encoder. For text input a GloVE @pennington2014glove which represents his own idea of encoding besides skip-gram or bag-of-word models thus they used an already pre-trained one. COVAREP @6853739 was used to extract multiple important features and feature represenation from the audio signals and for videos an motion-based representation extraction method is proposed. Altogether they didn't measured the accuracy for single modal training due to the structure of architecture. Thus they got an accuracy of 75% for all three modalities in combination. Interesting to note are the accuracys for the bimodal detections. Text in combination with video got 78%. The other two modal permutations lay at 44% for text with audio and 55% for audio and video. They discussed these results with the reasioning that the model architecture did poor training on video and audio features and recommend other encoding mechanisms and a bit different model architecture basing on sequence-to-sequence for future work. #linebreak(justify: true)
 
-*Tensor Fusion Network for Multimodal Sentiment Analysis* @zadeh2017tensor presents the method of tensor fusion for the necessary feature combination in context of the multimodility. It describes an untrainable algorithm which attemps to combine multiple tensors by a reduction to a single tensor. This results in an interplay between a recurrent and LSTM based model for each modality and the proposed tensor fusion layer. Only for text input they showed an own method to extract the necessary features also by combining LSTM cells and linear layers. Like the other works before they set their foundation for audio extraction on pretrained models like COVAREP but they combined multiple processors for different features as peak slope parameters or other high level audio information. For video they also refer to FACET as the facial expression analysis framework able to extract up to 20 action units. On to the tensor fusion layer some fully connected deep layers will learn from the combination tensor to predict the emotion. Overall they reached with their unimodal netowrk an accuracy of 77.1%. Also here the baselines representing every single modal are bringing a high accuracy for text processing by 74.8% and lower precision for visual and acustic features with round about 66%. It outperforms the basic convolution network proposed by the first work and reaches good performance in relation to all other presented works.
+*Tensor Fusion Network for Multimodal Sentiment Analysis* @zadeh2017tensor presents the method of tensor fusion for the necessary feature combination in context of the multimodility. It describes an untrainable algorithm which attemps to combine multiple tensors by a reduction to a single tensor. This results in an interplay between a recurrent and LSTM based model for each modality and the proposed tensor fusion layer. Only for text input they showed an own method to extract the necessary features also by combining LSTM cells and linear layers. Like the other works before they set their foundation for audio extraction on pretrained models like COVAREP but they combined multiple processors for different features as peak slope parameters or other high level audio information. For video they also refer to FACET as the facial expression analysis framework able to extract up to 20 action units. On to the tensor fusion layer some fully connected deep layers will learn from the combination tensor to predict the emotion. Overall they reached with their unimodal netowrk an accuracy of 77.1%. Also here the baselines representing every single modal are bringing a high accuracy for text processing by 74.8% and lower precision for visual and acustic features with round about 66%. It outperforms the basic convolution network proposed by the first work and reaches good performance in relation to all other presented works thus being a more rare approach while using an untrainable feature combination. #todo[2 more paper?]
 
-https://github.com/audeering/opensmile/releases/tag/v3.0.0
+All in all the current works in the field of multimodal emotion detection are not showing much difference to each other. As shown in the following @tbl:speech_features the main difference are laying in the basic training architecture to train the feature combination. Thus there are mostly some kind of reccurent architectures deposited to keep track and of context bringing an important focus. Furthermore most of the current works are bringing some indistinguishable accuracys but showing that a bimodal combination of text and audio brings a nearly good result in comparison to the unimodal architectures. Also the usage of pretrained processing layers and feature extraction like FACET, GloVE and OpenSmile is highlighting which servers a huge reduction in computation and necessary preprocessing time. It should be noted that there is no research about the multimodal emotion detection featuring the leading transformer architectures which could be found. 
+
+// https://github.com/audeering/opensmile/releases/tag/v3.0.0
+
+
+#figure(
+kind: table,
+align(center)[
+#set text(hyphenate: false)
+    #set par(justify: false)
+    #tablex(
+      header-rows: 2,
+      header-columns: 7,
+      columns: (auto, auto, auto, auto, auto, 20%, auto),
+      align: (center + horizon),
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [Author], [Year], [Dataset], [Architecture],[Fusion Method], [Accuracy Bimodal], [Accuracy Trimodal],
+      hlinex(),
+      [Vielzeuf et al.], [2017], [WILD],[Convolution], [Weighted Mean], [58.8% (A + V)], [-],
+      [Majumder et al.], [2018], [IEMOCAP], [Support Vector Machine], [Linear Layer], [96.6% (A + V)], [-],
+      hlinex(),
+      [Huddar et al.], [2020], [CMU-MOSI], [GGA, GA, Recurrent LSTM], [Contextual Fusion], [77.06% (T + A) \ 76.65% (T + V) \ 70.00% (A + V)], [80.83%],
+      [Huddar et al.], [2020], [IEMOCAP], [GGA, GA, Recurrent LSTM], [Contextual Fusion], [78.85% (T + A) \ 79.12% (T + V) \ 65.44% (A + V)], [79.52%],
+      [Majumder et al.], [2018], [IEMOCAP, CMU-MOSI], [Convolution], [Recurrent Networks], [77.30% (T + A) \ 77.80% (T + V) \ 58.80% (A + V)], [80.00%],
+      [Pham et al.], [2018], [CMU-MOSI], [Seq2Seq], [Hierarchical Fusion], [44.00% (T + A) \ 78.00% (T + V) \ 55.00% (A + V)], [75.00%],
+      [Zadeh et al.], [2017], [CMU-MOSI], [LSTM], [Tensor Fusion, Linear Layer], [-], [77.10%],
+      
+      hlinex()
+    )
+],
+caption: [Overwiev of the compared works showing the bimodal and trimodal results. \ A = Audio, V = Video, T = Text]
+)
