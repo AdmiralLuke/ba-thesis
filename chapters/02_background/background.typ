@@ -335,15 +335,15 @@ $ cos_(omega, phi)(t) = sqrt(2) cos(2pi(omega t - phi)) $
 
 Due to the idea of approximating the original audio function with sinoid waves, a first approach to the fourier transformation can be obtained by maximizing the similarity between both signals.
 
-$ d_omega &:= max_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)d t) 
+$ d_omega &:= max_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)dif t) 
 \
-phi_omega &:= "argmax"_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)d t) $
+phi_omega &:= "argmax"_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)dif t) $
 
 Bringing this into the context with polar coordinates and the additional idea to store both values $d_w$ and $phi_omega$ into a single complex value. This results in the common fourier transformation form given by:
 
-$ hat(f)(omega) &= integral_(t in RR) f(t)exp(-2pi i omega t)d t
+$ hat(f)(omega) &= integral_(t in RR) f(t)exp(-2pi i omega t)dif t
 \
-&= integral_(t in RR)f(t)cos(-2 pi omega t) d t + i integral_(t in RR)f(t)sin(-2 pi omega t) d t  
+&= integral_(t in RR)f(t)cos(-2 pi omega t) dif t + i integral_(t in RR)f(t)sin(-2 pi omega t) dif t  
 $
 
 These equations are however only suitable for non-discrete signal-processing and must be adaptet to adaptet to a discrete fourier transformation. A sampling period $T$ is introduced to sample the signal in mutiple time steps. An approximation for $hat(f)(omega)$ is obtained #linebreak(justify: true)
@@ -423,7 +423,7 @@ This is shown by @fig:fabsmasterpipeline where the resulting temporal image show
 
 A similar but yet different approach is called optical flow @8358488, where for each video the moving parts and how they changes are calculated and represented as multiple feature vectors. Here a video is represented mathematically by $I(x, y, t)$ where $t$ denotes the time dimension as the single frames. The coordinates $x$ and $y$ belong to points defined in advance at which the movement is then tracked. These can be for instance the corners of the mouth, parts of the eyebrows or the eyelids. More points can be used to get a more precise resolution but also a larger input sequence. An appropiate amount would be between 20 and 30 to capture all 26 basic action units and some more details. The resulting optical flow while tracking is denoted by
 
-$ frac(d t, d x) = I_x u + I_y v + I_t = 0 $
+$ frac(dif t, dif x) = I_x u + I_y v + I_t = 0 $
 
 where $(u, v)$ representing the direction where the pixel at $(x, y)$ is moving to. The resulting flow matrices can be used for a convolution deep learning architecture to determine the corresponding emotion. 
 All in all there are these approaches to reduce the memory and computation time problem. If these aspects can be neglected a simple 3D convolution network will cover the time dimension and can be adapted to the structure of a video @conv3dvideo.
