@@ -258,7 +258,7 @@
     ]
     #v(2.5em)
     #text(LARGE, font: "Libertinus Sans")[
-      *#thesis-type thesis*
+      *#thesis-type Thesis*
     ]
     #v(1.25em)
     

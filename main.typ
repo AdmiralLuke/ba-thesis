@@ -21,6 +21,9 @@
 #include "chapters/02_background/background.typ"
 #include "chapters/03_related_work/related_work.typ"
 #include "chapters/04_implementation/implementation.typ"
+#include "chapters/05_results/results.typ"
+#include "chapters/06_evaluation/evaluation.typ"
+#include "chapters/07_further_work/further_work.typ"
 
 #pagebreak()
 #pagebreak()
