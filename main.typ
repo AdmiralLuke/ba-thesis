@@ -34,10 +34,10 @@
 #bibliography("bibliography/sources.bib", style: "ieee")
 
 
-#pagebreak()
-#pagebreak()
+// #pagebreak()
+// #pagebreak()
 
-#include "chapters/appendix.typ"
+// #include "chapters/appendix.typ"
 
 #pagebreak()
 #pagebreak()
