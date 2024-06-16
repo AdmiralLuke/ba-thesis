@@ -6,4 +6,4 @@
 #figure(
   [#todo(inline: true)[Flow Chart]],
   caption: [Structural procedure for emotion classification.]
-)
+)<fig-text_flow>

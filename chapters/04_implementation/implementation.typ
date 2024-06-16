@@ -23,6 +23,10 @@ Fortunatly all of the three given models are implementing an own language unders
 
 #include "figures/text_flow.typ"
 
+@fig:fig-text_flow shows sequence of the processing which can be adapted to the three shown transformer models. However as mentioned it is a bit more complicated with the Multi-EmoBert model due to its need to get trained on the specific datasets.
+
+Starting with the finetuned T5-model there is not much room for any preprocessing or further optimizations. Also in addition to the flowchart in @fig:fig-text_flow some kind of prompt engineering or data injection is not easily possible without the need to retrain the whole model regarding the lack of training data from the original used dataset.   
+
 == Unimodal Audio Classification
 
 #section[Preprocessing and Feature Extraction]
