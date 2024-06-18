@@ -23,9 +23,24 @@ Fortunatly all of the three given models are implementing an own language unders
 
 #include "figures/text_flow.typ"
 
-@fig:fig-text_flow shows sequence of the processing which can be adapted to the three shown transformer models. However as mentioned it is a bit more complicated with the Multi-EmoBert model due to its need to get trained on the specific datasets.
+@fig:fig-text_flow shows sequence of the processing which can be adapted to the three shown transformer models. In all three cases the models consists of an encoder and decoder layer for the text-to-text understanding and their specific transformer based architectures to give them their expected user-oriented functionalities. Thus just input a sentence to retrieve the emotion label won't work well in the most cases due to the attemp to imitate real-world conversations. Looking at the results for the input sentence "I see that!" the models are showing the following responses:
+#set list(indent: 2em)
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [- *LLama3:*], [I'm glad I could share the excitement with you! It's always thrilling to spot a clever joke or play on words. If
+you're ready for more, I've got a few more where that came from!],
+  [- *Multi-EmoBERT:*], [lorem upsmu],
+  [- *T5-Model*:], [lorem ipsum]
+) // further train for T5 is possible https://huggingface.co/docs/transformers/model_doc/t5
 
-Starting with the finetuned T5-model there is not much room for any preprocessing or further optimizations. Also in addition to the flowchart in @fig:fig-text_flow some kind of prompt engineering or data injection is not easily possible without the need to retrain the whole model regarding the lack of training data from the original used dataset.   
+Llamas respones shows the conversation like answer leading to the need of some finetuning. Fortunatly the model has contextual memory which can be used to predefine a task with natural language for the architecture. In this case the chore with an example for better understanding is given and repeated after every prompt to refresh the contextual memory. Further as shown in @fig:fig-text_flow the train data can be embedded in the progression of the conversation to give the model a higher overwiev over the given data which can lead to an higher accuracy. A possible prompt which is used later for the evalation is: 
+
+"Giving the following seven emotion with their abbrevation: Anger (ANG), Disgust (DIS), Fear (FEA), Surprise (SUP), Sadness (SAD), Happiness (HAP), Neutral (NEU). I\'ll prompt you a sentence and you will answer with the corresponding emotion abbrevation. For example I\'ll ask: "My day is awesome" and you\'re answer would be "[HAP]". Don\'t forget the brackets. Sentences, or questions like "okay" or "lets go" are also sentences where you have to guess the emotion. Alright?" 
+
+Whis this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort. However as mentioned it is a bit more complicated with the Multi-EmoBert and T5 model due to the lack of any context based chat functionality. Looking back at @fig:fig-text_flow there are possibilitys to train the architectures in particular the encoder and the weigts on top of their pretrained values with an own set of data. This opens up the opportunity to finetune the models and enhance the results. 
+
+ 
 
 == Unimodal Audio Classification
 

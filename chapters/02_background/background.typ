@@ -116,7 +116,7 @@ In his research Ekman defined each action unit and their corresponding emotion i
 
 Furthermore in 2002 @hager2002facial he updated his idea of the facial expression system and integrated more action units adding up to more than 40 possible features in total. This includes tilting and rotating the head and more details on the upper face like winking or blinking with the eyes.
 
-In addition a closer look at the various intensities of an action are presented and classified into 5 levels: trace (A), slight (B), marked or pronounced (C), severe or extreme (D) and maximum (E). Most common are slight or marked and pronounced, while the higher intensities are visible in films or other acted illustrations. Maximum intenseness is the most rare but can be found in theater or generally live action plays. The different letters are used as an indicator together with the numerated action unit for a better description and overview of all possible combinations. #linebreak(justify: true)
+In addition a closer look at the various intensities of an action are presented and classified into 5 levels: trace (A), slight (B), marked or pronounced (C), severe or extreme (D) and maximum (E). Most common are slight or marked and pronounced, while the higher intensities are visible in films or other acted illustrations. Maximum intenseness is the most rare but can be found in theater or generally live action plays. The different letters are used as an indicator together with the numerated action unit for a better description and overview of all possible combinations. 
 
 
 == Classification Approaches 
