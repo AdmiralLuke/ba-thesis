@@ -179,7 +179,7 @@ The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensi
 To measure the similarity the cosine similarity is often used @karani2018introduction @Li2018. Similar words or synonyms should have a smaller angle between each other, than unsimilar words. 
 
 #align(center)[
-  $#text[sim]\(w_1, w_2) = cos(theta) = frac(w_1 dot w_2, ||w_1|| ||w_2||)$
+  $ #text[sim]\(w_1, w_2) = cos(theta) = frac(w_1 dot w_2, ||w_1|| ||w_2||) $
 ]
 
 Because the one-hot vector embeds it word by word without any context, there won't be any similarity or dissimilarity between the words. This is also the reason why simple one-hot encoding is less used in practise. A semantic consideration will be more useful. 
@@ -469,4 +469,6 @@ As shown in @fig:cremad the distribution of labels is uniformly distributed with
 #include "figures/meld.typ"
 
 @fig:meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 
+
+#todo(inline: true)[Histogramme]
 
