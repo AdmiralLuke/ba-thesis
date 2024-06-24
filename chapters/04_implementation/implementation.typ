@@ -4,7 +4,7 @@
 
 = Design and Implementation
 
-The following chaper focus on the implementation of the different supervised model architectures for each modal. This will be done for the presented datasets MELD and CREMA-D which are both challenging different aspects of emotion detection. Furthermore the important preprocessing and feature extraction for each model are described. At least the bimodal and unimodal combination are implemented showing different types of feature combination or voting and scoring methods.   
+Given the six emotion from Ekman explained in @chap211 and a neutral label, the following chaper focus on the implementation of the different supervised model architectures for each modal. This will be done for the presented datasets MELD and CREMA-D which are both challenging different aspects of emotion detection. Furthermore the important preprocessing and feature extraction for each model are described. At least the bimodal and unimodal combination are implemented showing different types of feature combination or voting and scoring methods.   
 
 
 == Unimodal Text Classification
@@ -24,7 +24,7 @@ As said an emotion classifcation with text will only be done with already pretra
 
 @fig:fig-text_flow shows sequence of the processing which can be adapted to the three shown transformer models. In general such models are needing an encoder with an tokenizer and decoder to understand the given natural language input furhter to output human understandable labels for the corresponding emotion. In between their given model architecture is given mostly with their adaption of a transfomer and already well trained resulting in a set of defined weights.
 
-For finetuning theses models are offering in general two different methods which allows adding context to the architectures or weights. Some text-to-text models are trying to simulate human like chat conversations with contextual memory over a talk. Foremost it gives the opportunity to define tasks which will be fullfiled by the artifical opposite. Also it introduces a scope to feed in the available training data to the model by embedding it into the chat prompts and define the task to learn temporarily from it. This introduces the problems this given knowledge is just temporarily available in the scope of the current chat window and afterwards permanently deletet and must be repeated every time. Therefore the second method for finetuning shows a procedure to train on top of the current pretrained weights and the encoder. The precise implementation of this feature differs from model to model or is not given due to copyright issues or the lack of an interface. Thus it offers a more relieable context injection in comparison to the prompt engineering method by giving more transparency about the learned content and how well it is trained with general loss functions and a normal training cycle. 
+For finetuning theses models are offering in general two different methods which allows adding context to the architectures or weights. Some text-to-text models are trying to simulate human like chat conversations with contextual memory over a talk. Foremost it gives the opportunity to define tasks which will be fullfiled by the artifical opposite. Also it introduces a scope to feed in the available training data to the model by embedding it into the chat prompts and define the task to learn temporarily from it. This introduces the problems this given knowledge is just temporarily available in the scope of the current chat window and afterwards permanently deletet and must be repeated every time. Therefore the second method for finetuning shows a procedure to train on top of the current pretrained weights and the encode with an model specific interface. It offers a more relieable context injection in comparison to the prompt engineering method by giving more transparency about the learned content.
 
 
 
@@ -65,7 +65,12 @@ you're ready for more, I've got a few more where that came from!], [Natural Lang
           [fear:], [0.0113],
           [joy:], [0.3621],
           [sadness:], [0.0121],
-          [suprise:], [0.0564]
+          [suprise:], [0.0564],
+          [anticipation],
+          [0.5360],
+          [optimism], [0.4288],
+          [pessimism], [0.0121],
+          [trust], [0.0330]
 
         )
         ], [Probabilities for every emotion],
@@ -78,11 +83,16 @@ caption: [Answers from the three text-to-text models without finetuning and cont
 )<tbl-text_answers>
  // further train for T5 is possible https://huggingface.co/docs/transformers/model_doc/t5
 
+#pagebreak()
+
 A possible prompt which is used later for the evalation is: 
 
-"Giving the following seven emotion with their abbrevation: Anger (ANG), Disgust (DIS), Fear (FEA), Surprise (SUP), Sadness (SAD), Happiness (HAP), Neutral (NEU). I\'ll prompt you a sentence and you will answer with the corresponding emotion abbrevation. For example I\'ll ask: "My day is awesome" and you\'re answer would be "[HAP]". Don\'t forget the brackets. Sentences, or questions like "okay" or "lets go" are also sentences where you have to guess the emotion. Alright?" 
+#quote(block: true)[
+"Giving the following seven emotion with their abbrevation: Anger (ANG), Disgust (DIS), Fear (FEA), Surprise (SUP), Sadness (SAD), Happiness (HAP), Neutral (NEU). I\'ll prompt you a sentence and you will answer with the corresponding emotion abbrevation. For example I\'ll ask: "My day is awesome" and you\'re answer would be "[HAP]". Don\'t forget the brackets. Sentences, or questions like "okay" or "lets go" are also sentences where you have to guess the emotion. Alright?"]
 
-With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort. However as mentioned it is a bit more complicated with the Multi-EmoBert due to the lack of any context based chat functionality thus they already give the emotion label as a response. Looking back at @fig:fig-text_flow and the notes before there are possibilitys to train the architectures in particular the encoder and the weigts on top of their pretrained values with an own set of data. This opens up the opportunity to finetune the models and enhance the results. Further an application of a threshold to validate the correct emotion label is necessary as it outputs all probabilities for every sentiment. The T5 accepts both methods for finetuning thus prompt engineering don't seems to be mandatory due to the already labeled output. This combination might show interesting results in comparison to the other two architectures with only one of the two finetuning methods.
+With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort. However as mentioned it is a bit more complicated with the Multi-EmoBert due to the lack of any context based chat functionality thus they already give the emotion label as a response. Looking back at @fig:fig-text_flow and the notes before there are possibilitys to train the architectures in particular the encoder and the weigts on top of their pretrained values with an own set of data. This opens up the opportunity to finetune the models and enhance the results. Simply the data from the training dataset has to be processed to the specific format which is already offered by an interface from the source code. Further an application of a threshold to validate the correct emotion label is necessary as it outputs all probabilities for every sentiment showing another variable factor which has impact on the accuracy. A lower value might increase the chance to include the correct emotion in the set of all sentiment which are guessed with an higher possibility. Thus the amount of false positive emotion must be considered aswell. With an higher threshold the possibilities to guess the correct label might be lower but also the magnitude for all missclassified labels is lower. If there aren't any classifcation which reached the minimum possibilitie, the sentence is tagged as neutral. All sentiment given by the model which are not part of Ekmans six basic emotion or neutral are ignored because they are based on the original training data and have much lower possibilities after retraining the model with an own dataset excluding these additional sentiments.
+
+The T5 accepts both methods for finetuning thus prompt engineering don't seems to be mandatory due to the already labeled output. Thus the combination might show interesting results in comparison to the other two architectures with only one of the two finetuning methods. In comparison to the Multi-EmoBERT model it won't offer a direct interface for dataset conversion and an active method for training but it has an low-level connection which allows training like an normal model but with respect on to the pretrained weights. In addition the documentation gives some functions to enable regular training. As a PyTorch submodule it includes a loss function based on the cross entropy loss function to compare the resulting token values. Also the encoder and tokenizer part is able to recognize new tokens and adapt itself without any further external influences or preprocessing. 
 
 
 

@@ -1,5 +1,6 @@
 #import "../../template/template.typ": *
 #import "@preview/fletcher:0.4.2" as fletcher: node, edge
+#import "@preview/subpar:0.1.0"
 #import fletcher.shapes: diamond
 
 = Background
@@ -470,5 +471,24 @@ As shown in @fig:cremad the distribution of labels is uniformly distributed with
 
 @fig:meld shows the uneven distribution of the different sentiments, which can lead to an imbalanced training. Nevertheless it is a quite large dataset with 13.708 annotations which includes in addition to the emotion, the character as the speaking person which can be used to analyize the different features depending on gender or age. 
 
-#todo(inline: true)[Histogramme]
+#section("Data Statistics and Analysis")
+
+Looking at the data distribution in @fig:fig_dis-full a clearly pattern can be observed while taking a focus on the length distribution of text, audio and video. The CREMA-D dataset includes many shorter sequences with little to no scattering leading to an average of about 2.5 seconds of content. In contrast includes the MELD dataset a variety of different length upto more than five seconds material thus showing a mostly similar average of time. In conclusion CREMA propagates the lack of variety in sentences as shown in (a) through the video (c) and audio (b) content as expected due to their limitation to only twelve different sentences. With the more real-world applicability  MELD features a high variety which might lead to the need of more data preprocessing like padding and a larger model architecture depending on the input size. #linebreak(justify: true)
+
+#set par(justify: true)
+
+#subpar.grid(
+  figure(image("figures/data/text_vio.svg"), caption: [Text
+  ]), <dis_a> , 
+  figure(image("figures/data/audio_vio.svg"), caption: [ Audio 
+  ]), <dis_b>,
+  figure(image("figures/data/video_vio.svg"), caption: [ Video
+  ]), <dis_c>,
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: -45pt,
+  caption: [Distribution of the different modal lengths for each dataset. ],
+  label: <fig_dis-full>,
+)
+
+
 
