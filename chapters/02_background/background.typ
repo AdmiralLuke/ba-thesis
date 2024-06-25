@@ -65,7 +65,7 @@ A complete waveform as presented in @fig:fig-waveform and @fig:fig-waveformB con
 
 #figure(
   image("figures/audio/audio_1.svg"),
-  caption: [Waveform of the first seconds of a audio recording]
+  caption: [Waveform of the first seconds of an audio recording]
 )<fig-waveform>
 
 #figure(
@@ -317,7 +317,7 @@ There are many more unsupervised approaches for emotion detection and informatio
 as they also exceed the scope of this thesis. Furthermore, no significant improves and differences are expected in comparison to the presented unsupervised approaches and also the shown supervised classification methods due to the scaling laws for neural networks.
 
 
-=== Classification in Audio 
+=== Classification in Audio<chap-class_audio> 
 
 Similar to classification in text as shown in @class_text there are some approaches to suppervised and unsupervised methods out there. First of all an encoding for the audio is necessary to ensure the extraction of the necessary features. 
 
@@ -477,18 +477,33 @@ Looking at the data distribution in @fig:fig_dis-full a clearly pattern can be o
 
 #set par(justify: true)
 
-#subpar.grid(
-  figure(image("figures/data/text_vio.svg"), caption: [Text
-  ]), <dis_a> , 
-  figure(image("figures/data/audio_vio.svg"), caption: [ Audio 
-  ]), <dis_b>,
-  figure(image("figures/data/video_vio.svg"), caption: [ Video
-  ]), <dis_c>,
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: -45pt,
-  caption: [Distribution of the different modal lengths for each dataset. ],
-  label: <fig_dis-full>,
-)
+#figure(
+  grid(
+    columns: (1fr, 1fr, 1fr),
+    column-gutter: -45pt,
+    [
+      #stack(
+        [#image("figures/data/text_vio.svg")],
+        [(a) Text]
+      )
+    ],
+    [
+      #stack(
+        [#image("figures/data/audio_vio.svg")],
+        [(b) Audio]
+      )
+    ],
+    [
+      #stack(
+        [#image("figures/data/video_vio.svg")],
+        [(c) Video]
+      )
+    ]
+  ),
+  caption: [Distribution of the different modal lengths for each dataset.]
+)<fig_dis-full>
+
+
 
 
 

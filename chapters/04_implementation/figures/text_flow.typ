@@ -3,6 +3,8 @@
 
 #import "@preview/cetz:0.2.2"
 
+#let t-rect = rect
+
 #figure(
    cetz.canvas({
     import cetz.draw: *
@@ -63,7 +65,8 @@
       content((6, 2.7), [#smallcaps("Model-Architecture")])
       content((0.5, 2.7), [#smallcaps("Input")])
       content((11.5, 2.7), [#smallcaps("Output")])
-      content((6, -1.3), [#smallcaps("Context")])
+      
+      content((6, -1.3), t-rect(smallcaps("Context"), fill: blue.lighten(80%), inset: (y: 0pt)))
       content((0.5, 1), [#align(center)[#text(10pt)[I \ see \ that!]]])
       content((11.5, 1), [#text(9pt)[\[DIS\]]])
       content((4.25, -2.4), [#align(center)[NL \ Prompt]])

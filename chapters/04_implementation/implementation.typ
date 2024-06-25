@@ -102,6 +102,8 @@ The T5 accepts both methods for finetuning thus prompt engineering don't seems t
 
 == Unimodal Audio Classification
 
+In contrast to text classification there aren't many pretained and large networks available thus many different architecture and model types exists as described and shown in @chap-class_audio. Fortunatly multiple feature extraction methods and tools are useable bringing a large range of different information on the basis of fourier transformation.
+
 #section[Preprocessing and Feature Extraction]
 
 #section[Model Architectures]
