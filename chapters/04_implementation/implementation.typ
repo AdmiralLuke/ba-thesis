@@ -102,9 +102,74 @@ The T5 accepts both methods for finetuning thus prompt engineering don't seems t
 
 == Unimodal Audio Classification
 
-In contrast to text classification there aren't many pretained and large networks available thus many different architecture and model types exists as described and shown in @chap-class_audio. Fortunatly multiple feature extraction methods and tools are useable bringing a large range of different information on the basis of fourier transformation.
+In contrast to text classification there aren't many pretained and large networks available thus many different architecture and model types exists as described and shown in @chap-class_audio. Fortunatly multiple feature extraction methods and tools are useable bringing a large range of different information on the basis of fourier transformation. Furthermore an own encoder and decoder mechanisms must be implemented for audio understanding and reliable labeling.
 
 #section[Preprocessing and Feature Extraction]
+
+OpenSmile features a variety of valuable information from an audio segment giving a good overview about necessary components which are useful for the corresponding set of emotions.
+
+*#smallcaps("Loudness")* describes the volume of an audio and is able to describe firmly to sets of emotion as already presented. In general louder voices leading to more agressive emotion while calmer audios are representing harmonious or more melancholic sentiments of a person.
+
+*#smallcaps("Alpha Ratio")* shows the relation between frequency above and below 1000Hz. In support of loudness the ratio analyizes vocal volumes and not only the volume of the audio sample itself. Also some information about timbre from the data can be obtained. 
+
+*#smallcaps("Hammarberg Index")* @hammarberg1980perceptual can be briefly described as the intensity difference between the maximum intensity of the signal in a lower frequency set and the maximum intensity in higher frequency thus giving an energy distribution measurement for the given audio. As well as loudness the energy index normally can be mapped similarly to different sets of emotion.
+
+*#smallcaps("Slope")* measures how fast a given audio signal tries to reach high frequencys leading to different possible assumptions about pitch changes and pitch ranges which are important for several types of emotion.
+
+*#smallcaps("MFCC")* (Mel Frequency Cepstral Coefficients) are a compact representation of frequencys where different pitches are visible. They are often use for speach synthesis and other detection methods due to their high information value.
+
+*#smallcaps("Jitter")* is a loss measurement while working with digital audio signals and shows if there is noise in the data while comparing frequencys and oscillations.
+
+*#smallcaps("Frequencys")* are a low-level measurement for the feature extraction. While MFCC are giving a compact overwiev the direct frequencys showing raw information about the audio. Thus as already described earlier they are important for all kinds of audio classifcation and their information retrieval.
+
+More features are also present resulting in a matrix with 20 different types of information which can be processed by different network architectures. Further these layers are including redundancy in different formats and representation for better learning and feature extraction within the models. A comparison of the subset of traits from the audio shows the changes in their data.  
+
+@fig:fig-audio_features shows the presented excerpt from all features which are extracted by OpenSmile.
+
+#figure(
+  gap: 20pt,
+  grid(
+    columns: 3,
+    column-gutter: -20pt,
+    row-gutter:5pt,
+    rows: 2,
+      stack(
+        [#image("figures/audio_features/loudness.svg")],
+        [(a) Loudness]
+      ),
+      stack(
+        [#image("figures/audio_features/alpha.svg")],
+        [(b) Alpha Ratio]
+      ),
+      stack(
+        [#image("figures/audio_features/hammarberg.svg")],
+        [(c) Hammarberg Index]
+      ),
+      stack(
+        [#image("figures/audio_features/slope.svg")],
+        [(d) Slope]
+      ),
+      stack(
+        [#image("figures/audio_features/mfcc.svg")],
+        [(e) MFCC]
+      ),
+      stack(
+        [#image("figures/audio_features/freguency.svg")],
+        [(e) Frequency]
+      ) 
+  ),
+    caption: [Cutout from the different OpenSmile features in comparison between all anger and neutral audio samples from CREMA-D.]
+)<fig-audio_features>
+
+To retrieve this overwiev all audio data for each emotion from the CREMA-D dataset are added together and the average was drawn to retrieve an average signal and to compute these features with OpenSmile. Visible in the loudness-plot (a) the red lines shows the visualization of anger. It is in general higher than the neutral plot which is connotated by the blue color. Furthermore the subfigure shows that fourious emotion are starting much louder in the main than the baseline data. This is underlined by looking at the average drawn out of the signals. Here also the main loudness from anger is much higher as from neutral emotion. As shown later it is also the highest difference between the averages leading to the assumotion that loudness is a quite important factor and feature for the differentiation between these two emotions. Similarly a look on the alpha ration (b) shows an higher average from anger in comparison to neutral. As already explained this ratio shows also some information about the voice volume and the timbre which further supports the theory about the importance of loudness for this comparison. Interestingly the high amount of negative values of the alpha ratio are showing that there is more energy in the lower frequencys than in the higher frequencys. In this case lower frequencys are the range between 50Hz and 1000Hz. To compare these values a male voice has generally a mean of 111.8Hz and 161.3Hz for females @BERG2017257e13 showing the reason for this distribution and values in the ratio and is also supported by the distribution of frequencys (e). Even though it looks unequally distributed, the average for both anger and neutral is nearly the same. The very small difference might show a contrast between the sentiments like loudness or other high-level information due to its low-level representation where the most features are obtained from. More likely are small numerical issues for example instability in calculation of the averages or the difference can be canceled out with much more data. For this overwiev the CREMA-D dataset just offerend round about 1000 samples for neutral and slightly more than 1200 samples for anger out of the training set. #linebreak(justify: true)  
+
+Normally expecting from the Hammarberg index anger must show more energy than the neutral emotion as already described in the alpha ratio. Thus visualized in (c) from the overwiev figure the average from neutral is a little bit but visibly higher than the calculated value from the other sentiment. This may result from different reasions related to the recorded voice quality and timbre. Sometimes more detailled voiced audios with less noise. Also a softer timbre might lead to these results. Finally the vocal pith could have an influence and can result to these small yet existing and a bit unexpected difference. 
+
+Furhtermore interesting is the MFCC plot (e) which shows the difference from anger and neutral emotion by subtracting each MFCC value stream from the other. Each colored cuboid represents the intensity of the mel coefficient measured in decibel. Transparent areas are showing that there is no difference between both values. Reddish parts describing that the mel coefficient for the anger emotion is higher than the coefficient for neutral. On the contrary bluish colored cuboids representing higher values for neutral voices. Looking back at the resulting plot in @fig:fig-audio_features there is a high difference in the low frequency are in the range of 0Hz to 150Hz. As already described this is the interval where the average pitch for male voices lies showing the more active and relevant parts of the plot. This shows that anger voices are having a much higher mel coefficient than the neutral audios meaning that there is much more energy in the recording like loudness in opposite to the baseline. In the higher freguencys the mel coefficient in the neutral emotion is sometimes more present thus there is not many activity by the acting voice in the signal. The values might occur due to noise or compression artifacts in the recording data. While hearing into the audio samples a constant white noise can be observed which encourage this assumption. In a few times this sound could be the same in both audio categories leading to the colorless areas in the presented plot. #linebreak(justify: true) 
+
+Lastly from the cutout the slope shows similarly to the Hammarberg index and alpha ration a small but observeable difference between anger and neutral. These information about the pitch range and change shows that there are some importances within emotion classifcation and that there exists trainable features for the neural network architectures. Negative values are are usually an indication of pauses between words and sentences which can be important for measuring the pace of the speaking person or other information like spoken words per minutes.
+
+Overall there are many more observeable features extracted by OpenSmile which are covering many aspects from audio signals. There are also differences visible between each emotion and the baseline neutral thus some of these are quite small but in some ways like short patterns existing. Also as already shown there are some redundancies within the choice of extracted features which will not be a problem and might result in better training. All feature combination which are earlier shown in @tbl:speech_features are available and measured by OpenSmile and also shown in the given cutout from @fig:fig-audio_features. In every plot and feature there are many zero values visible. Generally they exists at the end of the signal series due to padding with zeros and are the reason for the sudden constant progression of the time series. A neural network wouldn't have any problems with these padded values and normally only tries to learn from the non-zero features.
 
 #section[Model Architectures]
 

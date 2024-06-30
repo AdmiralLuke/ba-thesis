@@ -258,7 +258,7 @@ Herefore multiple words or sentences of the space $V$ are combined to region mat
 Further optimizations to fundamental neural network architectures are gating mechanisms from recurrent networks and the bi-directional flow in the model forwarding architectures. They introduce new types of storage cells which allows to store long term features @medsker1999recurrent. In the context of emotion detection in text, it might store important context from previous sentences and words to differ between fill-words like "this", "with" and emotionally loaded words.
 Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recurrent units (GRU) @chung2014empirical which both try to prevent gradient vanishing which is a big problem in recurrent networks. It occurs while propagating backwards through time. Due to many multiplication steps, the gradient converges to 0. These two architectures differ mostly in their structure than in their functionality. Additionally to the GRU cell, an LSTM has two more control gates which gives more possibilities to constrain and rule the memory inside the structure. In both cases they can improve learning features from context and time series. 
 
-*#smallcaps[Transormers]* are an deep-learning architecture which is based on multi-head attention. #linebreak(justify: true)  
+*#smallcaps[Transormers]* are a deep-learning architecture which is based on multi-head attention. #linebreak(justify: true)  
 
 #grid(
   column-gutter: 30pt,
