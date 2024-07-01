@@ -173,6 +173,10 @@ Overall there are many more observeable features extracted by OpenSmile which ar
 
 #section[Model Architectures]
 
+As already presented there exists a lot of different architectures which are able to learn and train from audio data. Most commonly they have some kind of recurrent and bidirectional neurons or in general some context understanding which is important for time series training. 
+
+#include "figures/audio_flow.typ"
+
 == Unimodal Video Classification
 
 #section[Preprocessing Methods] 
