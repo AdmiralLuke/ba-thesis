@@ -207,11 +207,35 @@ caption: [Amount of trainable parameters for both implementations.]
 
 == Unimodal Video Classification
 
+Due to the feature extraction methods in audio emotion classifcation which outputs multiple matrices with their corresponding values the detection in videos won't differ much from each other. Thus as already discussed the problem with the additional time dimension within the videos is still existing and needs some preprocessing for improvements and optimizations to reduce the computation time while preventing any avoidable loss in training and evaluation. 
 
 
-#section[Preprocessing Methods] 
+
+#section[Preprocessing Methods]
+
+As already discussed earlier there are several methods and ideas for preprocessing the video samples before feeding them into the networks. The simplest idea but most expensive in computation time would be to just use the full length with all available frames. The CREMA-D dataset would support this idea without much performance issues as its highest amount of frames in a video is 125 and an average of 75 frames but looking at the MELD dataset shows the significant difference with more than 200 single images in one video. A possible way which is also easy to implement would be to just extract important parts of the videos to represent all most significant features and movements of the speaking person. In general this is hard to track and measure without any further extraction or classifcation of the material. Thus an easier way is to pick every n-th frame out of the given videos instead of every frame. This will reduce the memory costs by the given picking constant and reasons by assume that a video with about 60 frames per second must include a bunch of redundant information which are skippable. Due to the different lengths of the videos, this idea will generate different amount of important cutouts. Therefore padding with zeros would be important and in the average case there will be as many frames as the longest video divided by the constant would have, leading especially within the MELD dataset to many zero values due to the inbalanced distribution of the lengths. Adapting to this problem a further development would consist of a fixed amount of picked frames with different distances and intervals between each other. In this thesis 30 cutouts from each video are choosen randomly which should be enough to represent the actual content and information flow without much loss. Also this contant shows nearly the half of the video length average for each dataset. 
+
+Premade feature extraction methods like FACET which are directly looking for information about the presenting face and acting persons in these videos are suitable for scientificly recorded datasets like CREMA-D where only one persons sits directly in front of the camera. But due to the usage of the MELD dataset which includes more real-world near data and video cutouts which sometimes shows more than one person in a snippet or where the actor won't sit right in front of the camera. These kind of data collections are not suitable for FACET or other premade feature extraction methods regarding videos. 
+
+In total there won't be much preprocessing besides randomly picking 30 frames out of each video. As usual the data will be normalized which will loose information about the color and just keeps the grayscale information in the cutouts. This will also forces the model to learn specifically features about the moving parts in the faces.
+
+Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This is already a large amount of values thus it is still not as problematic as the MELD dataset. These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. CREMA-D offers an realtive easy approach thankfully due to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in Figure X the position of the observation target differs from data sample to data sample which is marked red for better visualization. 
+
+#todo(inline: true)[2 Bilder aus MELD, aktiven Sprecher einzeichnen!]
+
+There are two necessary steps available to extract the active person automatically as shown in Figure X.
+First all persons within the video have to get detected by an algorithm. Fortunatly computer vision librarys like OpenCV for python are able to recognize faces in images and therefore also in videos using pretrained machine learning algorithms. In the second step the active speaker must be found. There are also library which are able to analyize if the given audio matches to the lip movement from a person. Combining those methods all unnecessary parts like background actors can be cropped out of the videos which leaves only the important active part in a smaller video size.
+
+#todo(inline: true)[
+  Image Processing Pipeline an einem Beispiel
+]
+
 
 #section[Model Architectures]
+
+Similarly to the proposed audio architectures, the following structure for the classification in video won't differ that much from each other. Thus for better performance the preprocessing will be mandatory for the convolution based model and the video transformer architecture while the OpenSmile extraction was optionally due to a possible understanding of the raw audio signal. The following overview in Figure X shows again as for text and audio, an abstract architecture about the necessary steps for audio classification. 
+
+#todo(inline: true)[Auch hier wieder: grobe Architektur der Video Klassifikation]
 
 
 == Bimodal Classification
