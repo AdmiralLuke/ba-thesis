@@ -219,16 +219,47 @@ Premade feature extraction methods like FACET which are directly looking for inf
 
 In total there won't be much preprocessing besides randomly picking 30 frames out of each video. As usual the data will be normalized which will loose information about the color and just keeps the grayscale information in the cutouts. This will also forces the model to learn specifically features about the moving parts in the faces.
 
-Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This is already a large amount of values thus it is still not as problematic as the MELD dataset. These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. CREMA-D offers an realtive easy approach thankfully due to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in Figure X the position of the observation target differs from data sample to data sample which is marked red for better visualization. 
+Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This is already a large amount of values thus it is still not as problematic as the MELD dataset. These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. CREMA-D offers an realtive easy approach thankfully due to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in @fig:fig-vid_pre_1 the position of the observation target differs from data sample to data sample which is marked red for better visualization. #linebreak(justify: true)
 
-#todo(inline: true)[2 Bilder aus MELD, aktiven Sprecher einzeichnen!]
+#figure(
+  grid(
+    columns: 2,
+    column-gutter: 50pt,
+    image("figures/vid_pre/dia0-utt0.jpg", height: 100pt),
+    image("figures/vid_pre/dia1-utt8.jpg", height: 100pt)
+  ),
+  caption: [Example cutout from the MELD dataset with marked active speaker.]  
+  
+)<fig-vid_pre_1>
 
-There are two necessary steps available to extract the active person automatically as shown in Figure X.
-First all persons within the video have to get detected by an algorithm. Fortunatly computer vision librarys like OpenCV for python are able to recognize faces in images and therefore also in videos using pretrained machine learning algorithms. In the second step the active speaker must be found. There are also library which are able to analyize if the given audio matches to the lip movement from a person. Combining those methods all unnecessary parts like background actors can be cropped out of the videos which leaves only the important active part in a smaller video size.
+There are two necessary steps available to extract the active person automatically as shown in @fig:fig-vid_pre_2.
+First all persons within the video have to get detected by an algorithm. Fortunatly computer vision librarys like OpenCV for python are able to recognize faces in images and therefore also in videos using pretrained machine learning algorithms. In the second step the active speaker must be found. There are also libraries which are able to analyze if the given audio matches to the lip movement from a person. Combining those methods all unnecessary parts like background actors can be cropped out of the videos which leaves only the important active part in a smaller video size.
 
-#todo(inline: true)[
-  Image Processing Pipeline an einem Beispiel
-]
+
+#figure(
+  grid(
+    columns: 3,
+    column-gutter: 20pt,
+    stack(
+      spacing: 10pt,
+      image("figures/vid_pre/dia1038-utt7.jpg", height: 100pt),
+      [(a) Face recognition. Red = Active Speaker, Blue = Background Character]
+    ),
+    stack(
+      spacing: 10pt,
+      image("figures/vid_pre/dia1038-utt7-processed.jpg", height: 100pt),
+      [(b) Cropped video after active speaker recognition]
+    ),
+    stack(
+      spacing: 10pt,
+      image("figures/vid_pre/dia1038.jpg", height: 100pt),
+      [(c) Rezised and downscaled video]
+    )
+  ),
+  caption: [Example for the video cropping preproceesing pipeline.]
+)<fig-vid_pre_2>
+
+At the end a futher downscaling is applied on both datasets regarding the relative face position using again the face recognition capability from the computer vision librarys. This leads to a video format of 200 pixels in width and height as shown in (c) from @fig:fig-vid_pre_2 reducing the computation and memory cost by a lot. Thus there are sometimes some visible artifacts in the video which are resulting from camera shaking or unclear face positioning by the actors. Due to these issues the machine learning algorithms and librarys which are used are some times not as precise as the human understanding for face recognition.   
 
 
 #section[Model Architectures]
