@@ -217,7 +217,7 @@ As already discussed earlier there are several methods and ideas for preprocessi
 
 Premade feature extraction methods like FACET which are directly looking for information about the presenting face and acting persons in these videos are suitable for scientificly recorded datasets like CREMA-D where only one persons sits directly in front of the camera. But due to the usage of the MELD dataset which includes more real-world near data and video cutouts which sometimes shows more than one person in a snippet or where the actor won't sit right in front of the camera. These kind of data collections are not suitable for FACET or other premade feature extraction methods regarding videos. 
 
-In total there won't be much preprocessing besides randomly picking 30 frames out of each video. As usual the data will be normalized which will loose information about the color and just keeps the grayscale information in the cutouts. This will also forces the model to learn specifically features about the moving parts in the faces.
+In total there won't be much preprocessing besides randomly picking 30 frames out of each video. As usual the data will be normalized which will loose information about the color and just keeps the grayscale information in the cutouts. This will also forces the model to learn specifically features about the moving parts in the faces. Thus in this case every color is given by an seperate channel for each RGB (red, green, blue) value. This should not make much difference but can give the model some colored reference points. 
 
 Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This is already a large amount of values thus it is still not as problematic as the MELD dataset. These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. CREMA-D offers an realtive easy approach thankfully due to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in @fig:fig-vid_pre_1 the position of the observation target differs from data sample to data sample which is marked red for better visualization. #linebreak(justify: true)
 
@@ -232,8 +232,6 @@ Another problem which occurs before the video can be forwarded into the model is
   
 )<fig-vid_pre_1>
 
-There are two necessary steps available to extract the active person automatically as shown in @fig:fig-vid_pre_2.
-First all persons within the video have to get detected by an algorithm. Fortunatly computer vision librarys like OpenCV for python are able to recognize faces in images and therefore also in videos using pretrained machine learning algorithms. In the second step the active speaker must be found. There are also libraries which are able to analyze if the given audio matches to the lip movement from a person. Combining those methods all unnecessary parts like background actors can be cropped out of the videos which leaves only the important active part in a smaller video size.
 
 
 #figure(
@@ -253,29 +251,84 @@ First all persons within the video have to get detected by an algorithm. Fortuna
     stack(
       spacing: 10pt,
       image("figures/vid_pre/dia1038.jpg", height: 100pt),
-      [(c) Rezised and downscaled video]
+      [(c) Resized and downscaled video]
     )
   ),
   caption: [Example for the video cropping preproceesing pipeline.]
 )<fig-vid_pre_2>
 
-At the end a futher downscaling is applied on both datasets regarding the relative face position using again the face recognition capability from the computer vision librarys. This leads to a video format of 200 pixels in width and height as shown in (c) from @fig:fig-vid_pre_2 reducing the computation and memory cost by a lot. Thus there are sometimes some visible artifacts in the video which are resulting from camera shaking or unclear face positioning by the actors. Due to these issues the machine learning algorithms and librarys which are used are some times not as precise as the human understanding for face recognition.   
+There are two necessary steps available to extract the active person automatically as shown in @fig:fig-vid_pre_2.
+First all persons within the video have to get detected by an algorithm. Fortunatly computer vision librarys like OpenCV for python are able to recognize faces in images and therefore also in videos using pretrained machine learning algorithms. In the second step the active speaker must be found. There are also libraries which are able to analyze if the given audio matches to the lip movement from a person. Combining those methods all unnecessary parts like background actors can be cropped out of the videos which leaves only the important active part in a smaller video size.
+
+At the end a futher downscaling is applied on both datasets regarding the relative face position using again the face recognition capability from the computer vision librarys. This leads to a video format of 200 pixels in width and height as shown in (c) from @fig:fig-vid_pre_2 reducing the computation and memory cost by a lot. Thus there are sometimes some visible artifacts in the video which are resulting from camera shaking or unclear face positioning by the actors. Due to these issues the machine learning algorithms and librarys which are used are some times not as precise as the human understanding for face recognition. Also there might be some loss in video quality due to the downscaling which could lead to a depletion of subtle movements in the given face region. But with this preproceesing a model should be able to recognize patterns and similarities which was mostly impossible before.
 
 
 #section[Model Architectures]
 
-Similarly to the proposed audio architectures, the following structure for the classification in video won't differ that much from each other. Thus for better performance the preprocessing will be mandatory for the convolution based model and the video transformer architecture while the OpenSmile extraction was optionally due to a possible understanding of the raw audio signal. The following overview in Figure X shows again as for text and audio, an abstract architecture about the necessary steps for audio classification. 
+Similarly to the proposed audio architectures, the following structure for the classification in video won't differ that much from each other. Thus for better performance the preprocessing will be mandatory for the convolution based model and the video transformer architecture while the OpenSmile extraction was optionally due to a possible understanding of the raw audio signal. The following overview in @fig:fig-video_flow shows again as for text and audio, an abstract architecture about the necessary steps for audio classification. 
 
-#todo(inline: true)[Auch hier wieder: grobe Architektur der Video Klassifikation]
+#include "figures/video_flow.typ"
+
+As explained and proposed before the video will be preprocessed first where it is downscaled and cropped generally. Especially the data from the MELD set runs through the speaker recognition pipeline to filter out the most of the unnecessary parts from the samples. Also in both datasets the amount of frames is reduced to thirty with the assumption to reduce redundancy and to save computation cost. After the normalization step which is still part of the preproceesing the videos are feed into the model architectures. As the input has a size of $("batch size", 3, 30, 200, 200)$, describing the (batch_size, channels, frames, width, height), the convolution based approach uses 3D kernels to approach the trainings loop on the given batch regarding the additional time dimension. In contrast the audio convolution model only uses 2d convolution due to the dimensionality of the structure from these time series. Every block in the network consists of a layer norm, the actual weighted convolution layer and a max-pooling. After these blocks some linear dense connected layers are following for further downscaling of the remaining shape and the final mapping to the expected class shape which is in this case and also in the case of audio classificaiton (batch size, 7) representing each emotion as a one-hot encoding. This is also visible also in @fig:fig-audio_flow and @fig:fig-video_flow while looking at the output block thus the model first outputs the logits as the likelihoods for each class. An argument of the maxima (argmax) is able to compute the corresponding label from the probabilities. Furthermore the transformer model is an adaption of a vision transformer which only accepts single images @beyer2022betterplainvitbaselines. The implementation is currently open-source available #footnote("https://github.com/lucidrains/vit-pytorch") as an trainable pre-build architecture which only has to be integrated in the same training loop as for the convolution model. 
+
+For comparison @tbl:tbl-video_params shows the amount of trainable parameters for each architecture. Looking back at @tbl:tbl-audio_params the convolution model has a related size to the other audio based convolution model. Also in comparison to the pre-trained text models they are quite smaller but they should have enough parameters for a relieable result. The 3D vision transformer architecture features a lower amount of trainable points in the given model. Thus as proposed in the original paper, which introduced these kinds of architectures, they generally will perform similar or sometimes even better than traditional models with less parameters.  #linebreak(justify: true)
+
+#figure(
+kind: table,
+align(center)[
+#set text(hyphenate: false)
+    #set par(justify: false)
+    #tablex(
+      header-rows: 2,
+      header-columns: 2,
+      columns: (30%, 30%),
+      align: (center + horizon),
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [Architecture], [Trainable Parameters],
+      hlinex(),
+      [Convolution], [2.504.047.929],
+      [3D Vision Transformer], [1.266.615.309], 
+      hlinex()
+    )
+],
+caption: [Amount of trainable parameters for both implementations.]
+)<tbl-video_params>
+
+All models will be trained in twenty epochs with an 90/10 split for training and testing. This can give an overwiev about the efficiency of the architectures and also about the consistency and reliability of the results. Normally these models have to be trained over month for realistic and nearly perfect results but this will exceed the scope of this thesis work. Further the cross entropy loss is calculated for the gradient descent. Also the Adam optimizer is utilized for further optimizations in the calcaulation and uses a learning rate of $mu = 0.00005$.
 
 
-== Bimodal Classification
+== Unimodal Classification
+
+Here the bimodal and trimodal emotion classifcation are unified as they won't differ that much in their structure and the methods for combining the outputs from every model. As the unimodal detection was straight forward a mapping from an input to the corresponding output some new ideas must be appended at the end of the given models. Some related works have already presented different feature combination methods like kernel fusion or other ideas. Thus in this case it is more difficult due to some limitations by the architectures which are presented in this thesis. It is too hard and nearly impossible to extract the kernel and logits from the pre-trained text classifcation models because they work like a blackbox where only the output which is always text can be considered. Also the both implemented transformer architectures for emotion detection in audio and video are not suitable for feature combination due to their lack of useable interfaces to extract feature information. These architectures will also only give their output logits. Only the two convolution models can give the required information for kernel learning or other feature combination. As a solution for these problems this thesis will only take a look on scoring methods as a simple form of mapping the three outputs to one final emotion. There are some different main methods which are suitable. #linebreak(justify: true)
 
 #section[Scoring Methods]
 
-#section[Feature Combination Methods]
+A scoring method is a way to weight multiple inputs by their importance for the final output. For example the first architecture is less crucial for the result as the second and third architecture. The task is to find a optimal function $f: VV^(n times m) -> VV^n$ where $n$ describes the amount of emotion which are able to get classified and $m$ counts all possible inputs. In this case $n = 7$ for the six base sentiments together with neutral and further $m = 3$ for the three given modals. 
 
-== Trimodal Classification
+*#smallcaps("Neural Networks")* which tries to learn its own weights are a good design for the simplest approach for scoring without further complexity. Here a single linear layer is used with the predictions of all training data and the actual output. After the learning phase this model should have an internal weight system for the unimodal input. As they try to solve an optimization problem by minimizing the loss they optimize the function $f$ analogous to this. A drawback of this method shows the blackbox-like behavior of neural networks. After training and testing nobody is able to tell which input was important for the final result and which was not necessary or just a small influence. Also the supervised model architecture might be a drawback in comparison the the following unuspervised approaches.
+
+*#smallcaps("Brute-Force")* is more elaborate method regarding time complexity. The idea is to permute all possible weights for each input. Looking back at $f: VV^(7 times 3) -> VV^7$ it can be simplefied and adapted to feature a weightened and parameterized function 
+
+$ f(a, b, c): a VV^7_0 plus.circle b VV^7_1 plus.circle c VV^7_2 $
+
+
+where $a, b, c in [0, 1]$ are denoting the different weights for each output and $plus.circle$ the arithmetic for combining the vectors. The goal is to minimize the difference between the actual target $hat(f)$ and the calculated output.
+
+$ min(hat(f) - f(a, b, c)) $
+
+As already mentioned the brute force algorithm will permute all weights with a step size of 0.01. This results in a total of $101^3 = 1.030.301$ permutations. Reducing the step size will increase the amount of possible test cases cubical which underlines the high time complexity. Also it might not be able to find the most optimal solution globally but just locally in the permutation space. To find the global solution the function has to leave the discrete numeric space which is impossible for machines.
+
+*#smallcaps("Major Voting")* is a strategy which only works with more than two different inputs. The main idea is quite simple: the most voted emotion must be the corresponding emotion. For example if the input is $("sad", "sad", "neutral")$ the calculated  output should be "sad" due to its major occurence in the space. This is also a more simple method and won't solve the optimization problem. Also there is no differentiation between the input models. This approach will only focus on the output. If two models are voting equally for the wrong label the result is also wrong. Thus it quite efficient regarding the time complexity and also in comparison to the already proposed scoring methods like brute-force. 
+
+There exists many other possible methods. Every clustering algorithm like k-means would give a relieable result by consider the input labels as cluster points and maps it to natural numbers which then will be observed as emotion. Also rule based classifcation approaches as for example decision trees can be used. Thus this will also exceed the scope of this theses and might be future work. 
 
 #section[Architecture]
+
+All unimodal architectures are already proposed and discussed before in this chapter. Thus regarding to the scoring methods they have to put in the same context especially for the same kind of output to meet the requirements given by the optimization function $f$. Looking back at the abstract overwievs for each modal as shown in @fig:fig-text_flow, @fig:fig-audio_flow and @fig:fig-video_flow some tasks are showing up. First of all due to the text-to-text understanding of the natural language models the output has to get mapped back to the one-hot vector which is already given by the audio and video based architectures.  
+
+// #include "figures/all_flow.typ"
 

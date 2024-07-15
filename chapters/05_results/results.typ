@@ -15,6 +15,32 @@
 #figure(
 kind: table,
 align(center)[
+    #set text(hyphenate: false)
+    #set par(justify: false)
+    #tablex(
+      header-rows: 2,
+      header-columns: 2,
+      columns: (30%, 30%, 30%),
+      align: (center + horizon),
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [Model], [CREMA-D], [MELD],
+      hlinex(),
+      [Llama 3], [-], [34.87%],
+      [Multi-EmoBert], [-], [],
+      [T5], [-], [], 
+      hlinex()
+    )
+],
+caption: [Accuracy for unimodal emotion classification in text.]
+)<fig-accs_text>
+
+#figure(
+kind: table,
+align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
     #tablex(
@@ -29,14 +55,11 @@ align(center)[
       hlinex(),
       [Model], [CREMA-D], [MELD],
       hlinex(),
-      [Llama 3], [-], [30.57%],
-      [Llama 3 (context)], [-], [52.43%],
-      [Multi-EmoBert], [-], [],
-      [T5], [-], [], 
+      [Convolution], [-], [30.57%],
+      [Transformer], [], [], 
       hlinex()
     )
 ],
-caption: [Accuracy for unimodal emotion classification in text.]
-)<fig-accs_text>
-
+caption: [Accuracy for unimodal emotion classification in audio.]
+)<fig-accs_audio>
 
