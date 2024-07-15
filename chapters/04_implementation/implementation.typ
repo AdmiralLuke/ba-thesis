@@ -301,7 +301,7 @@ caption: [Amount of trainable parameters for both implementations.]
 All models will be trained in twenty epochs with an 90/10 split for training and testing. This can give an overwiev about the efficiency of the architectures and also about the consistency and reliability of the results. Normally these models have to be trained over month for realistic and nearly perfect results but this will exceed the scope of this thesis work. Further the cross entropy loss is calculated for the gradient descent. Also the Adam optimizer is utilized for further optimizations in the calcaulation and uses a learning rate of $mu = 0.00005$.
 
 
-== Unimodal Classification
+== Multimodal Classification
 
 Here the bimodal and trimodal emotion classifcation are unified as they won't differ that much in their structure and the methods for combining the outputs from every model. As the unimodal detection was straight forward a mapping from an input to the corresponding output some new ideas must be appended at the end of the given models. Some related works have already presented different feature combination methods like kernel fusion or other ideas. Thus in this case it is more difficult due to some limitations by the architectures which are presented in this thesis. It is too hard and nearly impossible to extract the kernel and logits from the pre-trained text classifcation models because they work like a blackbox where only the output which is always text can be considered. Also the both implemented transformer architectures for emotion detection in audio and video are not suitable for feature combination due to their lack of useable interfaces to extract feature information. These architectures will also only give their output logits. Only the two convolution models can give the required information for kernel learning or other feature combination. As a solution for these problems this thesis will only take a look on scoring methods as a simple form of mapping the three outputs to one final emotion. There are some different main methods which are suitable. #linebreak(justify: true)
 
@@ -309,7 +309,7 @@ Here the bimodal and trimodal emotion classifcation are unified as they won't di
 
 A scoring method is a way to weight multiple inputs by their importance for the final output. For example the first architecture is less crucial for the result as the second and third architecture. The task is to find a optimal function $f: VV^(n times m) -> VV^n$ where $n$ describes the amount of emotion which are able to get classified and $m$ counts all possible inputs. In this case $n = 7$ for the six base sentiments together with neutral and further $m = 3$ for the three given modals. 
 
-*#smallcaps("Neural Networks")* which tries to learn its own weights are a good design for the simplest approach for scoring without further complexity. Here a single linear layer is used with the predictions of all training data and the actual output. After the learning phase this model should have an internal weight system for the unimodal input. As they try to solve an optimization problem by minimizing the loss they optimize the function $f$ analogous to this. A drawback of this method shows the blackbox-like behavior of neural networks. After training and testing nobody is able to tell which input was important for the final result and which was not necessary or just a small influence. Also the supervised model architecture might be a drawback in comparison the the following unuspervised approaches.
+*#smallcaps("Neural Networks")* which tries to learn its own weights are a good design for the simplest approach for scoring without further complexity. Here a single linear layer is used with the predictions of all training data and the actual output. After the learning phase this model should have an internal weight system for the multimodal input. As they try to solve an optimization problem by minimizing the loss they optimize the function $f$ analogous to this. A drawback of this method shows the blackbox-like behavior of neural networks. After training and testing nobody is able to tell which input was important for the final result and which was not necessary or just a small influence. Also the supervised model architecture might be a drawback in comparison the the following unuspervised approaches.
 
 *#smallcaps("Brute-Force")* is more elaborate method regarding time complexity. The idea is to permute all possible weights for each input. Looking back at $f: VV^(7 times 3) -> VV^7$ it can be simplefied and adapted to feature a weightened and parameterized function 
 
@@ -324,11 +324,54 @@ As already mentioned the brute force algorithm will permute all weights with a s
 
 *#smallcaps("Major Voting")* is a strategy which only works with more than two different inputs. The main idea is quite simple: the most voted emotion must be the corresponding emotion. For example if the input is $("sad", "sad", "neutral")$ the calculated  output should be "sad" due to its major occurence in the space. This is also a more simple method and won't solve the optimization problem. Also there is no differentiation between the input models. This approach will only focus on the output. If two models are voting equally for the wrong label the result is also wrong. Thus it quite efficient regarding the time complexity and also in comparison to the already proposed scoring methods like brute-force. 
 
-There exists many other possible methods. Every clustering algorithm like k-means would give a relieable result by consider the input labels as cluster points and maps it to natural numbers which then will be observed as emotion. Also rule based classifcation approaches as for example decision trees can be used. Thus this will also exceed the scope of this theses and might be future work. 
+There exists many other possible methods. Every clustering algorithm like k-means would give a relieable result by consider the input labels as cluster points and maps it to natural numbers which then will be observed as emotion. Also rule based classifcation approaches as for example decision trees can be used. Thus this will also exceed the scope of this theses and might be related to future work. 
 
 #section[Architecture]
 
-All unimodal architectures are already proposed and discussed before in this chapter. Thus regarding to the scoring methods they have to put in the same context especially for the same kind of output to meet the requirements given by the optimization function $f$. Looking back at the abstract overwievs for each modal as shown in @fig:fig-text_flow, @fig:fig-audio_flow and @fig:fig-video_flow some tasks are showing up. First of all due to the text-to-text understanding of the natural language models the output has to get mapped back to the one-hot vector which is already given by the audio and video based architectures.  
+All unimodal architectures are already proposed and discussed before in this chapter. Thus regarding to the scoring methods they have to put in the same context especially for the same kind of output to meet the requirements given by the optimization function $f$. Looking back at the abstract overwievs for each modal as shown in @fig:fig-text_flow, @fig:fig-audio_flow and @fig:fig-video_flow some tasks are showing up. First of all due to the text-to-text understanding of the natural language models the output has to get mapped back to the one-hot vector which is already given by the audio and video based architectures. Secondly for the neural network approach a dataset out of the results from the original datasets is needed. Therefore every model saves its prediction.  
+
+#figure(
+kind: table,
+align(center)[
+#set text(hyphenate: false)
+    #set par(justify: false)
+    #tablex(
+      header-rows: 3,
+      header-columns: 3,
+      columns: (30%, 30%, 30%),
+      align: (center + horizon),
+      inset: (y: 0.7em, x: 0.75em),
+      auto-lines: false,
+      stroke: 0.75pt,
+      fill: (.., y) => if calc.even(y) { luma(242) },
+      hlinex(),
+      [Modal], [Architecture], [Trainable Parameters],
+      hlinex(),
+      rowspanx(3)[Text], [Llama 3], rowspanx(3)[$approx 4.000.000.000$],
+      hlinex(),
+      [Multi EmoBERT],
+      hlinex(), 
+      [T5],
+      hlinex(),
+      rowspanx(2)[Audio], [Convolution], [2.176.474.377],
+      hlinex(),
+      [Audio-Transformer], [TBD],
+      hlinex(),
+      rowspanx(2)[Video], [Convolution], [2.504.047.929],
+      hlinex(),
+      [3D Vision Transformer], [1.266.615.309], 
+      hlinex(),
+      hlinex(),
+      [Multimodal Scoring], [Linear Layer], [147],
+      hlinex(),
+    )
+],
+caption: [Overwie of all trainable parameters for each unimodal architecture.]
+)<tbl-total_params>
+
+@tbl:tbl-total_params shows an final overwiev over all trainable parameters for each model and also for the multimodal scoring method featuring a neural network. All models are good comparable regarding their size and amount of trainable weights. The scoring network is the smallest of all thus it includes only a single linear layer which maps three vectors to a single vector. 
+
+
 
 // #include "figures/all_flow.typ"
 
