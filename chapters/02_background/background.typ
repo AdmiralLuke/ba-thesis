@@ -249,7 +249,9 @@ A preprocessing and feature extraction is always necessary. Sometimes a WordNet 
 Herefore multiple words or sentences of the space $V$ are combined to region matrices. On each region $L$ convolutional filters are applied to learn local $n$-gram features. 
 
 #figure(
-  include "figures/conv.typ",
+  scale(96%)[
+    #include "figures/conv.typ"
+  ],
   caption: [Simple Convolution based Neural Network to predict an emotion from a given subset of sentences]
 )<conv>
 
@@ -274,32 +276,32 @@ Commonly used are long short term memory cells (LSTM) @Graves2012 and gated recu
 
   ],
   [ 
-    The basic idea of attention solves a huge bottleneck in common neural network architectures because fixed input vector sizes may result in a large overhead. In the example of natural language processing this could be a result from very large sentences. Attention mechanisms try to solve this issue by focusing the input on to specific parts e.g. training the input weights on important words or subsets from the given sentence. 
+    The basic idea of attention solves a huge bottleneck in common neural network architectures because fixed input vector sizes may result in a large overhead. In the example of natural language processing, this could be a result from very large sentences. Attention mechanisms try to solve this issue by focusing the input on to specific parts e.g. training the input weights on important words or subsets from the given sentence. 
 
-    The resulting transformers are currently setting a milestone in natural language processing and providing the fundaments for ChatGPT from OpenAI @openai2024gpt4 or other text understanding models, because of their scalability due to the attention mechanisms and their reliable results. @fig:transformer shows such a transformer architecture. An input sentence will be fed into the model where it first gets positional encoded thus the position and the frequency for every word in the sentence is stored.
+    The resulting transformers are currently setting a milestone in natural language processing and providing the basis for ChatGPT from OpenAI @openai2024gpt4 or other text understanding models, because of their scalability due to the attention mechanisms and their reliable results. @fig:transformer shows such a transformer architecture. An input sentence will be fed into the model where it first gets positional encoded thus the position and the frequency for every word in the sentence is stored.
   ]
   
 )
-Now the input vectors are passing through the first multi-head attention layer to lay the focus on important parts of the input. Neverless the actual input and the weighted part are added and normalized together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of basic uni-directional layers. Likewise the input and the output are matched together with a residual connection. The same proceding is repeated but with an autoregressive addition of already calculated output. But in contrast to the regular multi-head attention a masking in this process is introduced which sets the weight for unknown or respectively future tokens to negative values thus the model can learn realistic predictions only with already known tokens.
+Now, the input vectors are passing through the first multi-head attention layer to lay the focus on important parts of the input. Neverless, the actual input and the weighted part are added and normalized together which results in the original sentence but with tagged highlights due to the attention. To learn the features for the output token, the input traverses through a feed forward network which consists of basic uni-directional layers. Likewise the input and the output are matched together with a residual connection. The same proceding is repeated but with an autoregressive addition of already calculated output. But in contrast to the regular multi-head attention a masking in this process is introduced which sets the weight for unknown or respectively future tokens to negative values thus the model can learn realistic predictions only with already known tokens.
 The output of the transformer architecture are probabilities for the next state. The already mentioned autoregressive implementation gives the possibilities to predict a long sequence of tokens.
 
 
-In addition to the approaches with neural network architectures like transformers, other supervised methods like support vector machines, decision trees or naive bayes are used. These aren't covered in this thesis as it exceeds the scope of this work and are a possible part for future work.
+In addition to the approaches with neural network architectures like transformers, other supervised methods like support vector machines, decision trees or naive bayes are used. These are not covered in this thesis as it exceeds the scope of this work and are a possible part for future work.
 
-In summary supervised methods follow the basic principle to learn features along a given target. Therefore enough training data is needed with the additional annotated labels. 
+In summary, supervised methods follow the basic principle to learn features along a given target. Therefore enough training data is needed with the additional annotated labels. 
 
 #pagebreak()
 
-At the end even the differentiation between convolution, recurrent or transformer networks won't make any noticeable changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also shown for language models, convolution nets and transformer.
+At the end even the differentiation between convolution, recurrent or transformer networks will not make any noticeable changes in measurements if the architectures and models are large enough @smith2023convnets. In literature this "bitter lesson" @sutton2019bitter is researched step by step and also shown for language models, convolution nets and transformers.
 
 
-"Scaling Laws for Neural Network" @kaplan2020scaling shows the improvement of the loss, when a model has many parameters, much computation time in training and a large dataset. Therefore this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. Language modeling performance improves smoothly as the model size, datasetset
-size, and amount of compute used for training is increased. For optimal performance all three factors must be scaled
+"Scaling Laws for Neural Network" @kaplan2020scaling shows the improvement of the loss, when a model has many parameters, much computation time in training and a large dataset. Therefor this thesis will consider the transformer models as a focal point for later evaluation, because there are many large pretrained language models available which are able to recognize emotion and are trained and developed to satisfy almost all three factors. Language modeling performance improves smoothly as the model size, datasetset
+size, and amount of computation used for training is increased. For optimal performance all three factors must be scaled
 up in tandem. #linebreak(justify: true)
 
 #section[Unsupervised Classification Approaches]
 
-Many datasets do not include annotated targets or subsets of the data can't be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarities or differences in the training set. 
+Many datasets do not include annotated targets or subsets of the data cannot be used as a prediction set. In unsupervised learning, the algorithms are trying to extract patterns from this data which are mostly similarities or differences in the training set. 
 
 A common unsupervised approach in natural language processing for extracting keywords or similarieties from text is called #smallcaps("Latent Semantic Analysis").
 
@@ -314,7 +316,7 @@ $ M =  U dot S dot V^T $
 $S$ contains singular values which can be easily converted to eigenvalues. These are used to process a query on the vector space to find subsets of $M$ which fullfills the query by applying the cosine similarity. This whole method is quite expensive in computation time because of the necessary decomposition and dimension reductions @1102314.
 
 There are many more unsupervised approaches for emotion detection and information retrieval in text @agrawal2012unsupervised @gollapalli2020ester but they won't be part of the following comparisons and benchmarks
-as they also exceed the scope of this thesis. Furthermore, no significant improves and differences are expected in comparison to the presented unsupervised approaches and also the shown supervised classification methods due to the scaling laws for neural networks.
+as they also exceed the scope of this thesis. Furthermore, no significant improvements and differences are expected in comparison to the presented unsupervised approaches and also the shown supervised classification methods due to the scaling laws for neural networks.
 
 
 === Classification in Audio<chap-class_audio> 
@@ -325,7 +327,7 @@ Similar to classification in text as shown in @class_text there are some approac
 
 #section[Fourier Transformation]
 
-To break up the audio signal into multiple atomic sinoid functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by assuming $A = sqrt(2)$. 
+To break up the audio signal into multiple atomic sinusodial functions, a fourier transformation and analysis can be applied. For each frequency $omega in RR$ from the given signal, the transformation yields a coefficient $d_omega$ and a phase $phi_omega$ from which a sinusodial oscillation can be retrieved. Looking back at the equation from @chap:emo_speech a normalization with regard to their amplitude is collected by assuming $A = sqrt(2)$. 
 
 
 $ g(t) := A sin(2π(omega t - phi)) $
@@ -333,7 +335,7 @@ $ g(t) := A sin(2π(omega t - phi)) $
 For each frequency and phase the normalized function $cos_(omega, phi)(t): RR -> RR$ is given by: 
 $ cos_(omega, phi)(t) = sqrt(2) cos(2pi(omega t - phi)) $
 
-Due to the idea of approximating the original audio function with sinoid waves, a first approach to the fourier transformation can be obtained by maximizing the similarity between both signals.
+Due to the idea of approximating the original audio function with sinusodial waves, a first approach to the fourier transformation can be obtained by maximizing the similarity between both signals.
 
 $ d_omega &:= max_(phi in [0,1)) &(integral_(t in RR) f(t) cos_(omega, phi)(t)dif t) 
 \
@@ -350,7 +352,7 @@ These equations are however only suitable for non-discrete signal-processing and
 
 $ hat(f)(omega) approx sum_(n in ZZ) T(f(n T))exp(-2 pi i omega n) $
 
-with a time complexity of $O(N^2)$ where $N$ notates the length from the given signal @muller2015fundamentals. 
+with a time complexity of $O(N^2)$ where $N$ denotes the length from the given signal @muller2015fundamentals. 
 #linebreak(justify: true)
 Thus $N$ can get quite large some approvements are implemented. 
 For example the fast fourier transformation with a complexity of $O(N log N)$, uses a divide and conquer algorithm to split the signal, calculate the fourier transformation and reassemble it @park2020fast.
@@ -375,7 +377,7 @@ Analog to @class_text the supervised classification approaches follow the same s
     caption: [Audio transformer model ])<fig:trans_audio>
   ],
   [
-    Therefore it inputs the raw audio data without any preprocessing besides from padding to the right length. As shown in @fig:fig:trans_audio the model first divides the signal into multiple fix-length patches to feed them into a front-end layer. The patches describe very short sequences of the audio and show the resolution in which the work will subsequently be carried out. It consists of some dense layers which process the raw audio to multiple feature vectors. These are suitable for learning in the common transformer architecture. Furthermore they are chained together with average pooling layer, giving the convolution like downscaling and compressing effect. This step can be repeated multiple times until the required output shape is nearly matched. At the end a decoder layer in form of some dense layers is applied to predict the resulting label. Equivalent to the already introduced convolution networks, activation functions like ReLu or softmax can be interposed between all existing layers for more stability.
+    Therefore it inputs the raw audio data without any preprocessing besides from padding to the right length. As shown in @fig:fig:trans_audio the model first divides the signal into multiple fixed-length patches to feed them into a front-end layer. The patches describe very short sequences of the audio and show the resolution in which the work will subsequently be carried out. It consists of some dense layers which process the raw audio to multiple feature vectors. These are suitable for learning in the common transformer architecture. Furthermore they are chained together with average pooling layer, giving the convolution like downscaling and compressing effect. This step can be repeated multiple times until the required output shape is nearly matched. At the end a decoder layer in form of some dense layers is applied to predict the resulting label. Equivalent to the already introduced convolution networks, activation functions like ReLu or softmax can be interposed between all existing layers for more stability.
   ]
 )
 
@@ -384,16 +386,16 @@ Nonetheless the bitter lesson from the previous chapter also applies here. There
 
 #section[Unsupervised Classification Approaches]
 
-Unfortunately unsupervised audio information retrieval approaches are quite rare. There are a few methods which uses k-means to learn from local audio features @wulfing2012unsupervised. Thus they are not really suitable for emotion detection due to their low capability of detecting global features.
-But in spite of that there are some methods to collect local features which can assist the supervised deep learning method @unsupervisedmusic. #linebreak(justify: true)
+Unfortunately unsupervised audio information retrieval approaches are quite rare. There are a few methods which use k-means to learn from local audio features @wulfing2012unsupervised. Thus they are not really suitable for emotion detection due to their low capability of detecting global features.
+However in spite of that there are some methods to collect local features which can assist the supervised deep learning method @unsupervisedmusic. #linebreak(justify: true)
 
 === Classification in Images and Videos
 
-Relating to the previous classification methods the foundation for emotion detection in images and videos is quite similar. However there is much research to optimize the supervised and unsupervised strategies regarding the input size and computation time. Furthermore video has interesting advantages and disadvantages towards images which is necessary for the following methods and optimizations. The disadvantages comes with the additional dimension, time, which is introduced through videos as a time series while they can be dissected into single images. 
+Relating to the previous classification methods, the foundation for emotion detection in images and videos is quite similar. However, there is much research to optimize the supervised and unsupervised strategies regarding the input size and computation time. Furthermore video has interesting advantages and disadvantages towards images, which is necessary for the following methods and optimizations. The disadvantages comes with the additional dimension time, which is introduced through videos as a time series while they can be dissected into single images. 
 
 #section[Supervised Classification Approaches]
 
-As always convolution models are the most common architectures for deep learning on images and videos @9012507. While images can be flattened to an one dimensional vector to process it with simple convolution filters, layers or even with recurrent and simple linear models, video processing and learning arrives with a bigger challenge. Fortanatly kernels for convolution are able to have n-dimensional shapes though getting expensive in computation and memory consumption. The same issue occurs naturally with video transformers @10041724. These follow analog to the already presented architectures in text and audio classification as they are transfering the researched benefits from transformer models. Nevertheless they scale quadratically in respect to the input length. Thus further optimizations on the input are helpful and even more necessary. #linebreak(justify: true)
+As always convolution models are the most common architectures for deep learning on images and videos @9012507. While images can be flattened to a one-dimensional vector to process it with simple convolution filters, layers or even with recurrent and simple linear models, video processing and learning arrives with a bigger challenge. Fortunately kernels for convolution are able to have n-dimensional shapes though getting expensive in computation and memory consumption. The same issue occurs naturally with video transformers @10041724. These follow analogously the already presented architectures in text and audio classification as they are transfering the researched benefits from transformer models to the vision domain. Nevertheless they scale quadratically with respect to the input length. Thus further optimizations on the input which will be presented in the following, are helpful and even more necessary. #linebreak(justify: true)
 
 *#smallcaps("Slicing")* offers different options to reduce the input size from the video with a variety of selection methods @fabianmaster. 
 
@@ -402,15 +404,15 @@ As always convolution models are the most common architectures for deep learning
   columns: 1,
   gutter: 1em,
   [- *Time Exclusive Slicing:* As the most intuitiv approach, time exclusive slicing picks one or more single frames out of the given video, resulting into a more compact version like a flip book. This selection can be done randomly or with a fixed selection of the frame indices @texclusiveslice.],
-  [- *Spatial Exclusive Slicing:* This method divides each frame into a grid of spatial patches . Then it chooses one of the grids (mostly the center) and picks the same patch over the full time dimension.],
+  [- *Spatial Exclusive Slicing:* This method divides each frame into a grid of spatial patches. Then it chooses one of the grids (mostly the center) and picks the same patch over the full time dimension.],
   [- *Cubicles:* Cubicles or tubelets @arnab2021vivit are extracted by choosing spatial patches in combination with its temporal neighbours. This is similar to spatial exclusive slicing but with more variety in the choosen grid positions.],
   [- *Shards:* This method  @Akbari2021VATTTF is a combination of spatial exclusive slicing, cubicles and time exlusive slicing, where from random or fixed indexed frames the spatial patches are choosen.]
 ) 
 
 
-Overall they reduce the input size of the input video to a fraction of the original size on the basis of the assumption that there are unnecessary parts in each frame like the corners and that videos with more frame per seconds includes more redundancy respectively too small changes between each time step. Furthermore the basic spatial exclusive slicing is not well suited due to the lack of removing the described redundancy. In general spatial patching can be challenging, if the person in the video is moving or the main actors are on different position in each data sample. #linebreak(justify: true)
+Overall they reduce the input size of the input video to a fraction of the original size on the basis of the assumption that there are unnecessary parts in each frame like the corners and that videos with more frames per second are icluding more redundancy respectively to very small changes and movements between each time step. Furthermore the basic spatial exclusive slicing is not well suited due to the lack of removing the described redundancy. In general spatial patching can be challenging, if the person in the video is moving or the main actors are in different position in each data sample. #linebreak(justify: true)
 
-Further tries for input optimizations regarding to the idea of tracking movements are researched like utilizing temporal difference images @fabianmaster. It follows the assumption that deep learning architectures are learning the features only from the moving part of the face and that non moving parts are unnecessary. Intuitive according to Ekman and the presented action units from @chap:facial-exp this hypothesis has a good foundation. With time exclusive slicing they picked frames both randomly and with a fixed distance between the time steps and subtraced the frames from each other to create a temporal difference image for each video. Each of them shows the moving action units which were present in the data sample before. Thus it shows the action units which are normally learned by the first layers from an architecture. 
+Further methods for input optimizations regarding to the idea of tracking movements are researched like utilizing temporal difference images @fabianmaster. It follows the assumption that deep learning architectures are learning the features only from the moving part of the face and that non moving parts are unnecessary. Intuitive according to Ekman and the presented action units from @chap:facial-exp this hypothesis has a good foundation. With time exclusive slicing they picked frames both randomly and with a fixed distance between the time steps and subtraced the frames from each other to create a temporal difference image for each video. Each of them shows the moving action units which were present in the data sample before. Thus it shows the action units which are normally learned by the first layers from an architecture. 
 
 #figure(
   image("figures/fabianmaster.svg"),
@@ -419,9 +421,9 @@ Further tries for input optimizations regarding to the idea of tracking movement
   ]
 )<fabsmasterpipeline>
 
-This is shown by @fig:fabsmasterpipeline where the resulting temporal image shows only the moving parts from the video. Thus it may save some computation time but mostly it is able to save memory cost due to the reduction from 30-120 frames per input to only one temporal frame.
+This optimization method is shown by @fig:fabsmasterpipeline where the resulting temporal image shows only the moving parts from the video. Thus it may save some computation time but mostly it is able to save memory cost due to the reduction from 30-120 frames per input to only one temporal frame.
 
-A similar but yet different approach is called optical flow @8358488, where for each video the moving parts and how they changes are calculated and represented as multiple feature vectors. Here a video is represented mathematically by $I(x, y, t)$ where $t$ denotes the time dimension as the single frames. The coordinates $x$ and $y$ belong to points defined in advance at which the movement is then tracked. These can be for instance the corners of the mouth, parts of the eyebrows or the eyelids. More points can be used to get a more precise resolution but also a larger input sequence. An appropiate amount would be between 20 and 30 to capture all 26 basic action units and some more details. The resulting optical flow while tracking is denoted by
+A similar but yet different approach is called optical flow @8358488, where for each video the moving parts and how they change is calculated and represented as multiple feature vectors. Here a video is represented mathematically by $I(x, y, t)$ where $t$ denotes the time dimension as the single frames. The coordinates $x$ and $y$ belong to points defined in advance at which the movement is then tracked. These can be for instance the corners of the mouth, parts of the eyebrows or the eyelids. More points can be used to get a more precise resolution but also a larger input sequence. An appropiate amount would be between 20 and 30 to capture all 26 basic action units and some more details. The resulting optical flow while tracking is denoted by
 
 $ frac(dif t, dif x) = I_x u + I_y v + I_t = 0 $
 
@@ -440,7 +442,7 @@ The challenge for unsupervised classification is the feature extraction from the
 
 *#smallcaps("Motion-based Approaches")* are based on dense motion rather than the discrete motion from facial landmark points as presented in geometry-based approaches. Image substraction, as one subset, which was already shown during input minimation for supervised approaches can also be used together with a combination of basic clustering algorithms like k-means @1398371. Also the presented optical flow method is capeable to be used for unsupervised learning adapting it to quadtree decomposition for matching the important moving parts. #linebreak(justify: true)
 
-In general these feature extraction approaches uses k-means with an alignment to time series. Oftenly used is dynamic time warping, which a distancy metric and useful for time series with different lengths. Thus it has a drawback due to not satisfy the triangle inequality. Further optimizations lead to a method called dynamic time alignnment kernels @NIPS2001_a869ccbc  defined by #linebreak(justify: true)
+In general these feature extraction approaches uses k-means with an alignment to time series. Often used is dynamic time warping, which is a distancy metric and useful for time series with different lengths. Thus it has a drawback due to not always satisfy the triangle inequality which is normally an important property for these metrics. Further optimizations lead to a method called dynamic time alignnment kernels @NIPS2001_a869ccbc  defined by #linebreak(justify: true)
 
 $ tau = max_Q sum^l_(c = 1) frac(1, n_x + n_y) (q_(1c) - q_(1c - 1) + q_(2c) - q_(2c - 1))kappa_(q_(1c) q_(2c)) $
 
@@ -473,7 +475,7 @@ As shown in @fig:cremad the distribution of labels is uniformly distributed with
 
 #section("Data Statistics and Analysis")
 
-Looking at the data distribution in @fig:fig_dis-full a clearly pattern can be observed while taking a focus on the length distribution of text, audio and video. The CREMA-D dataset includes many shorter sequences with little to no scattering leading to an average of about 2.5 seconds of content. In contrast includes the MELD dataset a variety of different length upto more than five seconds material thus showing a mostly similar average of time. In conclusion CREMA propagates the lack of variety in sentences as shown in (a) through the video (c) and audio (b) content as expected due to their limitation to only twelve different sentences. With the more real-world applicability  MELD features a high variety which might lead to the need of more data preprocessing like padding and a larger model architecture depending on the input size. #linebreak(justify: true)
+Looking at the data distribution presented by the violin plots in @fig:fig_dis-full a clearly pattern can be observed while taking a focus on the length distribution of text, audio and video. Wider areas along the x-axis are generally showing a higher occurence of the length. Further the range is shown by the y-axis. The CREMA-D dataset includes many shorter sequences with little to no scattering leading to an average of about 2.5 seconds of content. In contrast includes the MELD dataset a variety of different length upto more than five seconds material thus showing a mostly similar average of time. In conclusion CREMA propagates the lack of variety in sentences as shown in (a) through the video (c) and audio (b) content as expected due to their limitation to only twelve different sentences. With the more real-world applicability  MELD features a high variety which might lead to the need of more data preprocessing like padding and a larger model architecture depending on the input size. #linebreak(justify: true)
 
 #set par(justify: true)
 
@@ -503,7 +505,10 @@ Looking at the data distribution in @fig:fig_dis-full a clearly pattern can be o
   caption: [Distribution of the different modal lengths for each dataset.]
 )<fig_dis-full>
 
+#pagebreak()
 
 
+#section("Challenges")
+As already described before the datasets are bringing different challenges and requirements to the model architectures. There is also one obstacle for the evaulation later which comes from the CREMA-D dataset. It consists of the twelve sentence which are actred in each emotion. Therefore it is not possible to predict any relieable label for the emotion detection in text. 
 
 

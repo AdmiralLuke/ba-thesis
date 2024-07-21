@@ -61,6 +61,6 @@
     arrowW((1.4, 1.1), (1.4, -1))
     arrowW((2.1, -1), (2.1, 1.1))
    }),
-   caption: [Structural procedure for emotion classification in audio with a possible pre-training feature extraction.]
+   caption: [Structural procedure for emotion classification in audio with a possible pre-trained feature extraction.]
    
    )<fig-audio_flow>
