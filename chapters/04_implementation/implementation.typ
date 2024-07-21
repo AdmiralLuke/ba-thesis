@@ -24,17 +24,12 @@ As said an emotion classifcation with text will only be done with already pretra
 
 #include "figures/text_flow.typ"
 
-@fig:fig-text_flow shows the sequence of the processing which can be adapted to the three shown transformer models. In general such models are needing an encoder with a tokenizer and decoder to understand the given natural language input further to output human understandable labels for the corresponding emotion. In between, their model architecture is given mostly by their adaption of a transfomer and is already well trained which already results in a set of pre-defined weights.
-
-For finetuning these models are offering in general two different methods, prompt engineering and post-training tasks, which allows adding context to the architectures or weights. Some text-to-text models are trying to simulate human-like chat conversations with contextual memory over a talk. Foremost it gives the opportunity to define tasks which will be fullfiled by the artifical opposite. Also it introduces a scope to feed in the available training data to the model by embedding it into the chat prompts and define the task to learn temporarily from it. This introduces the problem that the given knowledge is just temporarily available in the scope of the current chat window and afterwards permanently deletet and must be repeated every time. Therefore the second method for finetuning shows a procedure to train on top of the current pretrained weights and the encode layer with a model specific interface. It offers a more relieable context injection in comparison to the prompt engineering method by giving more transparency about the learned content.
+@fig:fig-text_flow shows the sequence of the processing which can be adapted to the three shown transformer models. In general such models are needing an encoder with a tokenizer and decoder to understand the given natural language input further to output human understandable labels for the corresponding emotion. In between, their model architecture is given mostly by their adaption of a transfomer and is already well trained which already results in a set of pre-defined weights. For finetuning these models are offering in general two different methods, prompt engineering and post-training tasks, which allows adding context to the architectures or weights. Some text-to-text models are trying to simulate human-like chat conversations with contextual memory over a talk. Foremost it gives the opportunity to define tasks which will be fullfiled by the artifical opposite. Also it introduces a scope to feed in the available training data to the model by embedding it into the chat prompts and define the task to learn temporarily from it. This introduces the problem that the given knowledge is just temporarily available in the scope of the current chat window and afterwards permanently deletet and must be repeated every time. Therefore the second method for finetuning shows a procedure to train on top of the current pretrained weights and the encode layer with a model specific interface. It offers a more relieable context injection in comparison to the prompt engineering method by giving more transparency about the learned content.
 
 
 
 === Preprocessing and Prompt Engineering for LLM
 
-Fortunately all of the three given models are implementing an own language understanding system. Therefore it is not necessary to postpone and train an own word embedding network. Mostly they rely on some variants from bag-of-words to encode the vocabulary tokens.
-
-In all three cases the models consist of an encoder and a decoder layer for the text-to-text understanding and their specific transformer based architectures to give them their expected user-oriented functionalities. Thus just input a sentence to retrieve the emotion label won't work well in the most cases due to the attemp to imitate real-world conversations. Looking at the results for the input sentence "I see that!" the models are showing the following responses in @tbl:tbl-text_answers. Llamas response shows the conversation like answer leading to the need of some finetuning. Fortunatley the model has contextual memory which can be used to predefine a task with natural language for the architecture. In this case the chore with an example for better understanding is given and repeated after every prompt to refresh the contextual memory. Further as shown in @fig:fig-text_flow and explained before the train data can be embedded in the progression of the conversation to give the model a higher overview over the given data which can lead to a higher accuracy. 
 
 #figure(
 kind: table,
@@ -81,22 +76,47 @@ you're ready for more, I've got a few more where that came from!], [Natural Lang
 
     )
 ],
-caption: [Answers from the three text-to-text models without finetuning and context.]
+caption: [Answers to the prompt "I see that!" from the three text-to-text models without finetuning and any context.]
 )<tbl-text_answers>
  // further train for T5 is possible https://huggingface.co/docs/transformers/model_doc/t5
 
-#pagebreak()
+Fortunately all of the three given models are implementing an own language understanding system. Therefore it is not necessary to postpone and train an own word embedding network. Mostly they rely on some variants from bag-of-words to encode the vocabulary tokens. In all three cases the models consist of an encoder and a decoder layer for the text-to-text understanding and their specific transformer based architectures to give them their expected user-oriented functionalities. Thus just input a sentence to retrieve the emotion label won't work well in the most cases due to the attemp to imitate real-world conversations. Looking at the results for the input sentence "I see that!" the models are showing the following responses in @tbl:tbl-text_answers. 
+
+#section("Llama 3")
+
+Llamas response shows the conversation like answer leading to the need of some finetuning. Fortunatley the model has contextual memory which can be used to predefine a task with natural language for the architecture. In this case the chore with an example for better understanding is given and repeated after every prompt to refresh the contextual memory. Further as shown in @fig:fig-text_flow and explained before the train data can be embedded in the progression of the conversation to give the model a higher overview over the given data which can lead to a higher accuracy. 
 
 A possible prompt which is used later for the evalation is: 
 
 #quote(block: true)[
 "Giving the following seven emotion with their abbrevation: Anger (ANG), Disgust (DIS), Fear (FEA), Surprise (SUP), Sadness (SAD), Happiness (HAP), Neutral (NEU). I\'ll prompt you a sentence and you will answer with the corresponding emotion abbrevation. For example I\'ll ask: "My day is awesome" and you\'re answer would be "[HAP]". Don\'t forget the brackets. Sentences, or questions like "okay" or "lets go" are also sentences where you have to guess the emotion. Alright?"]
 
-With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort. However as mentioned it is a bit more complicated with the Multi-EmoBert due to the lack of any context based chat functionality thus they already give the emotion label as a response. Looking back at @fig:fig-text_flow and the notes before there are possibilitys to train the architectures in particular the encoder and the weights on top of their pretrained values with an own set of data. This opens up the opportunity to finetune the models and enhance the results. Simply the data from the training dataset has to be processed to the specific format which is already offered by an interface from the source code. Further an application of a threshold to validate the correct emotion label is necessary as it outputs all probabilities for every sentiment showing another variable factor which has impact on the accuracy. A lower value might increase the chance to include the correct emotion in the set of all sentiments which are guessed with a higher possibility. Thus the amount of false positive emotion must be considered as well. With a higher threshold the possibilities to guess the correct label might be lower but also the magnitude for all misclassified labels is lower. If there aren't any classifcation which reached the minimum possibility, the sentence is tagged as neutral. All sentiments given by the model which are not part of Ekmans six basic emotions or neutral are ignored because they are based on the original training data and have much lower possibilities after retraining the model with an own dataset excluding these additional sentiments.
+With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort.
+
+#todo(inline: true)[Pseudocode]
+
+#section("Multi-EmoBert")
+
+ However as mentioned it is a bit more complicated with the Multi-EmoBert due to the lack of any context based chat functionality thus they already give the emotion label as a response. Looking back at @fig:fig-text_flow and the notes before there are possibilitys to train the architectures in particular the encoder and the weights on top of their pretrained values with an own set of data. This opens up the opportunity to finetune the models and enhance the results. Simply the data from the training dataset has to be processed to the specific format which is already offered by an interface from the source code. Further an application of a threshold to validate the correct emotion label is necessary as it outputs all probabilities for every sentiment showing another variable factor as shown in @lst:code-emo_acc which has impact on the accuracy. A lower value might increase the chance to include the correct emotion in the set of all sentiments which are guessed with a higher possibility. Thus the amount of false positive emotion must be considered as well. With a higher threshold the possibilities to guess the correct label might be lower but also the magnitude for all misclassified labels is lower. If there aren't any classifcation which reached the minimum possibility, the sentence is tagged as neutral. All sentiments given by the model which are not part of Ekmans six basic emotions or neutral are ignored because they are based on the original training data and have much lower possibilities after retraining the model with an own dataset excluding these additional sentiments.
+
+
+#figure(
+  include "code/emo_bert.typ",
+ caption: [Simple algorithm for choosing all emotions from the possibility-space $P$ with an threshold $"th"$.],
+ outlined: true 
+)<code-emo_acc>
+
+
+#todo(inline: true)[Pseudocode]
+
+#section("T5")
 
 The T5 accepts both methods for finetuning thus prompt engineering does not seems to be mandatory due to the already labeled output. Thus the combination might show interesting results in comparison to the other two architectures with only one of the two finetuning methods. In comparison to the Multi-EmoBERT model it will not offer a direct interface for dataset conversion and an active method for training but it has an low-level connection which allows training like a normal model but with respect to the pretrained weights. In addition the documentation gives some functions to enable regular training. As a PyTorch submodule it includes a loss function based on the cross entropy loss function to compare the resulting token values. Also the encoder and tokenizer part is able to recognize new tokens and adapt itself without any further external influences or preprocessing. 
 
 
+
+
+#todo(inline: true)[Pseudocode]
 
 
 
@@ -331,7 +351,17 @@ $ min(hat(f) - f(a, b, c)) $
 
 As already mentioned the brute force algorithm will permute all weights with a step size of 0.01. This results in a total of $101^3 = 1.030.301$ permutations. Reducing the step size will increase the amount of possible test cases cubical which underlines the high time complexity. Also it might not be able to find the most optimal solution globally but just locally in the permutation space. To find the global solution the function has to leave the discrete numeric space which is impossible for machines.
 
-*#smallcaps("Major Voting")* is a strategy which only works with more than two different inputs. The main idea is quite simple: the most voted emotion must be the corresponding emotion. For example if the input is $("sad", "sad", "neutral")$ the calculated  output should be "sad" due to its major occurence in the space. This is also a more simple method and won't solve the optimization problem. Also there is no differentiation between the input models. This approach will only focus on the output. If two models are voting equally for the wrong label the result is also wrong. Thus it quite efficient regarding the time complexity and also in comparison to the already proposed scoring methods like brute-force. 
+*#smallcaps("Major Voting")* is a strategy which only works with more than two different inputs. The main idea is quite simple: the most voted emotion must be the corresponding emotion. For example if the input is $("sad", "sad", "neutral")$ the calculated  output should be "sad" due to its major occurence in the space. This is also a more simple method and won't solve the optimization problem. Also there is no differentiation between the input models. 
+
+#figure(
+  include "code/major_vote.typ",
+  caption: [Python implementation for the major vote algorithm.]
+)<code-major_vote>
+
+
+This approach will only focus on the output. If two models are voting equally for the wrong label the result is also wrong. Thus it quite efficient regarding the time complexity and also in comparison to the already proposed scoring methods like brute-force. An implementation for the major voting system is shown in @lst:code-major_vote
+
+
 
 There exists many other possible methods. Every clustering algorithm like k-means would give a relieable result by consider the input labels as cluster points and maps it to natural numbers which then will be observed as emotion. Also rule based classifcation approaches as for example decision trees can be used. Thus this will also exceed the scope of this theses and might be related to future work. 
 
