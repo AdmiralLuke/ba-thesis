@@ -4,7 +4,7 @@
 
 = Design and Implementation
 
-Given the six emotion from Ekman explained in @chap211 and a neutral label, the following chaper focuses on the implementation of the different supervised model architectures for each modal. This will be done for the presented datasets MELD and CREMA-D which are both challenging different aspects of emotion detection. Furthermore the important preprocessing and feature extraction for each model are described. At least the bimodal and unimodal combination are implemented showing different types of feature combination or voting and scoring methods. 
+Given the six emotion from Ekman explained in @chap211 and a neutral label, the following chaper focuses on the implementation of the different supervised model architectures for each modal. This will be done for the presented datasets MELD and CREMA-D which are both challenging different aspects of emotion detection. Furthermore the important preprocessing and feature extraction for each model are described. At least the bimodal and unimodal combination are implemented showing different types of feature combination or voting and scoring methods. @fig:fig-imp_overview shows an overview about the following implementatio goal. In the following each component of this architecture will be described and discussed. 
 
 #include "figures/overview.typ"
 

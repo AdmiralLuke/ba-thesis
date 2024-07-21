@@ -33,12 +33,12 @@
     node((-1.5,-1.2), [Text], height: 25pt, corner-radius: 1pt, width: 50pt),
     edge("-|>"),
     node((0,-1.2), [Text Detection], corner-radius: 2pt, extrude: (0, 3), width: 100pt, height: 30pt),
-    edge((0, -1.2), (3,0), "-|>"),
-    edge((0, 0), (3, 0), "-|>"),
-    edge((0, 1.2), (3, 0), "-|>"), 
-    node((3, 0), [Multimodal \ Fusion], height: 60pt, corner-radius: 3pt, extrude: (0, 3)),
+    edge((0, -1.2), (2.5,0), "-|>"),
+    edge((0, 0), (2.5, 0), "-|>"),
+    edge((0, 1.2), (2.5, 0), "-|>"), 
+    node((2.5, 0), [Multimodal \ Fusion], height: 60pt, corner-radius: 3pt, extrude: (0, 3)),
     edge("-|>"),
-    node((4,0), edge-stroke: 0pt, [\[EMO\]])
+    node((4.3,0), [Output], corner-radius: 10pt)
 
     
 )],
