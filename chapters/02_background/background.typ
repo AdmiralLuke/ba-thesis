@@ -509,6 +509,6 @@ Looking at the data distribution presented by the violin plots in @fig:fig_dis-f
 
 
 #section("Challenges")
-As already described before the datasets are bringing different challenges and requirements to the model architectures. There is also one obstacle for the evaulation later which comes from the CREMA-D dataset. It consists of the twelve sentence which are actred in each emotion. Therefore it is not possible to predict any relieable label for the emotion detection in text. 
+As already described before the datasets are bringing different challenges and requirements to the model architectures. There is also one obstacle for the evaulation later which comes from the CREMA-D dataset. It consists of the twelve sentence which are actred in each emotion. Therefore it is not possible to predict any relieable label for the emotion detection in text. A general challenge for the MELD data is the imbalance between each label. As the neutral emotion is by far the most common annoation the models will mostly predict only this category but will however achieve a high accuracy. Furthermore due to the imbalance in the actual data sizes and as before explained with @fig:fig_dis-full the MELD dataset covers a high range of different input lengths for each modal. Therefore some adaption to the maximum input length for both datasets is needed or some kind of input compression so that in the end all data entries have the same length for training.
 
 
