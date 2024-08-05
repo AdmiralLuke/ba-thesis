@@ -15,5 +15,5 @@ def choose_emotion(P, th):
     # if none of the emotion reaches the threshold
     if  L.is_empty(): 
           return ["neutral"]
-    return l
+    return L
 ```
