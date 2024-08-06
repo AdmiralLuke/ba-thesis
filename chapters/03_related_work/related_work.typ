@@ -21,23 +21,17 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 3,
+    #table(
       columns: (30%, 30%, 30%),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 {(top: 1pt)} else if y == 4 {(bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       [Modality], [Accuracy CMU-MOSI], [Accuracy IEMOCAP],
-      hlinex(),
       [T+A], [77.06%], [78.85%], 
       [T+V], [76.65%], [79.12%],
       [A+V], [70.00%], [65.44],
       [T+A+V], [80.38%], [79.52%],
-      hlinex()
     )
 ],
 caption: [Comparison of results. A = Audio, V = Video, T = Text.]
@@ -64,27 +58,20 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 7,
+    #table(
       columns: (auto, auto, auto, auto, auto, 20%, auto),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 {(top: 1.5pt)} else if y == 3 {(top: 1pt)} else if y == 7 {(bottom: 1.5pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       [Author], [Year], [Dataset], [Architecture],[Fusion Method], [Accuracy Bimodal], [Accuracy Trimodal],
-      hlinex(),
       [Vielzeuf et al. @relwork1], [2017], [WILD],[CNN], [Weighted Mean], [58.8% (A + V)], [-],
       [Majumder et al. @8321250], [2018], [IEMOCAP], [SVM], [Linear Layer], [96.6% (A + V)], [-],
-      hlinex(),
       [Huddar et al. @relwork3], [2020], [IEMOCAP, CMU-MOSI], [GGA, GA, Recurrent LSTM], [Contextual Fusion], [77.06% (T + A) \ 76.65% (T + V) \ 70.00% (A + V)], [80.83%],
       [Majumder et al. @MAJUMDER2018124], [2018], [IEMOCAP, CMU-MOSI], [CNN], [Recurrent Networks], [77.30% (T + A) \ 77.80% (T + V) \ 58.80% (A + V)], [80.00%],
       [Pham et al. @seq2seq2sentiment], [2018], [CMU-MOSI], [Seq2Seq], [Hierarchical Fusion], [44.00% (T + A) \ 78.00% (T + V) \ 55.00% (A + V)], [75.00%],
       [Zadeh et al. @zadeh2017tensor], [2017], [CMU-MOSI], [LSTM], [Tensor Fusion], [-], [77.10%],
-      [Xu et al. @XU2020347], [2020], [IEMOCAP, MOUD], [CNN-RNN], [Multi-kernel learning], [85.36% (T + A) \ 92.37% (T + V) \ 91.14% (A + V)], [95.5%], 
-      hlinex()
+      [Xu et al. @XU2020347], [2020], [IEMOCAP, MOUD], [CNN-RNN], [Multi-kernel learning], [85.36% (T + A) \ 92.37% (T + V) \ 91.14% (A + V)], [95.5%]
     )
 ],
 caption: [Overwiev of the compared works showing the bimodal and trimodal results. \ A = Audio, V = Video, T = Text, - = not provided / not evaluated.]

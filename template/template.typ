@@ -1,6 +1,5 @@
 #import "@preview/drafting:0.1.1": margin-note, set-page-properties
 #import "@preview/i-figured:0.2.4"
-#import "@preview/tablex:0.0.8": *
 
 #let ovgu-blue = rgb("#0068B4")
 #let ovgu-darkgray = rgb("#606060")

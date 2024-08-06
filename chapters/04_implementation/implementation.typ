@@ -36,18 +36,15 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 7,
+    #table(
       columns: (auto, auto, auto),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 { (top: 1pt) } else if y == 3 { (bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
+      
       [Model], [Response], [Type of Response],
-      hlinex(),
+      
       [*Llama3*], [I'm glad I could share the excitement with you! It's always thrilling to spot a clever joke or play on words. If
 you're ready for more, I've got a few more where that came from!], [Natural Language Conversation],
       [*Multi-EmoBERT*], [
@@ -72,8 +69,6 @@ you're ready for more, I've got a few more where that came from!], [Natural Lang
         )
         ], [Probabilities for every emotion],
       [*T5 Model*], [joy], [emotion label],
-      hlinex()
-
     )
 ],
 caption: [Answers to the prompt "I see that!" from the three text-to-text models without finetuning and any context.]
@@ -204,21 +199,15 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
+    #table(
       columns: (30%, 30%),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 { (top: 1pt)} else if y == 2 {(bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       [Architecture], [Trainable Parameters],
-      hlinex(),
       [Convolution], [2.176.474.377],
       [Audio Transformer], [ToDo], 
-      hlinex()
     )
 ],
 caption: [Amount of trainable parameters for both implementations.]
@@ -304,21 +293,15 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
+    #table(
       columns: (30%, 30%),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 { (top: 1pt)} else if y == 2 {(bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       [Architecture], [Trainable Parameters],
-      hlinex(),
       [Convolution], [2.504.047.929],
       [3D Vision Transformer], [1.266.615.309], 
-      hlinex()
     )
 ],
 caption: [Amount of trainable parameters for both implementations.]
@@ -374,35 +357,33 @@ kind: table,
 align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 3,
-      header-columns: 3,
+    #table(
       columns: (30%, 30%, 30%),
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => {
+        if y == 0 or y == 1 {
+          (top: 1.5pt)
+        } else if y == 2 or y == 3 or y == 5 or y == 7 {
+          (top: 1pt)
+        } else if y == 8 {
+          (top: 1pt, bottom: 1.5pt)
+        }
+      },
       fill: (.., x, y) => if (y > 3 and y < 6) or (y > 7) or (y == 0)  { luma(242) },
-      hlinex(),
+
       [Modal], [Architecture], [Trainable Parameters],
-      hlinex(),
-      rowspanx(3)[Text], [Llama 3], rowspanx(3)[$approx 4.000.000.000$],
-      hlinex(),
-      [Multi EmoBERT],
-      hlinex(), 
+      
+      table.cell(rowspan: 3)[Text], [Llama 3], table.cell(rowspan: 3)[$approx 4.000.000.000$],
+      [Multi EmoBERT], 
       [T5],
       // hlinex(),
-      rowspanx(2)[Audio], [Convolution], [2.176.474.377],
-      hlinex(),
+      table.cell(rowspan: 2)[Audio], [Convolution], [2.176.474.377],
       [Audio-Transformer], [TBD],
       // hlinex(),
-      rowspanx(2)[Video], [Convolution], [2.504.047.929],
-      hlinex(),
+      table.cell(rowspan: 2)[Video], [Convolution], [2.504.047.929],
       [3D Vision Transformer], [1.266.615.309], 
-      hlinex(),
-      hlinex(),
       [Multimodal Scoring], [Linear Layer], [147],
-      hlinex(),
     )
 ],
 caption: [Overwie of all trainable parameters for each unimodal architecture.]

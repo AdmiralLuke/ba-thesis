@@ -156,24 +156,17 @@ The size of the set $|V| = 4$. As a result a mapping $w in V$ to a $|V|$-dimensi
 )[
     #set text(hyphenate: false)
     #set par(justify: false)
-    #grid( columns: (auto),
-      tablex(
-      header-rows: 4,
-      header-columns: 2,
+      #table(
       columns: 8,
       align: center + horizon,
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 {(top: 1pt)} else if y == 1 {(top: 1pt, bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*], [*$w_i in V$*], [*$A(w_i)$*],
       [the], [$vec(1, 0, 0, 0)$],
       [tree], [$vec(0, 1, 0, 0)$],
       [is], [$vec(0, 0, 1, 0)$],
       [green], [$vec(0, 0, 0, 1)$],
-      hlinex()
-    )
     )
 ]
 

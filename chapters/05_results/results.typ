@@ -62,24 +62,26 @@ kind: table,
 align(center)[
     #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
+    #table(
       columns: 9,
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., x, y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      vlinex(),
-      [], vlinex(), colspanx(4)[CREMA-D], colspanx(4)[MELD],
-      [], [Accuracy], [Precision], [Recall], [F1], vlinex(), [Accuracy], [Precision], [Recall], [F1], vlinex(),  
-      hlinex(),
-      [Llama 3], [-], [-], [-], [-], [], [], [], [],
-      [Multi-EmoBert], [-], [-], [-], [-], [], [], [], [],
-      [T5], [-], [-], [-], [-], [], [], [], [],
-      hlinex()
+      stroke: (.., y) => {
+        if y == 0 or y == 2 {
+          (top: 1.5pt)
+        } else if y == 1 {
+          (top: 1pt)
+        } else if y == 4 {
+          (bottom: 1.5pt)
+        }
+      },
+      table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
+      
+      [Accuracy], [Precision], [Recall], [F1],  [Accuracy], [Precision], [Recall], [F1],  
+    
+      [Llama 3], [nA], [nA], [nA], [nA], [], [], [], [],
+      [Multi-EmoBert], [nA], [nA], [nA], [nA], [], [], [], [],
+      [T5], [nA], [nA], [nA], [nA], [], [], [], [],
     )
 ],
 caption: [Accuracy for unimodal emotion classification in text.]
@@ -92,63 +94,41 @@ caption: [Accuracy for unimodal emotion classification in text.]
 #figure(
 kind: table,
 gap: 15pt,
-stack(
-  spacing: 10pt,
-  [
-#align(center)[
+align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
+    #table(
       columns: 9,
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      vlinex(),
-      [], colspanx(4)[CREMA-D], colspanx(4)[MELD],
-      [], [Acc.], [Precision], [Recall], [F1], vlinex(), [Acc.], [Precision], [Recall], [F1],
-      hlinex(),
-      [Conv.], vlinex(), [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
-      [Transf.], [], [], [], [], [], [], [], [],
-      vlinex(), 
-      hlinex()
+      
+      stroke: (.., y) => {
+        if y == 0 or y == 2 {
+          (top: 1.5pt)
+        } else if y == 1 {
+          (top: 1pt)
+        } else if y == 5 {
+          (bottom: 1.5pt)
+        }
+
+      }  
+        ,
+
+      table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
+      [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
+
+      [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
+      [$"Transf."^*$], [], [], [], [], [], [], [], [],
+      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
+      [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
+  
     )
-]], 
-[(a) Test dataset: CREMA-D]
-,[
-#align(center)[
-#set text(hyphenate: false)
-    #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
-      columns: 9,
-      align: (center + horizon),
-      inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      vlinex(),
-      [], colspanx(4)[CREMA-D], colspanx(4)[MELD],
-      [], [Acc.], [Precision], [Recall], [F1], vlinex(), [Acc.], [Precision], [Recall], [F1],
-      hlinex(),
-      [Conv.], vlinex(), [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
-      [Transf.], [], [], [], [], [], [], [], [],
-      vlinex(), 
-      hlinex()
-    )
-]],
-[(b) Test dataset: MELD]
-),
-caption: [Accuracy for unimodal emotion classification in audio trained on each dataset.]
+],
+caption: [Accuracy for unimodal emotion classification in audio trained on each dataset. \ $*$ = tested with CREMA, $dagger$ = tested with MELD]
 )<fig-accs_audio>
 
 #figure(
+  gap: 20pt,
   grid(
     columns: 2,
     [
@@ -185,6 +165,7 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
 #lorem(80)
 
 #figure(
+  gap: 20pt,
   grid(
     columns: 2,
     [
@@ -221,60 +202,38 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
 #figure(
 kind: table,
 gap: 15pt,
-stack(
-  spacing: 10pt,
-  [
-#align(center)[
+align(center)[
 #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
+    #table(
       columns: 9,
       align: (center + horizon),
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      vlinex(),
-      [], colspanx(4)[CREMA-D], colspanx(4)[MELD],
-      [], [Acc.], [Precision], [Recall], [F1], vlinex(), [Acc.], [Precision], [Recall], [F1],
-      hlinex(),
-      [Conv.], vlinex(), [], [], [], [], [], [], [], [], 
-      [Transf.], [], [], [], [], [], [], [], [],
-      vlinex(), 
-      hlinex()
+      
+      stroke: (.., y) => {
+        if y == 0 or y == 2 {
+          (top: 1.5pt)
+        } else if y == 1 {
+          (top: 1pt)
+        } else if y == 5 {
+          (bottom: 1.5pt)
+        }
+
+      }  
+        ,
+
+      table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
+      [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
+
+      [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
+      [$"Transf."^*$], [], [], [], [], [], [], [], [],
+      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
+      [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
+  
     )
-]], 
-[(a) Test dataset: CREMA-D]
-,[
-#align(center)[
-#set text(hyphenate: false)
-    #set par(justify: false)
-    #tablex(
-      header-rows: 2,
-      header-columns: 2,
-      columns: 9,
-      align: (center + horizon),
-      inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
-      fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
-      vlinex(),
-      [], colspanx(4)[CREMA-D], colspanx(4)[MELD],
-      [], [Acc.], [Precision], [Recall], [F1], vlinex(), [Acc.], [Precision], [Recall], [F1],
-      hlinex(),
-      [Conv.], vlinex(), [], [], [], [], [], [], [], [], 
-      [Transf.], [], [], [], [], [], [], [], [],
-      vlinex(), 
-      hlinex()
-    )
-]],
-[(b) Test dataset: MELD]
-),
-caption: [Accuracy for unimodal emotion classification in video trained on each dataset.]
+]
+,
+caption: [Accuracy for unimodal emotion classification in video trained on each dataset. \ $*$ = tested with CREMA, $dagger$ = tested with MELD]
 )<fig-accs_video>
 
 #lorem(80)

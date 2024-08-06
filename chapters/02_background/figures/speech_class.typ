@@ -7,16 +7,12 @@
 )[
     #set text(hyphenate: false)
     #set par(justify: false)
-    #tablex(
-      header-rows: 8,
-      header-columns: 6,
+    #table(
       columns: 6,
       align: center + horizon,
       inset: (y: 0.7em, x: 0.75em),
-      auto-lines: false,
-      stroke: 0.75pt,
+      stroke: (.., y) => if y == 0 or y == 1 {(top: 1pt)} else if y == 7 {(bottom: 1pt)},
       fill: (.., y) => if calc.even(y) { luma(242) },
-      hlinex(),
       bdiagbox(width: 6.275em, inset: 0.65em, line_stroke: silver.darken(10%) )[*Feature*][*Emotion*], [*Fear*], [*Anger*], [*Sadness*], [*Happiness*], [*Disgust*],
       [*Speech Rate*], [much faster], [slightly faster], [slightly slower], [faster or slower], [very much slower],
       [*Pitch Average*], [very much higher], [very much higher], [slightly lower], [much higher], [very much lower],
@@ -25,7 +21,6 @@
       [*Voice Quality*], [irregular voicing], [breathy chest tone], [resonant], [breathy blaring], [grubled chest tone], 
       [*Pitch Changes*], [normal], [abrupt on stressed syllables], [downward inflections], [smooth upward inflections], [wide downward terminal inflections],
       [*Articulation*], [precise], [tense], [slurring], [normal], [normal],
-      hlinex()
     )
 ]<speech_features>
 
