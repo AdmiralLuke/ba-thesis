@@ -4,11 +4,11 @@
 
 = Evaluation
 
-This chapters will show all results for the before described and discussed implementations. Therefore the setup for the evaluation part is shown with a look on accuracy measuring functions especially the precision under recall curve. After this introduction and overwiev the actual results for the experiments are shown, visualized and further discussed.   
+This chapters presents all results for the described and discussed implementations. Therefore the setup for the evaluation part is shown with a look on accuracy measuring functions especially the precision under recall curve. After this introduction and overwiev the actual results for the experiments are shown, visualized and further discussed.   
 
 == Setup
 
-As already explained each model is trained on both datasets for 20 epochs and a 90/10 split in training and testing. Each epoch runs through the whole training data which is randomly shuffled every time for better and more efficient training. The preprocessing follows analogous the implementation presented in the chapter before. The normalizaion is done globally to bring the values in an uniform space between -1 and 1. Every training loop consists of the Adam optimizer and the cross entropy loss function to calculate the gradient. After this each trained model is also tested with each datasat to show if a model trained on CREMA-D is capeable to detect emotion in the MELD data and the other way around. The only data which is not tested is the text data from the CREMA dataset. Due to its lack of a variety of sentences it is not necessary. It consists of only twelve different sentences in around 7000 videos. Every expression is actored in the different emotion. So it is neither learnable nor testable for the further evaluation. After this unimodal detection all predictions for the test and trainings datasets are saved in an external dataset for the multimodal emotion classification so they must not be runned each time for the brute-force, neural network or major vote approach. To measure the accuracy different metrics are used. Initially as example for the text classification the precision is calculated by simply counting how many of the predictions are actually equal to the expected output. Besides it is countet how many and which emotion are wrongly labeled by the model to display a heatmap and to analyize if there are easy mix-ups between similar feature spaces. This is also continued for each test scenario. Thus the calculation of the accuracy changed to a more informative and meaningful metric. 
+As already explained each model is trained on both datasets for 20 epochs and a 90/10 split in training and testing. Each epoch runs through the whole training data which is randomly shuffled every time for better and more efficient training. The preprocessing follows analogous the implementation presented in the chapter before. The normalizaion is done globally to bring the values in an uniform space between -1 and 1. Every training loop consists of the Adam optimizer and the cross entropy loss function to calculate the gradient. After this each trained model is also tested with each dataset to show if a model trained on CREMA-D is capable to detect emotion in the MELD data and the other way around. The only data which is not tested is the text data from the CREMA dataset. Due to its lack of a variety of sentences it is not necessary. It consists of only twelve different sentences in around 7000 videos. Every expression is actored in the different emotion. So it is neither learnable nor testable for the further evaluation. After this unimodal detection all predictions for the test and trainings datasets are saved in an external dataset for the multimodal emotion classification so they must not be runned each time for the brute-force, neural network or major vote approach. To measure the accuracy different metrics are used. Initially as example for the text classification the precision is calculated by simply counting how many of the predictions are actually equal to the expected output. Besides it is counted how many and which emotion are wrongly labeled by the model to display a heatmap and to analyze if there are easy mix-ups between similar feature spaces. This is also continued for each test scenario. Thus the calculation of the accuracy changed to a more informative and meaningful metric. 
 
 
 
@@ -34,7 +34,7 @@ Further while only looking at the true positive values the precision of the mode
 
 $ "Precision" = frac(T_P, T_P + F_P) $
 
-In addition the recall shows how accurate the model predictet the classes by looking at the true positive and false negative values.
+In addition the recall shows how accurate the model predicted the classes by looking at the true positive and false negative values.
 
 $ "Recall" = frac(T_P, T_P + F_N) $
 
@@ -81,7 +81,7 @@ align(center)[
     
       [Llama 3], [nA], [nA], [nA], [nA], [], [], [], [],
       [Multi-EmoBert], [nA], [nA], [nA], [nA], [], [], [], [],
-      [T5], [nA], [nA], [nA], [nA], [], [], [], [],
+      [T5], [nA], [nA], [nA], [nA], [0.559], [0.581], [0.556], [0.559],
     )
 ],
 caption: [Accuracy for unimodal emotion classification in text.]
@@ -89,6 +89,53 @@ caption: [Accuracy for unimodal emotion classification in text.]
 
 #lorem(80)
 
+#figure(
+  gap: 20pt,
+  grid(
+    columns: 2,
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/meld_t5_pcr.svg"),
+        [(a) Precision-Recall Curve for Llama3]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/meld_t5_hm.svg"),
+        [(b) Heatmap classification distribution for Llama3]
+      )
+    ],
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/meld_t5_pcr.svg"),
+        [(c) Precision-Recall Curve for EmoBERT]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/meld_t5_hm.svg"),
+        [(d) Heatmap classification distribution for EmoBERT]
+      )
+    ],
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/meld_t5_pcr.svg"),
+        [(e) Precision-Recall Curve for T5]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/meld_t5_hm.svg"),
+        [(f) Heatmap classification distribution for T5]
+      )
+    ],
+    
+  ),
+  caption: [Text-Models: Precision-Recall Curve for each label and heatmap distribution from testing and training with the MELD dataset]
+)<fig:text_pcr>
 
 
 #figure(
@@ -118,8 +165,8 @@ align(center)[
       [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
 
       [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
+      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*],
       [$"Transf."^*$], [], [], [], [], [], [], [], [],
-      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
       [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
   
     )
@@ -226,8 +273,8 @@ align(center)[
       [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
 
       [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
-      [$"Transf."^*$], [], [], [], [], [], [], [], [],
       [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
+      [$"Transf."^*$], [], [], [], [], [], [], [], [],
       [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
   
     )
