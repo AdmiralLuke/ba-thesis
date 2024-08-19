@@ -47,7 +47,7 @@ All in all these metrics are normally used for each label instead of for the who
 
 === Experiments 
 
-As already discussed there are several experiments to do for an appropiate showcase of the model functionalities. After they got trained they will be evaluated with their normal test data. Each model will be tested with the MELD data as well as the CEMA data to look if these models are able to understand the data from each other without further training. This will be repeated with the same datasets but with additional artifical noise in each entry to check wether these architectures are still able to extract relevant features from much lower qualities. The best models for each modal will be choosen for the multimodal classification which follows the same testing procedure as before.
+As already discussed there are several experiments to do for an appropiate showcase of the model functionalities. After they got trained they will be evaluated with their normal test data. Each model will be tested with the MELD data as well as the CEMA data to look if these models are able to understand the data from each other without further training. Additionaly on some models the weighted focus will be shown on some examples to visualize the extracted features. The best models for each modal will be choosen for the multimodal classification which follows the same testing procedure as before. As presented in the chapter before, the training for an output fusion with a simple neural network, major voting system and the bruteforce approach are simulated and evaluated.  
 
 
 
@@ -79,15 +79,15 @@ align(center)[
       
       [Accuracy], [Precision], [Recall], [F1],  [Accuracy], [Precision], [Recall], [F1],  
     
-      [Llama 3], [nA], [nA], [nA], [nA], [], [], [], [],
-      [Multi-EmoBert], [nA], [nA], [nA], [nA], [], [], [], [],
+      [Llama], [nA], [nA], [nA], [nA], [], [], [], [],
+      [Multi-EmoBert], [nA], [nA], [nA], [nA], [*0.603*], [*0.594*], [*0.603*], [*0.597*],
       [T5], [nA], [nA], [nA], [nA], [0.559], [0.581], [0.556], [0.559],
     )
 ],
 caption: [Accuracy for unimodal emotion classification in text.]
 )<fig-accs_text>
 
-#lorem(80)
+As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset with in the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionally meaning every time so the model is unable to correctly learn any features from the given training set.  Fortunat
 
 #figure(
   gap: 20pt,
@@ -109,13 +109,13 @@ caption: [Accuracy for unimodal emotion classification in text.]
     [
       #stack(
         spacing: 12pt,
-        image("curves/meld_t5_pcr.svg"),
+        image("curves/meld_emobert_pcr.svg"),
         [(c) Precision-Recall Curve for EmoBERT]
       )
     ],
     [
       #stack(
-        image("heatm/meld_t5_hm.svg"),
+        image("heatm/meld_emobert_hm.svg"),
         [(d) Heatmap classification distribution for EmoBERT]
       )
     ],
@@ -156,6 +156,8 @@ align(center)[
           (top: 1pt)
         } else if y == 5 {
           (bottom: 1.5pt)
+        } else if y == 4 {
+          (top: 0.5pt)
         }
 
       }  
@@ -164,14 +166,15 @@ align(center)[
       table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
       [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
 
-      [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
-      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*],
-      [$"Transf."^*$], [], [], [], [], [], [], [], [],
-      [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
+      [$"Conv. (C)"$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
+      [$"Transf. (C)"$], [], [], [], [], [], [], [], [],
+      [$"Conv. (M)"$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*],
+      
+      [$"Transf. (M)"$], [], [], [], [], [], [], [], [], 
   
     )
 ],
-caption: [Accuracy for unimodal emotion classification in audio trained on each dataset. \ $*$ = tested with CREMA, $dagger$ = tested with MELD]
+caption: [Accuracy for unimodal emotion classification in audio trained on each dataset. \ (C) = tested with CREMA, (M) = tested with MELD]
 )<fig-accs_audio>
 
 #figure(
@@ -206,8 +209,8 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
     ],
     
   ),
-  caption: [Precision-Recall Curve for each label and heatmap distribution from testing with the CREMA-D dataset]
-)<fig:audio_crema_pr>
+  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network and tested with the CREMA-D dataset.]
+)<fig:audio_crema_c>
 
 #lorem(80)
 
@@ -243,8 +246,8 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
     ],
     
   ),
-  caption: [Precision-Recall Curve for each label and heatmap distribution from testing with the MELD dataset]
-)<fig:audio_meld_pr>
+  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network and tested with the MELD dataset.]
+)<fig:audio_meld_c>
 
 #figure(
 kind: table,
@@ -264,6 +267,8 @@ align(center)[
           (top: 1pt)
         } else if y == 5 {
           (bottom: 1.5pt)
+        } else if y == 4 {
+          (top: 0.5pt)
         }
 
       }  
@@ -272,17 +277,87 @@ align(center)[
       table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
       [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
 
-      [$"Conv."^*$], [*0.409*], [*0.449*], [*0.409*], [*0.387*], [0.143], [0.021], [0.143], [0.036], 
-      [$"Conv."^dagger$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*], 
-      [$"Transf."^*$], [], [], [], [], [], [], [], [],
-      [$"Transf."^dagger$], [], [], [], [], [], [], [], [], 
+      [$"Conv. (C)"$], [*0.749*], [*0.747*], [*0.747*], [*0.742*], [0.154], [0.024], [0.154], [0.041], 
+      [$"Transf. (C)"$], [], [], [], [], [], [], [], [],
+      [$"Conv. (M)"$], [0.049], [0.295], [0.049], [0.043], [*0.473*], [*0.223*], [*0.473*], [*0.303*], 
+      [$"Transf. (M)"$], [], [], [], [], [], [], [], [], 
   
     )
 ]
 ,
-caption: [Accuracy for unimodal emotion classification in video trained on each dataset. \ $*$ = tested with CREMA, $dagger$ = tested with MELD]
+caption: [Accuracy for unimodal emotion classification in video trained on each dataset. \ (C) = tested with CREMA, (M) = tested with MELD]
 )<fig-accs_video>
 
+#figure(
+  gap: 20pt,
+  grid(
+    columns: 2,
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/crema_cr_video_c_pcr.svg"),
+        [(a) Precision-Recall Curve for CREMA]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/crema_cr_video_c_hm.svg"),
+        [(b) Heatmap classification distribution for CREMA]
+      )
+    ],
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/meld_cr_video_c_pcr.svg"),
+        [(c) Precision-Recall Curve for MELD]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/meld_cr_video_c_hm.svg"),
+        [(d) Heatmap classification distribution for MELD]
+      )
+    ],
+    
+  ),
+  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an video convolution based network and tested with the CREMA-D dataset.]
+)<fig:video_crema_c>
+
 #lorem(80)
+
+#figure(
+  gap: 20pt,
+  grid(
+    columns: 2,
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/crema_me_video_c_pcr.svg"),
+        [(a) Precision-Recall Curve for CREMA]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/crema_me_video_c_hm.svg"),
+        [(b) Heatmap classification distribution for CREMA]
+      )
+    ],
+    [
+      #stack(
+        spacing: 12pt,
+        image("curves/meld_me_video_c_pcr.svg"),
+        [(c) Precision-Recall Curve for MELD]
+      )
+    ],
+    [
+      #stack(
+        image("heatm/meld_me_video_c_hm.svg"),
+        [(d) Heatmap classification distribution for MELD]
+      )
+    ],
+    
+  ),
+  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an video convolution based network and tested with the MELD dataset.]
+)<fig:video_meld_c>
 
 #section("Multimodal Results")
