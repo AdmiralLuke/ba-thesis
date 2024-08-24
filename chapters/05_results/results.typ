@@ -55,7 +55,9 @@ As already discussed there are several experiments to do for an appropiate showc
 
 == Results
 
-#section("Unimodal Results")
+#section("Unimodal Results for Classification in Text")
+
+As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset with in the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionally meaning every time so the model is unable to correctly learn any features from the given training set. Fortunately some results are achieved with the MELD dataset, which features a high variety of different sentences. Starting with the worst performance of the three given models, Llama still performed better than just guessing ($1/7 = 14.3% "accuracy"$) the right emotion. However it shows that the contextual understanding from the chat conversation will not be enough to finetune this architecture. In comparison both real-trained models, EmoBert and T5, perfomed quite better with more than 50% precision and accuracy. #text(red)[#lorem(70)] #todo[Llama detailled results]
 
 #figure(
 kind: table,
@@ -87,7 +89,9 @@ align(center)[
 caption: [Accuracy for unimodal emotion classification in text.]
 )<fig-accs_text>
 
-As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset with in the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionally meaning every time so the model is unable to correctly learn any features from the given training set.  Fortunat
+Continuing with the Multi-EmoBERT model, this architecture performed the best with a small gap to T5. Further looking at @fig:fig-text_pcr, especially at (c) and (d) the neutral emotion still performed and was learned the best at it is also the most common emotion in the MELD-dataset. However in contrast to Llama, EmoBERT showed in total better results in every category. Further it visualizes the imbalance of the data distribution. 
+The precision-recall curve in (c) notes that fear was learned and classified not well at all. But as showcased in the heatmap distribution from (d) it is still a result from the imbalance of the dataset.  Here the fear was missclassified the most but there were only around 100 samples in the test dataset where nearly a third was labeled as neutral. All other emotions are aligned as well as fear and neutral to the distribution in the MELD data. Important to note is the fact that all of the three models, especially EmoBERT are always guessing different emotion even though they will have a high accuracy while only classify every sentence as neutral. This problem will occur again in the video and audio detection.  
+   
 
 #figure(
   gap: 20pt,
@@ -135,8 +139,9 @@ As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, prec
     
   ),
   caption: [Text-Models: Precision-Recall Curve for each label and heatmap distribution from testing and training with the MELD dataset]
-)<fig:text_pcr>
+)<fig-text_pcr>
 
+#section("Unimodal Results for Classification in Audio")
 
 #figure(
 kind: table,
@@ -249,6 +254,8 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
   caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network and tested with the MELD dataset.]
 )<fig:audio_meld_c>
 
+#section("Unimodal Results for Classification in Video")
+
 #figure(
 kind: table,
 gap: 15pt,
@@ -278,9 +285,9 @@ align(center)[
       [Acc.], [Precision], [Recall], [F1], [Acc.], [Precision], [Recall], [F1],
 
       [$"Conv. (C)"$], [*0.749*], [*0.747*], [*0.747*], [*0.742*], [0.154], [0.024], [0.154], [0.041], 
-      [$"Transf. (C)"$], [], [], [], [], [], [], [], [],
-      [$"Conv. (M)"$], [0.049], [0.295], [0.049], [0.043], [*0.473*], [*0.223*], [*0.473*], [*0.303*], 
-      [$"Transf. (M)"$], [], [], [], [], [], [], [], [], 
+      [$"Transf. (C)"$], [*0.544*], [*0.577*], [*0.544*], [*0.539*], [0.146], [0.021], [0.146], [0.037],
+      [$"Conv. (M)"$], [0.295], [0.049], [0.295], [0.043], [*0.473*], [*0.223*], [*0.473*], [*0.303*], 
+      [$"Transf. (M)"$], [0.219], [0.057], [0.219], [0.057], [*0.472*], [*0.223*], [*0.472*], [*0.303*], 
   
     )
 ]
