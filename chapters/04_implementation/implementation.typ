@@ -81,14 +81,18 @@ Fortunately all of the three given models are implementing an own language under
 
 Llamas response shows the conversation like answer leading to the need of some finetuning. Fortunatley the model has contextual memory which can be used to predefine a task with natural language for the architecture. In this case the chore with an example for better understanding is given and repeated after every prompt to refresh the contextual memory. Further as shown in @fig:fig-text_flow and explained before the train data can be embedded in the progression of the conversation to give the model a higher overview about the given data which can lead to a higher accuracy. 
 
+With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort as shown in the following @lst:code-llama.
+
+#figure(
+  include "code/llama.typ",
+ caption: [Short overwie of the prompt input to the Llama model with its contextual feed.],
+ outlined: true 
+)<code-llama>
+
 A possible prompt which is used later for the evaluation is: 
 
 #quote(block: true)[
 "Giving the following seven emotion with their abbrevation: Anger (ANG), Disgust (DIS), Fear (FEA), Surprise (SUP), Sadness (SAD), Happiness (HAP), Neutral (NEU). I\'ll prompt you a sentence and you will answer with the corresponding emotion abbrevation. For example I\'ll ask: "My day is awesome" and you\'re answer would be "[HAP]". Don\'t forget the brackets. Sentences, or questions like "okay" or "lets go" are also sentences where you have to guess the emotion. Alright?"]
-
-With this task the model outputs a more sensible answer in the right format for the same example sentence. This prompt can be changed slightly to feed in the contextual information about the training data without much effort.
-
-#todo(inline: true)[Pseudocode]
 
 #section("Multi-EmoBert")
 
@@ -109,12 +113,7 @@ The T5 accepts both methods for finetuning thus prompt engineering does not seem
 
 
 
-
-#todo(inline: true)[Pseudocode]
-
-
-
-#pagebreak() // gz6eju7rju476hz7rju47eu66et5
+ // gz6eju7rju476hz7rju47eu66et5
 
 == Unimodal Audio Classification
 
@@ -187,11 +186,12 @@ Overall there are many more observeable features extracted by OpenSmile which ar
 
 #section[Model Architectures]
 
-As already presented there exists a lot of different architectures which are able to learn and train from audio data. Most commonly they have some kind of recurrent and bidirectional neurons or in general some context understanding which is important for time series training. 
+As already presented there exists a lot of different architectures which are able to learn and train from audio data. 
 
 #include "figures/audio_flow.typ"
 
-Similar to @fig:fig-text_flow which shows an abstract visualization of the text to emotion processing pipeline, @fig:fig-audio_flow presents a small overview about the necessary components for the detection in audio signals. Starting with the input it is possible to train from it without any external feature extraction. Thus only the audio transformer which was presented earlier is currently capable enough for relieable results. In general the convolution based architecture mostly needs a predefined feature extraction for better and faster learning results. These two models are the main models implemented in this thesis for emotion understanding in audio. Each architecture will output the calculated logits which are representing the possibilities for each label to be correct. These are afterwards used to map them on to one-hot vectors showing the corresponding emotion as positive (1) and negative (0). This might also allow multi-label classification but is not introduced further in this thesis due to the limitation of the scope. For the optimization task of the models the cross-entropy loss is used for each to calculate the error between the resulting and softmaxed logits with the given one-hot vector target. @tbl:tbl-audio_params shows as an important overview the amount of trainable parameters for each model. Generally the three presented text models are implementing round about 4 billion parameters or more each, however they are already mostly pretrained. Both audio architectures are well comparable and within a reasonable range to these models allowing less noise due to higher model differences. #linebreak(justify: true)
+Most commonly they have some kind of recurrent and bidirectional neurons or in general some context understanding which is important for time series training. Similar to @fig:fig-text_flow which shows an abstract visualization of the text to emotion processing pipeline, @fig:fig-audio_flow presents a small overview about the necessary components for the detection in audio signals. Starting with the input it is possible to train from it without any external feature extraction. Thus only the audio transformer which was presented earlier is currently capable enough for relieable results.
+ In general the convolution based architecture mostly needs a predefined feature extraction for better and faster learning results. These two models are the main models implemented in this thesis for emotion understanding in audio. Each architecture will output the calculated logits which are representing the possibilities for each label to be correct. These are afterwards used to map them on to one-hot vectors showing the corresponding emotion as positive (1) and negative (0). This might also allow multi-label classification but is not introduced further in this thesis due to the limitation of the scope. For the optimization task of the models the cross-entropy loss is used for each to calculate the error between the resulting and softmaxed logits with the given one-hot vector target. @tbl:tbl-audio_params shows as an important overview the amount of trainable parameters for each model. Generally the three presented text models are implementing round about 4 billion parameters or more each, however they are already mostly pretrained. Both audio architectures are well comparable and within a reasonable range to these models allowing less noise due to higher model differences. #linebreak(justify: true)
 
 #figure(
 kind: table,
@@ -227,7 +227,7 @@ Premade feature extraction methods like FACET which are directly looking for inf
 
 In total there won't be much preprocessing besides randomly picking 30 frames out of each video. As usual the data will be normalized which will loose information about the color and just keeps the grayscale information in the cutouts. This will also force the model to learn specifically features about the moving parts in the faces. Thus in this case every color is given by an seperate channel for each RGB (red, green, blue) value. This should not make much difference but can give the model some colored reference points. 
 
-Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This results into over 100.000 values per frame however in comparison to the MELD dataset it is still not as problematic. These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which is nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. CREMA-D offers an realtively easy approach thanks to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in @fig:fig-vid_pre_1 the position of the observation target differs from data sample to data sample which is marked red for better visualization. #linebreak(justify: true)
+Another problem which occurs before the video can be forwarded into the model is the actual size of a single frame. Generally for example the vision transformer model is tested with small videos and images in size of 16x16 pixel @dosovitskiy2021imageworth16x16words which won't represent the given data from both datasets. Within CREMA-D all data samples have the resolution of 480 pixel width and 360 pixel height. This results into over 100.000 values per frame however in comparison to the MELD dataset it is still not as problematic. 
 
 #figure(
   grid(
@@ -240,6 +240,8 @@ Another problem which occurs before the video can be forwarded into the model is
   
 )<fig-vid_pre_1>
 
+These videos in the set are much larger due to their origin as samples from a television show made for bigger screens. Therefore they have a resolution of 1020 pixel in width and 720 pixel in height which is nearly sevenfold the amount of values per frame and video in comparison to CREMA-D. The only solution for this problem is to crop the videos to a workable size without any loss of information. 
+CREMA-D offers an realtively easy approach thanks to the static recording of the speaking person which is generally in the center of the video with some surroundings from the background which can be cutted off. Thus as already shortly presented in @chap-datasets there are several persons within the MELD videos besides the speaking actor. Also as shown in @fig:fig-vid_pre_1 the position of the observation target differs from data sample to data sample which is marked red for better visualization. #linebreak(justify: true)
 There are two necessary steps available to extract the active person automatically as shown in @fig:fig-audio_preprocessing and as an example visualized in @fig:fig-vid_pre_2. 
 
 #include "figures/preprocessing.typ"
@@ -349,7 +351,6 @@ There exist many other possible methods. Every clustering algorithm like k-means
 
 #section[Architecture]
 
-All unimodal architectures are already proposed and discussed before in this chapter. Thus regarding to the scoring methods they have to put in the same context especially for the same kind of output to meet the requirements given by the optimization function $f$. Looking back at the abstract overviews for each modal as shown in @fig:fig-text_flow, @fig:fig-audio_flow and @fig:fig-video_flow some tasks are showing up. First of all due to the text-to-text understanding of the natural language models the output has to get mapped back to the one-hot vector which is already given by the audio and video based architectures. Secondly for the neural network approach a dataset out of the results from the original datasets is needed. Therefore every model saves its prediction.  
 
 #figure(
 kind: table,
@@ -388,6 +389,7 @@ align(center)[
 caption: [Overwie of all trainable parameters for each unimodal architecture.]
 )<tbl-total_params>
 
+All unimodal architectures are already proposed and discussed before in this chapter. Thus regarding to the scoring methods they have to put in the same context especially for the same kind of output to meet the requirements given by the optimization function $f$. Looking back at the abstract overviews for each modal as shown in @fig:fig-text_flow, @fig:fig-audio_flow and @fig:fig-video_flow some tasks are showing up. First of all due to the text-to-text understanding of the natural language models the output has to get mapped back to the one-hot vector which is already given by the audio and video based architectures. Secondly for the neural network approach a dataset out of the results from the original datasets is needed. Therefore every model saves its prediction.  
 @tbl:tbl-total_params shows an final overview over all trainable parameters for each model and also for the multimodal scoring method featuring a neural network. All models are good comparable regarding their size and amount of trainable weights. The scoring network is the smallest of all thus it includes only a single linear layer which maps three vectors to a single vector. 
 
 
