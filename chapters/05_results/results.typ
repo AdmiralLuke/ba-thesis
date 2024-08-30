@@ -81,7 +81,7 @@ align(center)[
       
       [Accuracy], [Precision], [Recall], [F1],  [Accuracy], [Precision], [Recall], [F1],  
     
-      [Llama], [nA], [nA], [nA], [nA], [], [], [], [],
+      [Llama], [nA], [nA], [nA], [nA], [0.372], [0.546], [0.372], [0.385],
       [Multi-EmoBert], [nA], [nA], [nA], [nA], [*0.603*], [*0.594*], [*0.603*], [*0.597*],
       [T5], [nA], [nA], [nA], [nA], [0.559], [0.581], [0.556], [0.559],
     )
@@ -378,6 +378,8 @@ The graphical representation of the precision-recall curve in (a) from @fig:fig-
   caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an video convolution based network and tested with the CREMA-D dataset.]
 )<fig-video_crema_c>
 
+Nearly the same observations can be found within the transformer model. Visible in (b) from @fig:fig-video_crema_t the diagnal line with the correct classified labels is still existing and clearly recognizable. However there are also quite a lot of missclassified outlier, mostly where the actual label is anger, sadness and fear. The problematic follows the explanation from the convolution model but is more visible. It shows that the model did not get the correct features as fast as the convolution model which can result due to the difference in the amount of trainable parameters. With more time in training which was not possible due to the limitations in this thesis, the model could achieve the results from the convolution model. In addition with (a) from
+
 #figure(
   gap: 20pt,
   grid(
@@ -400,8 +402,42 @@ The graphical representation of the precision-recall curve in (a) from @fig:fig-
   caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an video transformer based network and tested with the CREMA-D dataset.]
 )<fig-video_crema_t>
 
-#lorem(80)
+ @fig:fig-video_crema_t it is still clear that happiness was well learned and also followed by disgust. The other emotions are showing that there is more proper training missing to differentiate between the smaller yet important features. 
+
+ In total there are facial features which can be learned by neural networks or similar deep learning architectures. However there are still many problems with the existing datasets as they is no standard or good comparability between each other. This leads to the described overfitting effect which was found in every modal yet since there are different artefacts like shaking heads or other disturbances. With better active speaker recognition, artifical camera stabilzation or interpolation to clean up bad frames there are many possibilities to improve and generalize these models within video based emotion detection.
 
 
 
 #section("Multimodal Results")
+
+For multimodal evaluation the best model from each modal was picked as it is not necessary to test the same experiment with less precise results thus identically trained models. For MELD the EmoBERT model, the audio xxxxxxxx #todo[pick the right] and the video convolution are choosen. As there are no metrics and trained text models for CREMA-D only the audio transformer and video convolution models are used for the multimodal evaluation. To simulate the missing results from text detection a random label is picked for each sentence. Without a third modal the major vote strategy would not work properly. 
+
+#figure(
+kind: table,
+align(center)[
+    #set text(hyphenate: false)
+    #set par(justify: false)
+    #table(
+      columns: 9,
+      align: (center + horizon),
+      inset: (y: 0.7em, x: 0.75em),
+      stroke: (.., y) => {
+        if y == 0 or y == 2 {
+          (top: 1.5pt)
+        } else if y == 1 {
+          (top: 1pt)
+        } else if y == 4 {
+          (bottom: 1.5pt)
+        }
+      },
+      table.cell(rowspan: 2)[], table.cell(colspan: 4)[*CREMA-D*], table.cell(colspan: 4)[*MELD*],
+      
+      [Accuracy], [Precision], [Recall], [F1],  [Accuracy], [Precision], [Recall], [F1],  
+    
+      [Neural Network], [], [], [], [], [], [], [], [],
+      [Brute Force], [], [], [], [], [], [], [], [],
+      [Major Voting], [], [], [], [], [], [], [], [],
+    )
+],
+caption: [Accuracy for multimodal emotion classification.]
+)<fig-accs_mm>
