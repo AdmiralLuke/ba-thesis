@@ -42,7 +42,7 @@ At last to measure the quality of the classifcation model the F1-score can be ca
 
 $ "F1-Score" = 2 dot frac("Precision" dot "Recall", "Precision" + "Recall") $
 
-All in all these metrics are normally used for each label instead of for the whole classifier. Thus for a more clear arrangement of the results regarding the amount of different classifier and multimodal combination methods the following results are calculated for all labels in total showing the precision, accuracy, recall and quality of each classifier. Also this global observation of precision under recall helps to ignore imbalances within the datasets. This problem would otherwise occur while evaluating measurements with the MELD dataset. Furthermore the area under recall (AUC) metric describes the area under the precision-recall curve. A perfect model would have an AUC of 1, showing that the precision under recall is also always 1. In turn a completly untrained model has an AUC of 0. 
+All in all these metrics are normally used for each label instead of for the whole classifier. Thus for a more clear arrangement of the results regarding the amount of different classifier and multimodal combination methods the following results are calculated for all labels in total showing the precision, accuracy, recall and quality of each classifier. Also this global observation of precision under recall helps to ignore imbalances within the datasets. This problem would otherwise occur while evaluating measurements with the MELD dataset. Furthermore the area under recall (AUC) metric describes the area under the precision-recall curve. A perfect model would have an AUC of 1, showing that the precision under recall is also always 1. In turn a completly untrained model has an AUC of 0. In general it shows how high the precision under the amount of all correct classified labels, to see if there are many missclassification although the model seems to have a high accuracy. 
 
 
 === Experiments 
@@ -57,7 +57,7 @@ As already discussed there are several experiments to do for an appropiate showc
 
 #section("Unimodal Results for Classification in Text")
 
-As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset with in the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionally meaning every time so the model is unable to correctly learn any features from the given training set. Fortunately some results are achieved with the MELD dataset, which features a high variety of different sentences. Starting with the worst performance of the three given models, Llama still performed better than just guessing ($1/7 = 14.3% "accuracy"$) the right emotion. However it shows that the contextual understanding from the chat conversation will not be enough to finetune this architecture. In comparison both real-trained models, EmoBert and T5, perfomed quite better with more than 50% precision and accuracy. #text(red)[#lorem(70)] #todo[Llama detailled results]
+As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset with in the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionally meaning every time so the model is unable to correctly learn any features from the given training set. Fortunately some results are achieved with the MELD dataset, which features a high variety of different sentences. Starting with the worst performance of the three given models, Llama still performed better than just guessing ($1/7 = 14.3% "accuracy"$) the right emotion. However it shows that the contextual understanding from the chat conversation will not be enough to finetune this architecture. In comparison both real-trained models, EmoBert and T5, perfomed quite better with more than 50% precision and accuracy. Beginning with the only prompt-driven model, LLama performes the worst from all three models with only 37% accuracy. Here the model mostly tried to predict other emotion instead of neutral, leading to a high missclassification rate in every given label which is hightlighted by (b) in @fig:fig-text_pcr. Llama oftenly predicts happiness wrong which shows that it interprets the sentences most of the time as an happier atmosphere showing the missing understanding of the dataset although the context is presented by the prompt before. 
 
 #figure(
 kind: table,
@@ -90,7 +90,7 @@ caption: [Accuracy for unimodal emotion classification in text.]
 )<fig-accs_text>
 
 Continuing with the Multi-EmoBERT model, this architecture performed the best with a small gap to T5. Further looking at @fig:fig-text_pcr, especially at (c) and (d) the neutral emotion still performed and was learned the best at it is also the most common emotion in the MELD-dataset. However in contrast to Llama, EmoBERT showed in total better results in every category. Further it visualizes the imbalance of the data distribution. 
-The precision-recall curve in (c) notes that fear was learned and classified not well at all. But as showcased in the heatmap distribution from (d) it is still a result from the imbalance of the dataset.  Here the fear was missclassified the most but there were only around 100 samples in the test dataset where nearly a third was labeled as neutral. All other emotions are aligned as well as fear and neutral to the distribution in the MELD data. Important to note is the fact that all of the three models, especially EmoBERT are always guessing different emotion even though they will have a high accuracy while only classify every sentence as neutral. This problem will occur again in the video and audio detection. With almost equal results T5 shows mostly similar behavior in training and testing, however the small differences are visible in the emotion with less occurence. In comparison to EmoBERT nearly every other sentiment were missclassified more often thus these amounts are also very small. Interestingly the T5 model was able to label sadness a bit more accurate than every other of the text models which can be a feature from the small yet existing architecture differences and the different datasets for pretaining the weights. The most visible contrast between the two models can be found in the fear and disgust emotion. Here the T5 model tries to classify fewer sentences than these as a further result of the imbalance from MELD data. #text(red)[#lorem(80)] #todo[Llama comparison]. To look at similarities between the three architectures, both T5 and EmoBERT are able to differ perfectly between disgust and fear while it is the only emotion without any missclassification. As these are very rare labels in the given dataset this can be a random occurence.  
+The precision-recall curve in (c) notes that fear was learned and classified not well at all. But as showcased in the heatmap distribution from (d) it is still a result from the imbalance of the dataset.  Here the fear was missclassified the most but there were only around 100 samples in the test dataset where nearly a third was labeled as neutral. All other emotions are aligned as well as fear and neutral to the distribution in the MELD data. Important to note is the fact that all of the three models, especially EmoBERT are always guessing different emotion even though they will have a high accuracy while only classify every sentence as neutral. This problem will occur again in the video and audio detection. With almost equal results T5 shows mostly similar behavior in training and testing, however the small differences are visible in the emotion with less occurence. In comparison to EmoBERT nearly every other sentiment were missclassified more often thus these amounts are also very small. Interestingly the T5 model was able to label sadness a bit more accurate than every other of the text models which can be a feature from the small yet existing architecture differences and the different datasets for pretaining the weights. The most visible contrast between the two models can be found in the fear and disgust emotion. Here the T5 model tries to classify fewer sentences than these as a further result of the imbalance from MELD data. Llama struggles the most as it is unable to identify the structure of the dataset. In this case it shows the high difference between actual training of the weight and the use of a possible small context memory in these architectures. To look at similarities between the three architectures, both T5 and EmoBERT are able to differ perfectly between disgust and fear while it is the only emotion without any missclassification. As these are very rare labels in the given dataset this can be a random occurence.  
 
 In total it is showed that text classification models for emotion detection can be suitable in some cases. Generally these large and public models like Llama3 or ChatGPT which are seen as the state-of-art tools for nearly every problem, are not able to correctly recognize the correct sentiment even with many context. However it is currently not public how much context these models can handle, store and use, or if most of the given input was mostly ignored by the architecture. In comparison the directly trained models like EmoBERT and T5, where the user has a chance to fully integrate the context into the given weights, are more suitable for these problems. Nonetheless they are in most cases only able to detect emotion from the specific dataset due to the dependencies with in the data. In fact MELD offers only quite specific sentences with many insider and important context from the series where it finds its origin. While looking at the tokenizer and encoder, there are mostly names from character and specific insider words from this TV-show available. Therefore the model is able to understand the emotional context from this series but it would struggle with for example sentences from a normal conversation. Also shown later is very easy overfitting while training each model. This could also happened here but could not be further evaluated due to the lack of necessary data. The approach to detect emotion within the CREMA-D dataset shows that there are no specific rules for a general classification. There are many sentences with different meanings as stated earlier in the background. Every human-made statement and even statements by artifical intelligence can include irony or can be acted differently. It should be nearly impossible to find general patterns to reduce overfitting by a large scale as text-based emotion detection must always look at the context from the full conversation.  
 
@@ -101,13 +101,13 @@ In total it is showed that text classification models for emotion detection can 
     [
       #stack(
         spacing: 12pt,
-        image("curves/meld_t5_pcr.svg"),
+        image("curves/llama_pcr.svg"),
         [(a) Precision-Recall Curve for Llama3]
       )
     ],
     [
       #stack(
-        image("heatm/meld_t5_hm.svg"),
+        image("heatm/llama_hm.svg"),
         [(b) Heatmap classification distribution for Llama3]
       )
     ],
@@ -178,7 +178,7 @@ align(center)[
       [$"Transf. (C)"$], [*0.463*], [*0.456*], [*0.463*], [*0.427*], [], [], [], [],
       [$"Conv. (M)"$], [0.115], [0.042], [0.115], [0.046], [*0.478*], [*0.223*], [*0.478*], [*0.309*],
       
-      [$"Transf. (M)"$], [], [], [], [], [], [], [], [], 
+      [$"Transf. (M)"$], [], [], [], [], [*0.461*], [*0.213*], [*0.461*], [*0.291*], 
   
     )
 ],
@@ -434,9 +434,9 @@ align(center)[
       
       [Accuracy], [Precision], [Recall], [F1],  [Accuracy], [Precision], [Recall], [F1],  
     
-      [Neural Network], [], [], [], [], [], [], [], [],
-      [Brute Force], [], [], [], [], [], [], [], [],
-      [Major Voting], [], [], [], [], [], [], [], [],
+      [Neural Network], [0.759], [0.758], [0.756], [0.751], [], [], [], [],
+      [Brute Force], [0.735], [0.737], [0.736], [0.730], [], [], [], [],
+      [Major Voting], [0.252], [0.273], [0.250], [0.243], [], [], [], [],
     )
 ],
 caption: [Accuracy for multimodal emotion classification.]
