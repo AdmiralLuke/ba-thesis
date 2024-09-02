@@ -28,5 +28,5 @@ for sentence, emotion in test_set:
             'content': "The prompt is: " + sentence 
           })
 
-response = ollama.chat(model='llama3', messages=prompt) # results
+     response = ollama.chat(model='llama3', messages=prompt) # results
 ```
