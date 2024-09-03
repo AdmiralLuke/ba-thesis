@@ -439,7 +439,7 @@ In general these feature extraction approaches uses k-means with an alignment to
 
 $ tau = max_Q sum^l_(c = 1) frac(1, n_x + n_y) (q_(1c) - q_(1c - 1) + q_(2c) - q_(2c - 1))kappa_(q_(1c) q_(2c)) $
 
-where $kappa_(q_(1c) q_(2c))$ represents the kernel similarity between single frames from two video inputs. A possible kernel could be $kappa_(q_(1c) q_(2c))(x_i, y_i) = exp(frac(1, 2 sigma^2) || x_i - y_i ||^2_2)$ with $sigma^2$ as the average distance to the 10% nearest neighbours  @5539966. Clustering the features is not limited to k-means but is the most common approach. Thus the research in time series clustering has developed over the last years bringing different metrics and algorithms to the front and can be adapted with little to no effort @WARRENLIAO20051857. 
+where $kappa_(q_(1c) q_(2c))$ represents the kernel similarity between single frames from two video inputs. A possible kernel could be $kappa_(q_(1c) q_(2c))(x_i, y_i) = exp(frac(1, 2 sigma^2) norm(x_i - y_i)^2_2)$ with $sigma^2$ as the average distance to the 10% nearest neighbours  @5539966. Clustering the features is not limited to k-means but is the most common approach. Thus the research in time series clustering has developed over the last years bringing different metrics and algorithms to the front and can be adapted with little to no effort @WARRENLIAO20051857. 
 
 
 
