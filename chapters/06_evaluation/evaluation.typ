@@ -19,7 +19,7 @@ In comparison with the presented related works, the models performed quite well 
 
 == Limitations
 
-The biggest limitation is brought by the datasets themself. Mostly MELD shows that there are no unified standards for these kind of multimodal collections. There are high imbalances in the data distribution and no unified camera positions, audio recording types and other points to make them comparable to each other. Further limitation are also available due to time constraints. Normally these large models will train up to several months for better usability and relieable results. However the scope of this thesis only allowed to train on short time although the results are still representing the foundings as presented before.  
+The biggest limitation is brought by the datasets themself. Mostly MELD shows that there are no unified standards for these kind of multimodal collections. There are high imbalances in the data distribution and no unified camera positions, audio recording types and other points to make them comparable to each other. Further limitation are also available due to time constraints. Normally these large models will train up to several months for better usability and reliable results. However the scope of this thesis only allowed to train on short time although the results are still representing the foundings as presented before.  
 
 == Future Work
 
