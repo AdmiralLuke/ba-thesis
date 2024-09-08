@@ -74,5 +74,5 @@ align(center)[
       [Xu et al. @XU2020347], [2020], [IEMOCAP, MOUD], [CNN-RNN], [Multi-kernel learning], [85.36% (T + A) \ 92.37% (T + V) \ 91.14% (A + V)], [95.5%]
     )
 ],
-caption: [Overwiev of the compared works showing the bimodal and trimodal results. \ A = Audio, V = Video, T = Text, - = not provided / not evaluated.]
+caption: [Overview of the compared works showing the bimodal and trimodal results. \ A = Audio, V = Video, T = Text, - = not provided / not evaluated.]
 )<table-relword>

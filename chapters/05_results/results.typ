@@ -4,11 +4,11 @@
 
 = Evaluation
 
-This chapters presents all results for the described and discussed implementations. Therefore the setup for the evaluation part is shown with a look on accuracy measuring functions especially the precision under recall curve. After this introduction and overwiev the actual results for the experiments are shown, visualized and further discussed.   
+This chapters presents all results for the described and discussed implementations. Therefore the setup for the evaluation part is shown with a look on accuracy measuring functions especially the precision under recall curve. After this introduction and overview the actual results for the experiments are shown, visualized and further discussed.   
 
 == Setup
 
-As already explained each model is trained on both datasets for 20 epochs and a 90/10 split in training and testing. Each epoch runs through the whole training data which is randomly shuffled every time for better and more efficient training. The preprocessing follows analogous the implementation presented in the chapter before. The normalizaion is done globally to bring the values in an uniform space between -1 and 1. Every training loop consists of the Adam optimizer and the cross entropy loss function to calculate the gradient. After this each trained model is also tested with each dataset to show if a model trained on CREMA-D is capable to detect emotion in the MELD data and the other way around. The only data which is not tested is the text data from the CREMA dataset. Due to its lack of a variety of sentences it is not necessary. It consists of only twelve different sentences in around 7000 videos. Every expression is actored in the different emotion. So it is neither learnable nor testable for the further evaluation. After this unimodal detection all predictions for the test and trainings datasets are saved in an external dataset for the multimodal emotion classification so they must not be runned each time for the brute-force, neural network or major vote approach. To measure the accuracy different metrics are used. Initially as example for the text classification the precision is calculated by simply counting how many of the predictions are actually equal to the expected output. Besides it is counted how many and which emotion are wrongly labeled by the model to display a heatmap and to analyze if there are easy mix-ups between similar feature spaces. This is also continued for each test scenario. Thus the calculation of the accuracy changed to a more informative and meaningful metric. 
+As already explained, each model is trained on both datasets for 20 epochs and a 90/10 split in training and testing. Each epoch runs through the whole training data which is randomly shuffled every time for better and more efficient training. The preprocessing follows analogously to the implementation presented in the chapter before. The normalizaion of the data entries is done globally to bring the values in a uniform space between -1 and 1. Every training loop consists of the Adam optimizer and the cross entropy loss function to calculate the gradient. After this each trained model is also tested with each dataset to show if a model trained on CREMA-D is capable to detect emotion in the MELD data and the other way around. The only data which is not tested is the text data from the CREMA dataset. Due to its lack of a variety of sentences it is not necessary. It consists of only twelve different sentences in around 7000 videos. Every sentence is acted in the different emotion. So it is neither learnable nor testable for the further evaluation. After this unimodal detection, all predictions for the test and trainings datasets are saved in an external dataset for the multimodal emotion classification so they must not be evaluated each time for the brute-force, neural network or major vote approach. To measure the accuracy different metrics are used. Initially as example for the text classification the precision is calculated by simply counting how many of the predictions are actually equal to the expected output. Besides it is counted how many and which emotions are wrongly labeled by the model to display a heatmap and to analyze if there are easy mix-ups between similar feature spaces. This is also continued for each test scenario. Thus the calculation of the accuracy changed to a more informative and meaningful metric. 
 
 
 
@@ -20,13 +20,14 @@ Precision under recall describes an accuracy metric to evaluate the quality of c
 #grid(
   columns: 3,
   gutter: 1em,
-  [- $bold(T_P)$], [$->$ True Positive:], [Amount of all correct classified values.],
-  [- *$bold(T_N)$*], [$->$ True Negative:], [Amount of all correct unclassified values.],
+  [- $bold(T_P)$], [$->$ True Positive:], [Amount of all correctly classified values.],
+  [- *$bold(T_N)$*], [$->$ True Negative:], [Amount of all correctly zero-classified values.],
   [- *$bold(F_P)$*], [$->$ False Positive:], [Amount of all falsly predicted labels],
-  [- *$bold(F_N)$*], [$->$ False Negative:], [Amount of all falsly unpredicted labels]
+  [- *$bold(F_N)$*], [$->$ False Negative:], [Amount of all falsly zero-classified labels]
 )
 
-Out of these values the four important metrics can be derived from this. The accuracy shows the proportion of all correct classified labels including the quantity of all true positive and true negative classifications.
+Zero-classified are all labels, where the model predicted that these are not the corresponding emotion.
+Out of these values, the four important metrics can be derived from this. The accuracy shows the proportion of all correctly classified labels including the quantity of all true positive and true negative classifications.
 
 $ "Accuracy" = frac(T_P + T_N, T_P + T_N + F_P + F_N) $
 
@@ -34,7 +35,7 @@ Further while only looking at the true positive values the precision of the mode
 
 $ "Precision" = frac(T_P, T_P + F_P) $
 
-In addition the recall shows how accurate the model predicted the classes by looking at the true positive and false negative values.
+In addition, the recall shows how accurate the model predicted the classes by looking at the true positive and false negative values.
 
 $ "Recall" = frac(T_P, T_P + F_N) $
 
@@ -42,22 +43,32 @@ At last the F1-score can be calculated to measure the quality of the classificat
 
 $ "F1-Score" = 2 dot frac("Precision" dot "Recall", "Precision" + "Recall") $
 
+
+
 All in all these metrics are normally used for each label instead of for the whole classifier. Thus for a more clear arrangement of the results regarding the amount of different classifier and multimodal combination methods the following results are calculated for all labels in total showing the precision, accuracy, recall and quality of each classifier. Also this global observation of precision under recall helps to ignore imbalances within the datasets. This problem would otherwise occur while evaluating measurements with the MELD dataset. Furthermore the area under recall (AUC) metric describes the area under the precision-recall curve. A perfect model would have an AUC of 1, showing that the precision under recall is also always 1. In turn a completly untrained model has an AUC of 0. In general it shows how high the precision under the amount of all correct classified labels, to see if there are many misclassification although the model seems to have a high accuracy. 
 
 
 === Experiments 
 
-As already discussed there are several experiments to do for an appropriate showcase of the model functionalities. After they got trained they will be evaluated with their normal test data. Each model will be tested with the MELD data as well as the CREMA data to look if these models are able to understand the data from each other without further training. The best models for each modal will be choosen for the multimodal classification which follows the same testing procedure as before. As presented in the previous chapter, the training for an output fusion with a simple neural network, major voting system and the bruteforce approach are simulated and evaluated.  
+As already discussed there are several experiments to do for an appropriate showcase of the model functionalities. After they got trained they will be evaluated with their normal test data. Each model will be tested with the MELD data as well as the CREMA data to look if these models are able to understand the data from each other without further training. The best models for each modal will be choosen for the multimodal classification which follows the same testing procedure as before. As presented in the previous chapter, the training for an output fusion with a simple neural network, major voting system and the bruteforce approach are simulated and evaluated. The following listing again summarizes the following experiments:
 
+
+#set list(indent: 2em)
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [- *Experiment 1:*], [Unimodal emotion detection in *text* with MELD],
+  [- *Experiment 2:*], [Unimodal emotion detection in *audio*, trained on each dataset and tested each permutation.],
+  [- *Experiment 3:*],[Unimodal emotion detection in *video*, trained on each dataset and tested each permutation.],
+  [- *Experiment 4*], [Multimoda emotion detection by *label fusion* with the three presented methods: Neural Network, Brute-Force and Major Voting]
+)
 
 
 
 
 == Results
 
-#section("Unimodal Results for Classification in Text")
-
-As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset within the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionaly meaning every time so the model is unable to correctly learn any features from the given training set. Fortunately some results are achieved with the MELD dataset, which features a high variety of different sentences. Starting with the worst performance of the three given models, Llama still performed better than just guessing ($1/7 = 14.3% "accuracy"$) the right emotion. However it shows that the contextual understanding from the chat conversation will not be enough to finetune this architecture. In comparison both real-trained models, EmoBert and T5, perfomed slightly better with more than 50% precision and accuracy. Beginning with the only prompt-driven model, LLama performes the worst from all three models with only 37% accuracy. Here the model mostly tried to predict other emotion instead of neutral, leading to a high misclassification rate in every given label which is hightlighted by (b) in @fig:fig-text_pcr. Llama oftenly predicts happiness wrong which shows that it interprets the sentences most of the time as an happier atmosphere showing the missing understanding of the dataset although the context is presented by the prompt before. 
+#section("Experiment 1 - Unimodal Results for Classification in Text")
 
 #figure(
 kind: table,
@@ -89,10 +100,11 @@ align(center)[
 caption: [Accuracy for unimodal emotion classification in text.]
 )<fig-accs_text>
 
-Continuing with the Multi-EmoBERT model, this architecture performed the best with a small gap to T5.A further look at Figure 5.1, especially at (c) and (d), shows that the neutral emotion was still the best learned emotion and is also the most common emotion in the MELD dataset. However in contrast to Llama, EmoBERT showed in total better results in every category. Further it visualizes the imbalance of the data distribution. 
-The precision-recall curve in (c) notes that fear was learned and classified not well at all. But as showcased in the heatmap distribution from (d) it is still a result from the imbalance of the dataset.  Here the fear was misclassified the most but there were only around 100 samples in the test dataset where nearly a third was labeled as neutral. All other emotions are aligned as well as fear and neutral to the distribution in the MELD data. Important to note is the fact that all of the three models, especially EmoBERT are always guessing different emotion even though they will have a high accuracy by only classifying the sentences as neutral. This problem will occur again in the video and audio detection. With almost equal results T5 shows mostly similar behavior in training and testing, however the small differences are visible in the emotion with less occurence. In comparison to EmoBERT nearly every other sentiment were misclassified more often thus these amounts are also very small. Interestingly the T5 model was able to label sadness a bit more accurate than every other of the text models which can be a feature from the small yet existing architecture differences and the different datasets for pretraining the weights. The most visible contrast between the two models can be found in the fear and disgust emotion. Here the T5 model tries to classify fewer sentences than these as a further result of the imbalance from MELD data. Llama struggles the most as it is unable to identify the structure of the dataset. In this case it shows the high difference between actual training of the weight and the use of a possible small context memory in these architectures. To look at similarities between the three architectures, both T5 and EmoBERT are able to differ perfectly between disgust and fear while it is the only emotion without any misclassification. As these are very rare labels in the given dataset this can be a random occurence.  
+As noted in @tbl:fig-accs_text it was not possible to measure the accuracy, precision and other metrics for the CREMA-D dataset within the text data. This results from the usage of the same sentence for each emotion. Therefore they change the emotionaly meaning every time so the model is unable to correctly learn any features from the given training set. Fortunately some results are achieved with the MELD dataset, which features a high variety of different sentences. The only prompt-driven model, LLama performes the worst from all three models with only 37% accuracy which still performed better than just guessing ($1/7 = 14.3% "accuracy"$) the right emotion. Here the model mostly tried to predict other emotion instead of neutral, leading to a high misclassification rate in every given label which is hightlighted by (b) in @fig:fig-text_pcr. Llama oftenly predicts happiness wrong which shows that it interprets the sentences most of the time as an happier atmosphere showing the missing understanding of the dataset although the context is presented by the prompt before. 
+Continuing with the Multi-EmoBERT model, this architecture performed the best with a small gap to T5. A further look at @fig:fig-text_pcr, especially at (c) and (d), shows that the neutral emotion was still the best learned emotion and is also the most common emotion in the MELD dataset. However in contrast to Llama, EmoBERT showed in total better results in every category.
+The precision-recall curve in (c) notes that fear was learned and classified not well at all. But as showcased in the heatmap distribution from (d) it is still a result from the imbalance of the dataset.  Here, fear was misclassified the most but there were only around 100 samples in the test dataset while nearly a third was labeled as neutral. All other emotions are aligned as well as fear and neutral to the distribution in the MELD data. Important to note is the fact that all of the three models, especially EmoBERT are always guessing different emotions even though they will have high accuracy by only classifying the sentences as neutral. This problem will occur again in the video and audio detection. With almost equal results T5 shows mostly similar behavior in training and testing, however the small differences are visible in the emotion with less occurence. In comparison to EmoBERT nearly every other sentiment was misclassified more often, however, these amounts are also very small. Interestingly, the T5 model was able to label sadness a bit more accurate than every other presented text model which can be an influence from the small yet existing architecture differences and the difference in data for pretraining the weights. The most visible contrast between the two models can be found in the fear and disgust emotion. As shown, the T5 model tries to classify fewer sentences as a further result of the imbalance from MELD data. Llama struggles the most as it is unable to identify the structure of the dataset. In this case it shows the high difference between actual training of the weight and the use of a possible small context memory in these architectures. To look at similarities between the three architectures, both T5 and EmoBERT are able to differentiate perfectly between disgust and fear while it is the only emotion without any misclassification. As these are very rare labels in the given dataset this can be a random occurence.  
 
-Overall, it can be seen that text classification models for emotion detection can be suitable in some cases. Generally these large and public models like Llama3 or ChatGPT which are seen as the state-of-art tools for nearly every problem, are not able to correctly recognize the correct sentiment even with much context. However it is currently not public how much context these models can handle, store and use, or if most of the given input was mostly ignored by the architecture. In comparison the directly trained models like EmoBERT and T5, where the user has a chance to fully integrate the context into the given weights, are more suitable for these problems. Nonetheless they are in most cases only able to detect emotion from the specific dataset due to the dependencies with in the data. In fact MELD offers only quite specific sentences with many insider and important context from the series where it finds its origin. While looking at the tokenizer and encoder, there are mostly names from character and specific insider words from this TV-show available. Therefore the model is able to understand the emotional context from this series but it would struggle with for example sentences from a normal conversation. As it turned out later they will easily occur overfitting while training each model. This could also be the case here but could not be further evaluated due to the lack of necessary data. The approach to detect emotion within the CREMA-D dataset shows that there are no specific rules for a general classification. There are many sentences with different meanings as stated earlier in the background. Every human-made statement and even statements by artifical intelligence can include irony or can be acted differently. It should be nearly impossible to find general patterns to reduce overfitting by a large scale as text-based emotion detection must always look at the context from the full conversation. #linebreak(justify: true)
+Overall, it can be observed that text classification models for emotion detection can be suitable in some cases. Generally these large and public models like Llama3 or ChatGPT which are seen as the state-of-art tools for nearly every problem, are not able to correctly recognize the correct sentiment even with much context. However it is currently not public how much context these models can handle, store and use, or if most of the given input was mostly ignored by the architecture. In comparison the directly trained models like EmoBERT and T5, where the user has a chance to fully integrate the context into the given weights, are more suitable for these problems. Nonetheless they are in most cases only able to detect emotion from the specific dataset due to the dependencies within the data. In fact MELD offers only quite specific sentences with many insider and important context from the series where it finds its origin. While looking at the tokenizer and encoder, there are mostly names from character and specific insider words from this TV-show available. Therefore the model is able to understand the emotional context from this series but it would struggle with for example sentences from a normal conversation. As it turned out later they will easily occur overfitting while training each model. This could also be the case here but could not be further evaluated due to the lack of necessary data. The approach to detect emotion within the CREMA-D dataset shows that there are no specific rules for a general classification. There are many sentences with different meanings as stated earlier in the background. Every human-made statement and even statements by artifical intelligence can include irony or can be acted differently. It should be nearly impossible to find general patterns to reduce overfitting by a large scale as text-based emotion detection must always look at the context from the full conversation. #linebreak(justify: true)
 
 #figure(
   gap: 20pt,
@@ -144,7 +156,7 @@ Overall, it can be seen that text classification models for emotion detection ca
 
 #pagebreak()
 
-#section("Unimodal Results for Classification in Audio")
+#section("Experiment 2 - Unimodal Results for Classification in Audio")
 
 #figure(
 kind: table,
@@ -195,13 +207,13 @@ caption: [Accuracy for unimodal emotion classification in audio trained on each 
       #stack(
         spacing: 12pt,
         image("curves/crema_cr_audio_c_pcr.svg"),
-        [(a) Precision-Recall Curve for CREMA]
+        [(a) Precision-Recall Curve, \ trained on CREMA]
       )
     ],
     [
       #stack(
         image("heatm/crema_cr_audio_c_hm.svg"),
-        [(b) Heatmap classification distribution for CREMA]
+        [(b) Heatmap classification distribution, \ trained on CREMA]
       )
     ]),
     caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network with CREMA-D and tested with the same dataset.]
@@ -220,21 +232,21 @@ Here it classifies only neutral for every data entry which is underlined by (a) 
       #stack(
         spacing: 12pt,
         image("curves/meld_cr_audio_c_pcr.svg"),
-        [(a) Precision-Recall Curve for MELD]
+        [(a) Precision-Recall Curve, \ trained on MELD]
       )
     ],
     [
       #stack(
         image("heatm/meld_cr_audio_c_hm.svg"),
-        [(b) Heatmap classification distribution for MELD]
+        [(b) Heatmap classification distribution, \ trained on MELD]
       )
     ],
     
   ),
-  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network with MELD and tested with the CREMA-D dataset.]
+  caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network with MELD and tested with the CREMA dataset.]
 )<fig-audio_meld_crema_c>
 
-For comparison, the MELD model achieved only 14% accuracy, which is equal to a result which could be obtained by randomly guessing the label. Also the low precision of 2% shows that there was nearly no classification done by the architecture. While testing with the MELD dataset, interesting results can be observerd. As shown in @fig-audio_meld_c, the corresponding model which is trained on the same data, still predicted neutral every time due to the imbalance. This is verified by (a) where neutral has an AUC score of 0.74 instead of the expected 0.5, showing that even the test dataset is imbalanced and contains mostly one label. Therefore, there are less missclassifications and the model achieved an accuracy of 48% but with a low precision of only 22%. This shows, that most of the time a model tries to increase only the accuracy - in general to minimize the loss - without further notice about the actual precision. Meanwhile, the CREMA-D trained model overfitted and nearly only guessed anger as it is the most learned emotion as shown in (d). However (c) shows, that there also are many missclassifications within the testing. There are four emotion which are never classified by the CREMA convolution model but as three of them are quite rare in the MELD dataset, they have a low AUC score. Again neutral is outstanding from the other results as it has no missclassifications. These values are also represented in the low accuracy of 11.5% and a much lower precision of 4.2%. This is even not as good as just randomly guessing the correct label, showing that the emotion detection is dataset-specific and not generally applicable.
+For comparison, the MELD model achieved only 14% accuracy, which is equal to a result which could be obtained by randomly guessing the label. Also the low precision of 2% shows that there was nearly no classification done by the architecture. While testing with the MELD dataset, interesting results can be observerd. As shown in @fig-audio_meld_c, the corresponding model which is trained on the same data, still predicted neutral every time due to the imbalance. This is verified by (a) where neutral has an AUC score of 0.74 instead of the expected 0.5, showing that even the test dataset is imbalanced and contains mostly one label. Therefore, there are less missclassifications and the model achieved an accuracy of 48% but with a low precision of only 22%. This shows, that most of the time a model tries to increase only the accuracy --- in general to minimize the loss --- without further notice about the actual precision. Meanwhile, the CREMA-D trained model overfitted and nearly only guessed anger as it is the most learned emotion as shown in (d). However (c) shows, that there also are many missclassifications within the testing. There are four emotion which are never classified by the CREMA convolution model but as three of them are quite rare in the MELD dataset, they have a low AUC score. Again neutral is outstanding from the other results as it has no missclassifications. These values are also represented in the low accuracy of 11.5% and a much lower precision of 4.2%. This is even not as good as just randomly guessing the correct label, showing that the emotion detection is dataset-specific and not generally applicable.
 
 
 
@@ -246,26 +258,26 @@ For comparison, the MELD model achieved only 14% accuracy, which is equal to a r
       #stack(
         spacing: 12pt,
         image("curves/meld_me_audio_c_pcr.svg"),
-        [(a) Precision-Recall Curve for MELD]
+        [(a) Precision-Recall Curve, \ trained on MELD]
       )
     ],
     [
       #stack(
         image("heatm/meld_me_audio_c_hm.svg"),
-        [(b) Heatmap classification distribution for MELD]
+        [(b) Heatmap classification distribution, \ trained on MELD]
       )
     ],
     [
       #stack(
         spacing: 12pt,
         image("curves/crema_me_audio_c_pcr.svg"),
-        [(c) Precision-Recall Curve for CREMA]
+        [(c) Precision-Recall Curve, \ trained on CREMA]
       )
     ],
     [
       #stack(
         image("heatm/crema_me_audio_c_hm.svg"),
-        [(d) Heatmap classification distribution for CREMA]
+        [(d) Heatmap classification distribution, \ trained on CREMA]
       )
     ]),
     caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an audio convolution based network and tested with the MELD dataset.]
@@ -281,13 +293,13 @@ The transformer models are showing mostly the same behavior as the convolution m
       #stack(
         spacing: 12pt,
         image("curves/crema_cr_audio_t_pcr.svg"),
-        [(a) Precision-Recall Curve for CREMA]
+        [(a) Precision-Recall Curve, \ trained on CREMA]
       )
     ],
     [
       #stack(
         image("heatm/crema_cr_audio_t_hm.svg"),
-        [(b) Heatmap classification distribution for CREMA]
+        [(b) Heatmap classification distribution, \ trained on CREMA]
       )
     ]
   ),
@@ -303,13 +315,13 @@ The transformer models are showing mostly the same behavior as the convolution m
       #stack(
         spacing: 12pt,
         image("curves/meld_me_audio_t_pcr.svg"),
-        [(a) Precision-Recall Curve for MELD]
+        [(a) Precision-Recall Curve, \ trained on MELD]
       )
     ],
     [
       #stack(
         image("heatm/meld_me_audio_t_hm.svg"),
-        [(b) Heatmap classification distribution for MELD]
+        [(b) Heatmap classification distribution, \ trained on MELD]
       )
     ],
     
@@ -362,7 +374,7 @@ caption: [Accuracy for unimodal emotion classification in video trained on each 
 )<fig-accs_video>
 
 
-Similar to the results for classification in audio, these results are aligning mostly the same as before. Thus there was one architecture which performed with great accuracy. Visible in the following @tbl:fig-accs_video the models are still struggeling with the imbalance of the MELD dataset. As for audio classification it was the most efficient way to only predict the neutral emotion while always bringing an high accuracy of around 47%. However the precision of only 20% and the low F1-score are still showing this problem underlined by the visualization in @fig:fig-video_meld_c and @fig:fig-video_meld_t. Just as they look similar to each other, they are also alike to the figures from the training of all audio models with MELD. All other emotion except neutral are untrained thus the model never learned features from the video input and only trained to guess neutral. #linebreak(justify: true) 
+Similar to the results for classification in audio, these results are aligning mostly the same as before. Thus there was one architecture which performed with great accuracy. Visible in the following @tbl:fig-accs_video the models are still struggeling with the imbalance of the MELD dataset. As for audio classification it was the most efficient way to only predict the neutral emotion while always achieving a high accuracy of around 47%. However the precision of only 20% and the low F1-score are still showing this problem underlined by the visualization in @fig:fig-video_meld_c and @fig:fig-video_meld_t. Just as they look similar to each other, they are also alike to the figures from the training of all audio models with MELD. All other emotion except neutral are untrained thus the model never learned features from the video input and only trained to guess neutral. #linebreak(justify: true) 
 
 #figure(
   gap: 20pt,
@@ -373,13 +385,13 @@ Similar to the results for classification in audio, these results are aligning m
       #stack(
         spacing: 12pt,
         image("curves/meld_me_video_c_pcr.svg"),
-        [(a) Precision-Recall Curve for MELD]
+        [(a) Precision-Recall Curve, \ trained on MELD.]
       )
     ],
     [
       #stack(
         image("heatm/meld_me_video_c_hm.svg"),
-        [(b) Heatmap classification distribution for MELD]
+        [(b) Heatmap classification distribution, \ trained on MELD.]
       )
     ],
     
@@ -398,13 +410,13 @@ Also similar to emotion detection in audio, the presented models are still overf
       #stack(
         spacing: 12pt,
         image("curves/meld_me_video_t_pcr.svg"),
-        [(a) Precision-Recall Curve for MELD]
+        [(a) Precision-Recall Curve, \ trained on MELD.]
       )
     ],
     [
       #stack(
         image("heatm/meld_me_video_t_hm.svg"),
-        [(b) Heatmap classification distribution for MELD]
+        [(b) Heatmap classification distribution, \ trained on MELD.]
       )
     ],
     
@@ -412,9 +424,9 @@ Also similar to emotion detection in audio, the presented models are still overf
   caption: [Precision-Recall Curve for each label and their heatmap distribution from training on an video transformer based network and tested with the MELD dataset.]
 )<fig-video_meld_t>
 
-Interestingly are the higher results from the CREMA-D trained models. Again the overview in  @tbl:fig-accs_video shows that the convolution architecture achieved an accuracy of nearly 75% which is the highest score achieved by any model from earlier. @fig:fig-video_crema_c shows in (b) that the diagonal with the correct classified emotion that the model was quite precise. There are still some misclassification, mostly for anger and fear as well as fear with sadness and anger with sadness which are sharing many facial features. As before the CREMA dataset did not include any samples with surprise so there were no evaluation for this label possible. 
+Interestingly are the higher results from the CREMA-D trained models. Again the overview in  @tbl:fig-accs_video shows that the convolution architecture achieved an accuracy of nearly 75% which is the highest score achieved by any model so far. @fig:fig-video_crema_c shows in (b), that the diagonal with the correct classified emotion is highlighted. This correlates in to a good classification. There are still some misclassification, mostly for anger and fear as well as fear with sadness and anger with sadness which are sharing many facial features. As before the CREMA dataset did not include any samples with surprise so there were no evaluation for this label possible. 
 
-The graphical representation of the precision-recall curve in (a) from @fig:fig-video_crema_c desribes that the model performed best with happy and closely followed by disgust. Due to the overacting by the persons which are shown in the video samples, both emotion are cleary differentiable from each other. Followed by this explanation that the model looks mostly at the strong shown features from the faces, neutral performed much worse than the two other well learned emotions due this sentiment should not cover any features.  Furthermore sadness performed the worst from all of the six labels due to multiple misclassifications with fear and anger as they differ mostly in one or two features. Corresponding to Ekmans Facs system which was explained before, all three emotion share all information around the eyes and they are only differentiable by the lower part of the face. The convolution model might lay its focus more on the upper half which can lead to this kind of training and testing behavior. 
+The graphical representation of the precision-recall curve in (a) from @fig:fig-video_crema_c desribes that the model performed best with happy and closely followed by disgust. Due to the overacting by the persons which are shown in the video samples, both emotions are cleary differentiable from each other. Followed by this explanation that the model looks mostly at the strong shown features from the faces, neutral performed much worse than the two other well learned emotions due this sentiment should not cover any features.  Furthermore sadness performed the worst from all of the six labels due to multiple misclassifications with fear and anger as they differ mostly in one or two features. Corresponding to Ekmans Facs system which was explained before, all three emotion share all information around the eyes and they are only differentiable by the lower part of the face. The convolution model might lay its focus more on the upper half which can lead to this kind of training and testing behavior. 
 
 #figure(
   gap: 20pt,
@@ -438,7 +450,7 @@ The graphical representation of the precision-recall curve in (a) from @fig:fig-
   caption: [Precision-Recall Curve and their heatmap distribution from training on an video convolution based network and tested with the CREMA-D dataset.]
 )<fig-video_crema_c>
 
-Nearly the same observations can be found within the transformer model. Visible in (b) from @fig:fig-video_crema_t the diagonal line with the correct classified labels is still existing and clearly recognizable. However there are also quite a lot of misclassified outlier, mostly where the actual label is anger, sadness and fear. The problematic follows the explanation from the convolution model but is more visible. It shows that the model did not get the correct features as fast as the convolution model which can result due to the difference in the amount of trainable parameters. With more time in training which was not possible due to the limitations in this thesis, the model could achieve the results from the convolution model. In addition with (a) from
+Nearly the same observations can be found within the transformer model. Visible in (b) from @fig:fig-video_crema_t the diagonal line with the correct classified labels is still existing and clearly recognizable. However there are also quite a lot of misclassified outliers, mostly where the actual label is anger, sadness and fear. This problem follows the explanation from the convolution model but is more visible. It shows that the model did not learned the correct features as fast as the convolution model which can result due to the difference in the amount of trainable parameters. With more time in training which was not possible due to the limitations in this thesis, the model could achieve the results from the convolution model.
 
 #figure(
   gap: 20pt,
@@ -462,7 +474,7 @@ Nearly the same observations can be found within the transformer model. Visible 
   caption: [Precision-Recall Curve and their heatmap distribution from training on an video transformer based network and tested with the CREMA-D dataset.]
 )<fig-video_crema_t>
 
- @fig:fig-video_crema_t it is still clear that happiness was well learned and also followed by disgust. The other emotions are showing that there is more proper training missing to differentiate between the smaller yet important features. 
+ In addition with (a) from @fig:fig-video_crema_t it is still clear that happiness was well learned and also followed by disgust. The other emotions are showing that there is more proper training missing to differentiate between the smaller yet important features. 
 
  In total there are facial features which can be learned by neural networks or similar deep learning architectures. However there are still many problems with the existing datasets as there is no standard or good comparability between each other. This leads to the described overfitting effect which was found in every modal yet since there are different artefacts like shaking heads or other disturbances. With better active speaker recognition, artifical camera stabilzation or interpolation to clean up bad frames there are many possibilities to improve and generalize these models within video based emotion detection.
 

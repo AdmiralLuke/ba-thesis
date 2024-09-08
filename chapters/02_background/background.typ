@@ -408,7 +408,7 @@ Further methods for input optimizations regarding the idea of tracking movements
 #figure(
   image("figures/fabianmaster.svg"),
   caption: [
-    An overwiev of the preprocessing pipeline @fabianmaster.
+    An overview of the preprocessing pipeline @fabianmaster.
   ]
 )<fabsmasterpipeline>
 
