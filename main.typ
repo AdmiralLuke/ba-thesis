@@ -13,20 +13,30 @@
 #set page(margin: 2.5cm, footer: none)
 #outline(depth: 3)
 
-#set page(numbering: "1")
+#set page(numbering: "1", footer: context {
+  if calc.odd(counter(page).get().first()) {
+    align(right, counter(page).display("1"))
+  } else {
+    align(left, counter(page).display("1"))
+  }
+})
 #counter(page).update(1)
+
+#empty-page
 
 // ----- ACTUAL CONTENT OF THESIS -----
 #include "chapters/01_introduction/intro.typ"
 #include "chapters/02_background/background.typ"
 #include "chapters/03_related_work/related_work.typ"
 #include "chapters/04_implementation/implementation.typ"
+#empty-page
 #include "chapters/05_results/results.typ"
+#empty-page
 #include "chapters/06_evaluation/evaluation.typ"
 #include "chapters/07_further_work/further_work.typ"
 
-#pagebreak()
-#pagebreak()
+#empty-page
+#empty-page
 
 // This wrapper function adds backrefs.
 // ToDo: remove full: true

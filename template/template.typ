@@ -31,40 +31,9 @@
 #let section = heading.with(level: 2, outlined: false, numbering: none)
 // Small inline heading.
 #let inline-section(title) = smallcaps[*#text(font: "Libertinus Sans", title)*] 
+#let empty-page = page([], footer: [])
 
-// ----------------------
-//   CUSTOM PARCIO TABLE
-//  (uses tablex & nested tables)
-// ----------------------
-#let parcio-table(columns, rows, ..tablec) = {
-  let header-data = tablec.pos().slice(0, columns)
-  let rest = tablec.pos().slice(columns)
-  
-  table(
-    columns: 1,
-    stroke: none,
-    style(
-      styles => {
-        let header = table(columns: columns, rows: 1, stroke: 0.5pt, align: center, ..header-data)
-        let hw = measure(header, styles).width / columns
-        
-        header
-        v(-1em)
-        tablex(
-          columns: (hw,) * columns,
-          rows: rows - 1,
-          stroke: 0.5pt,
-          align: (x, y) =>
-          (left, center, right).at(x),
-          auto-hlines: false,
-          hlinex(),
-          ..rest,
-          hlinex(),
-        )
-      },
-    ),
-  )
-}
+
 
 // ----------------------
 //   ACTUAL TEMPLATE
