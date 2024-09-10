@@ -12,7 +12,7 @@ def choose_emotion(P, th):
           if P[e] >= th: # if matches the threshold
                L.append(e)
 
-    # if none of the emotion reaches the threshold
+    # if none of the emotions reaches the threshold
     if  L.is_empty(): 
           return ["neutral"]
     return L

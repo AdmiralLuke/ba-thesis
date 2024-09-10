@@ -31,7 +31,9 @@
 // This wrapper function adds backrefs.
 // ToDo: remove full: true
 
-#bibliography("bibliography/sources.bib", style: "ieee")
+// #bibliography("bibliography/sources.bib", style: "ieee")
+
+#bibliography("bibliography/sources.bib", style: "bibliography/ieee-no-et-al.csl")
 
 
 // #pagebreak()

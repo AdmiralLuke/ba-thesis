@@ -23,7 +23,7 @@
     mark-scale: 70%,
     debug: 0,
     node-stroke: 1pt,
-    node((0,0), [Video-File \ 1280px x 720px], corner-radius: 2pt, extrude: (0, 3)),
+    node((0,0), [Video-File \ 1280px $times$ 720px], corner-radius: 2pt, extrude: (0, 3)),
     edge("-|>"),
     node((1.6, 0), [Face \ Detection], corner-radius: 1pt, height: 50pt),
     edge("-|>"),
@@ -34,7 +34,7 @@
     edge("-|>"),
     node((6.9, 0), [Downscale \ and \ Resize], corner-radius: 1pt, height: 50pt),
     edge("-|>"),
-    node((8.1,0), [Video-File \ 200px x 200px], corner-radius: 2pt, extrude: (0, 3)),
+    node((8.1,0), [Video-File \ 200px $times$ 200px], corner-radius: 2pt, extrude: (0, 3)),
 )],
 caption: [Preprocessing pipeline for videos.]
 )<fig-audio_preprocessing>
