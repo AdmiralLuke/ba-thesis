@@ -49,7 +49,8 @@
 
 // #include "chapters/appendix.typ"
 
-#pagebreak()
-#pagebreak()
+#empty-page
+#empty-page
+// Änderung
 
 #include "chapters/authorship.typ"
