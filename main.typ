@@ -31,9 +31,7 @@
 #include "chapters/04_implementation/implementation.typ"
 #empty-page
 #include "chapters/05_results/results.typ"
-#empty-page
 #include "chapters/06_evaluation/evaluation.typ"
-#include "chapters/07_further_work/further_work.typ"
 
 #empty-page
 #empty-page
